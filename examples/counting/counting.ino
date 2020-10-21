@@ -27,10 +27,10 @@ This example code is in the public domain.
 #define PIXPERSEG 3
 
 // How many delimeters are in the display?
-#define NUMDELIMS 0
+#define NUMDELIMS 1
 
 // How may pixels per delimeter are there?
-#define PIXPERDELIM 0
+#define PIXPERDELIM 1
 
 // When we instatiate a display object we supply the number of digits in the
 // custom built display, as well as the number of pixels per segment.
