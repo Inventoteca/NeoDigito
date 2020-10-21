@@ -38,18 +38,24 @@ void Seven_Segment_Pixel::updateDigit(uint16_t position, uint16_t digit,
 
   int charPos = 0;
   // expand bitbask to number of pixels per segment in the proper position
-  for (int x = (position - 1) * 7; x <= (position - 1) * 7 + 6; x++) {
+  //for (int x = (position - 1) * 7; x <= (position - 1) * 7 + 6; x++)
+  for (int x = 0; x <= 6; x++)
+  {
 
-    if (bitmask.charAt(charPos) == '1') {
+    if (bitmask.charAt(charPos) == '1')
+    {
       // Lighting up this segment
-      for (int pix = 0; pix <= pixPerSeg - 1; pix++) {
-        strip->setPixelColor((x * pixPerSeg + pix),
-                             strip->Color(RED, GREEN, BLUE));
+      for (int pix = 1; pix <= pixPerSeg; pix++)
+      {
+        strip->setPixelColor((x * pixPerSeg + pix),strip->Color(RED, GREEN, BLUE));
       }
 
-    } else {
+    }
+    else
+    {
       // Turning off this up this segment.
-      for (int pix = 0; pix <= pixPerSeg - 1; pix++) {
+      for (int pix = 1; pix <= pixPerSeg; pix++)
+      {
         strip->setPixelColor((x * pixPerSeg + pix), 0);
       }
     }
