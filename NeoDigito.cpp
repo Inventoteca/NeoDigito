@@ -1,7 +1,7 @@
 /*
 
   NeoDigito based on :
-    Seven_Segment_Pixel.cpp  - Library for driving obnoxiously
+    Seven_Segment_Pixel  - Library for driving obnoxiously
     large custom made 7 segment displays made with pixel strips.
     Created by Peter Hartmann, July 15, 2017.
     Released under GPLv3.
@@ -11,7 +11,7 @@
 #include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
 
 //<<constructor>>
-Seven_Segment_Pixel::Seven_Segment_Pixel(uint16_t digitsPerDisplay,
+NeoDigito::NeoDigito(uint16_t digitsPerDisplay,
                                          uint16_t pixelsPerSegment,
                                          uint16_t numDelimiters,
                                          uint16_t pixPerDelimiter, uint16_t n,
@@ -21,16 +21,16 @@ Seven_Segment_Pixel::Seven_Segment_Pixel(uint16_t digitsPerDisplay,
   strip = new Adafruit_NeoPixel(n, p, t);
 }
 //<<destructor>>
-Seven_Segment_Pixel::~Seven_Segment_Pixel() {}
+NeoDigito::~NeoDigito() {}
 
-void Seven_Segment_Pixel::begin() { strip->begin(); }
+void NeoDigito::begin() { strip->begin(); }
 
-void Seven_Segment_Pixel::show() { strip->show(); }
+void NeoDigito::show() { strip->show(); }
 
-void Seven_Segment_Pixel::setPixelColor(uint16_t n, uint32_t c){
+void NeoDigito::setPixelColor(uint16_t n, uint32_t c){
     strip->setPixelColor(n, c);}
 
-void Seven_Segment_Pixel::updateDigit(uint16_t position, uint16_t digit,
+void NeoDigito::updateDigit(uint16_t position, uint16_t digit,
                                       uint8_t RED, uint8_t GREEN,
                                       uint8_t BLUE) {
 
@@ -63,7 +63,7 @@ void Seven_Segment_Pixel::updateDigit(uint16_t position, uint16_t digit,
   }
 }
 
-void Seven_Segment_Pixel::updateDelimiter(uint16_t delimeter, uint8_t RED,
+void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED,
                                           uint8_t GREEN, uint8_t BLUE) {
 
   int digitsOffset = digPerDisp * pixPerSeg * 7;

@@ -1,22 +1,22 @@
 /*
-  Seven_Segment_Pixel.h - Library for driving obnoxiously
+  NeoDigito.h - Library for driving obnoxiously
   large custom made 7 segment pixel displays.
   Created by Peter Hartmann, July 15, 2017.
   Released under GPLv3.
 */
 
-#ifndef Seven_Segment_Pixel_H
-#define Seven_Segment_Pixel_H
+#ifndef NeoDigito_H
+#define NeoDigito_H
 
 #include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
 #include <Arduino.h>
 
-class Seven_Segment_Pixel {
+class NeoDigito {
 public:
-  Seven_Segment_Pixel(uint16_t digitsPerStrip, uint16_t pixelsPerSegment,
+  NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment,
                       uint16_t numDelimiters, uint16_t pixPerDelimiter,
                       uint16_t n, uint8_t p, uint8_t t);
-  ~Seven_Segment_Pixel();
+  ~NeoDigito();
 
   void begin(), show(), setPixelColor(uint16_t n, uint32_t c),
       updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN,
