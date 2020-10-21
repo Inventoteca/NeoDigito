@@ -1,0 +1,21 @@
+#######################################
+# NeoDigito Display 7 segmentos RGB
+####################################### 
+# Class
+#######################################
+
+NeoDigito	KEYWORD1
+
+#######################################
+# Methods and Functions 
+#######################################	
+
+updateDigit	KEYWORD2
+updateDelimiter	KEYWORD2
+show			KEYWORD2
+begin			KEYWORD2
+setPixelColor   KEYWORD2
+
+#######################################
+# Constants 
+#######################################
