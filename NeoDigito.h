@@ -21,7 +21,9 @@ public:
       updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN,
                   uint8_t BLUE),
       updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN,
-                      uint8_t BLUE);
+                      uint8_t BLUE),
+      print(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN,
+                                  uint8_t BLUE);
 
 private:
   Adafruit_NeoPixel *strip;

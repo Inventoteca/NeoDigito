@@ -44,13 +44,12 @@ void setup() {
 
 void loop() {
   for (int x = 1; x <= DIGITS; x++) {
-    display1.updateDigit(x, count, random(0, 255), random(0, 255),
-                         random(0, 255));
+    display1.print(x, count, random(0, 255), random(0, 255), random(0, 255));
   }
-  display1.show();
+
   count = count + increment;
 
-  if (count == 0 || count == 10) {
+  if (count == 0 || count == 16) {
     increment = -increment;
   }
 
