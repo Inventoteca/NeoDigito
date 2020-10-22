@@ -1,6 +1,6 @@
-/* NeoDigito library example code: figure8
+/* NeoDigito library example code: hexadecimal
 
-    Outlines a figure 8 using individual segments of a seven segment display
+    Show hexadecimal characters using extra data
     in random colors.
 
     Created by Inventoteca and Xircuitos, October 21, 2020.
@@ -40,7 +40,7 @@ void setup() {
   display1.begin(); // This function calls Adafruit_NeoPixel begin();
 }
 
-int figure8[] = {17, 16, 11, 12, 17, 15, 14, 13};
+int figure8[] = {10, 11, 12, 13, 14, 15, 16, 17};
 
 void loop() {
   for (int x = 1; x <= DIGITS; x++) {
