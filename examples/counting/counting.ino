@@ -1,13 +1,14 @@
-/* Seven Segment Pixel library example code: counting
+/* NeoDigito library example code: counting
 
 Counts from 0 up the null character and back down using random colors on
 a whole display.
 
-created 2017
-by Peter Hartmann
-This example code is in the public domain.
+Created by Inventoteca and Xircuitos, October 21, 2020.
+Released under GPLv3, based on Seven_Segment_Pixel, by Peter Hartmann.
 
-<https://blog.hartmanncomputer.com>
+https://github.com/Inventoteca/NeoDigito
+
+This example code is in the public domain.
 
 */
 
@@ -37,8 +38,8 @@ This example code is in the public domain.
 // Additionally we pass the ususal Adafruit_NeoPixel arguments for object
 // instatiation.
 
-Seven_Segment_Pixel display1 =
-    Seven_Segment_Pixel(DIGITS, PIXPERSEG, NUMDELIMS, PIXPERDELIM, NUMPIXELS,
+NeoDigito display1 =
+    NeoDigito(DIGITS, PIXPERSEG, NUMDELIMS, PIXPERDELIM, NUMPIXELS,
                         PIN, NEO_GRB + NEO_KHZ800);
 
 int delayval = 500; // delay for half a second

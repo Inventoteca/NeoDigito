@@ -1,10 +1,8 @@
 /*
-
-  NeoDigito based on :
-    Seven_Segment_Pixel  - Library for driving obnoxiously
-    large custom made 7 segment displays made with pixel strips.
-    Created by Peter Hartmann, July 15, 2017.
-    Released under GPLv3.
+NeoDigito:
+  large custom made 7 segment neopixel displays.
+  Created by Inventoteca and Xircuitos, October 21, 2020.
+  Released under GPLv3, based on Seven_Segment_Pixel, by Peter Hartmann.
 */
 
 #include "NeoDigito.h"

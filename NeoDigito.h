@@ -1,8 +1,8 @@
 /*
-  NeoDigito.h - Library for driving obnoxiously
-  large custom made 7 segment pixel displays.
-  Created by Peter Hartmann, July 15, 2017.
-  Released under GPLv3.
+  NeoDigito.h - Library for driving NeoDigito
+  large custom made 7 segment neopixel displays.
+  Created by Inventoteca and Xircuitos, October 21, 2020.
+  Released under GPLv3, based on Seven_Segment_Pixel, by Peter Hartmann.
 */
 
 #ifndef NeoDigito_H
