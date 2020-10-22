@@ -8,16 +8,21 @@ NeoDigito:
 #include "NeoDigito.h"
 #include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
 
+// How many NeoPixels are in the seven segment display total?
+uint8_t n;
+uint16_t numDelimiters = 1;
+uint16_t pixPerDelimiter = 1;
+
 //<<constructor>>
 NeoDigito::NeoDigito(uint16_t digitsPerDisplay,
                                          uint16_t pixelsPerSegment,
-                                         uint16_t numDelimiters,
-                                         uint16_t pixPerDelimiter, uint16_t n,
                                          uint8_t p, uint8_t t)
     : digPerDisp(digitsPerDisplay), pixPerSeg(pixelsPerSegment),
-      numDelims(numDelimiters), pixPerDelim(pixPerDelimiter) {
-  strip = new Adafruit_NeoPixel(n, p, t);
-}
+      numDelims(numDelimiters), pixPerDelim(pixPerDelimiter)
+  {
+    n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + (uint8_t( numDelimiters * pixPerDelimiter));
+    strip = new Adafruit_NeoPixel(n, p, t);
+  }
 //<<destructor>>
 NeoDigito::~NeoDigito() {}
 

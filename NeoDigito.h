@@ -14,8 +14,7 @@
 class NeoDigito {
 public:
   NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment,
-                      uint16_t numDelimiters, uint16_t pixPerDelimiter,
-                      uint16_t n, uint8_t p, uint8_t t);
+                      uint8_t p, uint8_t t);
   ~NeoDigito();
 
   void begin(), show(), setPixelColor(uint16_t n, uint32_t c),
