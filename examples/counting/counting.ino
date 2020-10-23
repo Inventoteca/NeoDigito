@@ -26,8 +26,8 @@
 #define PIXPERSEG 3
 
 
-// When we instatiate a display object we supply the number of digits in the
-// display, as well as the number of pixels per segment.
+// We supply the number of digits in the display,
+// as well as the number of pixels per segment.
 // Additionally we pass the ususal Adafruit_NeoPixel arguments for object
 // instatiation.
 
@@ -45,7 +45,6 @@ void setup()
 
   // This function can control individual pixel color
   //display1.setPixelColor(0,0xff00ff);
-
   //or all the strip, 32-bit color value. Most significant byte is white (for RGBW pixels) or ignored (for RGB pixels)
   display1.setPixelColor(0xff00ff);
 

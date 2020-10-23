@@ -13,7 +13,7 @@ uint8_t n;
 uint16_t numDelimiters = 2;
 uint16_t pixPerDelimiter = 1;
 uint16_t DisplayNumber;
-uint32_t Color = 0xff0000;   // Red is default color
+uint32_t Color = 0xffffff;   // white is default color
 
 //<<constructor>>
 NeoDigito::NeoDigito(uint16_t digitsPerDisplay,

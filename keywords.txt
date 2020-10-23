@@ -16,6 +16,7 @@ show			KEYWORD2
 begin			KEYWORD2
 setPixelColor   KEYWORD2
 print	KEYWORD2
+write	KEYWORD2
 
 #######################################
 # Constants
