@@ -20,7 +20,7 @@
 #define PIN 6
 
 // How many digits are in the display?
-#define DIGITS 2
+#define DIGITS 5
 
 // How may pixels per segement are there?
 #define PIXPERSEG 3
@@ -39,8 +39,17 @@ int increment = 1;
 
 int count = 0;
 
-void setup() {
+void setup()
+{
   display1.begin(); // This function calls Adafruit_NeoPixel begin();
+
+  // This function can control individual pixel color
+  //display1.setPixelColor(0,0xff00ff);
+
+  //or all the strip, 32-bit color value. Most significant byte is white (for RGBW pixels) or ignored (for RGB pixels)
+  display1.setPixelColor(0xff00ff);
+
+
 }
 
 void loop()
@@ -49,8 +58,8 @@ void loop()
   {
     // x number of the display
     // count the number to show
-    //32-bit color value. Most significant byte is white (for RGBW pixels) or ignored (for RGB pixels), next is red, then green, and least significant byte is blue.
-    display1.write(x, count, random(0,0xffffff));
+    // display1.write(x, count, random(0,0xffffff)); // Also you can set the 32-bit color value
+    display1.write(x, count);
   }
 
   count = count + increment;

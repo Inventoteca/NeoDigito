@@ -17,7 +17,7 @@ public:
                       uint8_t p, uint8_t t);
   ~NeoDigito();
 
-  void begin(), show(), setPixelColor(uint16_t n, uint32_t c),
+  void begin(), show(), setPixelColor(uint16_t n, uint32_t c), setPixelColor(uint32_t c),
       updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN,
                   uint8_t BLUE),
       updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN,
@@ -31,6 +31,8 @@ public:
     @param  rgb  Color argument in Wheel Format.
   */
   void write(uint8_t x, uint8_t num, uint32_t rgb);
+
+  void write(uint8_t x, uint8_t num);
 
 private:
   Adafruit_NeoPixel *strip;

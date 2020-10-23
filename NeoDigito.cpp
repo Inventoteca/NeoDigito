@@ -13,6 +13,7 @@ uint8_t n;
 uint16_t numDelimiters = 2;
 uint16_t pixPerDelimiter = 1;
 uint16_t DisplayNumber;
+uint32_t Color = 0xff0000;
 
 //<<constructor>>
 NeoDigito::NeoDigito(uint16_t digitsPerDisplay,
@@ -39,6 +40,13 @@ void NeoDigito::show() { strip->show(); }
 void NeoDigito::setPixelColor(uint16_t n, uint32_t c)
 {
     strip->setPixelColor(n, c);
+    Color = c;
+}
+
+void NeoDigito::setPixelColor(uint32_t c)
+{
+    Color = c;
+    //strip->setPixelColor(n, c);
 }
 
 //----------------------------------------------------------------------------------updateDigit
@@ -126,8 +134,50 @@ void NeoDigito::print(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GR
   strip->show();
 }
 
-//----------------------------------------------------------------------------------writeDigitNum
+//----------------------------------------------------------------------------------write
 void NeoDigito::write(uint8_t x, uint8_t num, uint32_t rgb)
+{
+  if (x > DisplayNumber)
+    return;
+
+  bitmask = characterMap[num];
+  Color = rgb;
+
+  int charPos = 0;
+  int delimeter;
+
+
+  //Omit the delimiters
+  delimeter = x * 2 + 1;
+
+  // expand bitbask to number of pixels per segment in the proper position
+  for (int i = (x) * 7; i <= (x) * 7 + 6; i++)
+  {
+
+    if (bitmask.charAt(charPos) == '1')
+    {
+      // Lighting up this segment
+      for (int pix = 0; pix < pixPerSeg; pix++)
+      {
+        strip->setPixelColor(((i * pixPerSeg) + pix + delimeter),rgb);
+      }
+
+    }
+    else
+    {
+      // Turning off this up this segment.
+      for (int pix = 0; pix < pixPerSeg; pix++)
+      {
+        strip->setPixelColor((i * pixPerSeg + pix + delimeter), 0);
+      }
+    }
+    charPos++;
+  }
+  strip->show();
+}
+
+//----------------------------------------------------------------------------------write
+void NeoDigito::write(uint8_t x, uint8_t num)
 {
   if (x > DisplayNumber)
     return;
@@ -150,7 +200,7 @@ void NeoDigito::write(uint8_t x, uint8_t num, uint32_t rgb)
       // Lighting up this segment
       for (int pix = 0; pix < pixPerSeg; pix++)
       {
-        strip->setPixelColor(((i * pixPerSeg) + pix + delimeter),rgb);
+        strip->setPixelColor(((i * pixPerSeg) + pix + delimeter),Color);
       }
 
     }
