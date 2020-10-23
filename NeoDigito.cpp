@@ -12,6 +12,7 @@ NeoDigito:
 uint8_t n;
 uint16_t numDelimiters = 2;
 uint16_t pixPerDelimiter = 1;
+uint16_t DisplayNumber;
 
 //<<constructor>>
 NeoDigito::NeoDigito(uint16_t digitsPerDisplay,
@@ -20,6 +21,8 @@ NeoDigito::NeoDigito(uint16_t digitsPerDisplay,
     : digPerDisp(digitsPerDisplay), pixPerSeg(pixelsPerSegment),
       numDelims(numDelimiters), pixPerDelim(pixPerDelimiter)
   {
+    DisplayNumber = digitsPerDisplay;
+
     n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + (uint8_t( numDelimiters * pixPerDelimiter));
     strip = new Adafruit_NeoPixel(n, p, t);
   }
@@ -116,6 +119,47 @@ void NeoDigito::print(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GR
       for (int pix = 0; pix < pixPerSeg; pix++)
       {
         strip->setPixelColor((x * pixPerSeg + pix + delimeter), 0);
+      }
+    }
+    charPos++;
+  }
+  strip->show();
+}
+
+//----------------------------------------------------------------------------------writeDigitNum
+void NeoDigito::write(uint8_t x, uint8_t num, uint32_t rgb)
+{
+  if (x > DisplayNumber)
+    return;
+
+  bitmask = characterMap[num];
+
+  int charPos = 0;
+  int delimeter;
+
+
+  //Omit the delimiters
+  delimeter = x * 2 + 1;
+
+  // expand bitbask to number of pixels per segment in the proper position
+  for (int i = (x) * 7; i <= (x) * 7 + 6; i++)
+  {
+
+    if (bitmask.charAt(charPos) == '1')
+    {
+      // Lighting up this segment
+      for (int pix = 0; pix < pixPerSeg; pix++)
+      {
+        strip->setPixelColor(((i * pixPerSeg) + pix + delimeter),rgb);
+      }
+
+    }
+    else
+    {
+      // Turning off this up this segment.
+      for (int pix = 0; pix < pixPerSeg; pix++)
+      {
+        strip->setPixelColor((i * pixPerSeg + pix + delimeter), 0);
       }
     }
     charPos++;

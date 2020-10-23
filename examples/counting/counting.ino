@@ -1,6 +1,6 @@
 /* NeoDigito library example code: counting
 
-    Counts from 0 up the null character and back down using random colors on
+    Counts from 0 up 9 character and back down using random colors on
     a whole display.
 
     Created by David Figueroa
@@ -20,14 +20,14 @@
 #define PIN 6
 
 // How many digits are in the display?
-#define DIGITS 6
+#define DIGITS 2
 
 // How may pixels per segement are there?
-#define PIXPERSEG 2
+#define PIXPERSEG 3
 
 
 // When we instatiate a display object we supply the number of digits in the
-// custom built display, as well as the number of pixels per segment.
+// display, as well as the number of pixels per segment.
 // Additionally we pass the ususal Adafruit_NeoPixel arguments for object
 // instatiation.
 
@@ -43,14 +43,20 @@ void setup() {
   display1.begin(); // This function calls Adafruit_NeoPixel begin();
 }
 
-void loop() {
-  for (int x = 0; x <= DIGITS; x++) {
-    display1.print(x, count, random(0, 255), random(0, 255), random(0, 255));
+void loop()
+{
+  for (int x = 0; x <= DIGITS; x++)
+  {
+    // x number of the display
+    // count the number to show
+    //32-bit color value. Most significant byte is white (for RGBW pixels) or ignored (for RGB pixels), next is red, then green, and least significant byte is blue.
+    display1.write(x, count, random(0,0xffffff));
   }
 
   count = count + increment;
 
-  if (count == 0 || count == 16) {
+  if (count == 0 || count == 9)
+  {
     increment = -increment;
   }
 
