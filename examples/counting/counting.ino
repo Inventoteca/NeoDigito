@@ -3,7 +3,8 @@
     Counts from 0 up the null character and back down using random colors on
     a whole display.
 
-    Created by Inventoteca and Xircuitos, October 21, 2020.
+    Created by David Figueroa
+    Powered by Inventoteca and Xircuitos, October 21, 2020.
     Released under GPLv3, based on Seven_Segment_Pixel, by Peter Hartmann.
 
     https://github.com/Inventoteca/NeoDigito
@@ -43,7 +44,7 @@ void setup() {
 }
 
 void loop() {
-  for (int x = 1; x <= DIGITS; x++) {
+  for (int x = 0; x <= DIGITS; x++) {
     display1.print(x, count, random(0, 255), random(0, 255), random(0, 255));
   }
 

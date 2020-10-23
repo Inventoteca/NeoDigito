@@ -10,7 +10,7 @@ NeoDigito:
 
 // How many NeoPixels are in the seven segment display total?
 uint8_t n;
-uint16_t numDelimiters = 1;
+uint16_t numDelimiters = 2;
 uint16_t pixPerDelimiter = 1;
 
 //<<constructor>>
@@ -91,26 +91,31 @@ void NeoDigito::print(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GR
   bitmask = characterMap[digit];
 
   int charPos = 0;
+  int delimeter;
+
+
+  //Omit the delimiters
+  delimeter = position * 2 + 1;
+
   // expand bitbask to number of pixels per segment in the proper position
-  //for (int x = (position - 1) * 7; x <= (position - 1) * 7 + 6; x++)
-  for (int x = 0; x <= 6; x++)
+  for (int x = (position) * 7; x <= (position) * 7 + 6; x++)
   {
 
     if (bitmask.charAt(charPos) == '1')
     {
       // Lighting up this segment
-      for (int pix = 1; pix <= pixPerSeg; pix++)
+      for (int pix = 0; pix < pixPerSeg; pix++)
       {
-        strip->setPixelColor((x * pixPerSeg + pix),strip->Color(RED, GREEN, BLUE));
+        strip->setPixelColor(((x * pixPerSeg) + pix + delimeter),strip->Color(RED, GREEN, BLUE));
       }
 
     }
     else
     {
       // Turning off this up this segment.
-      for (int pix = 1; pix <= pixPerSeg; pix++)
+      for (int pix = 0; pix < pixPerSeg; pix++)
       {
-        strip->setPixelColor((x * pixPerSeg + pix), 0);
+        strip->setPixelColor((x * pixPerSeg + pix + delimeter), 0);
       }
     }
     charPos++;
