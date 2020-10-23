@@ -173,7 +173,7 @@ void NeoDigito::write(uint8_t x, uint8_t num, uint32_t rgb)
     }
     charPos++;
   }
-  strip->show();
+  //strip->show();
 }
 
 //----------------------------------------------------------------------------------write
@@ -214,5 +214,5 @@ void NeoDigito::write(uint8_t x, uint8_t num)
     }
     charPos++;
   }
-  strip->show();
+  //strip->show();
 }

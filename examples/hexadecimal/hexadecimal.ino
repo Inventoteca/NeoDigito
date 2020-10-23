@@ -1,7 +1,7 @@
-/* NeoDigito library example code: counting
+/* NeoDigito library example code: hexadecimal
 
-    Counts from 0 up 9 character and back down using random colors on
-    a whole display.
+    Show hexadecimal characters using extra data
+    in random colors.
 
     Created by David Figueroa
     Powered by Inventoteca and Xircuitos, October 21, 2020.
@@ -20,7 +20,7 @@
 #define PIN 6
 
 // How many digits are in the display?
-#define DIGITS 4
+#define DIGITS 14
 
 // How may pixels per segement are there?
 #define PIXPERSEG 2
@@ -53,20 +53,18 @@ void setup()
 
 void loop()
 {
-
+  for (int x = 0; x <= DIGITS; x++)
+  {
     // x number of the display
     // count the number to show
-    //display1.write(x, count, random(0,0xffffff)); // Also you can set the 32-bit color value
+    //display1.write(x, count);
+    display1.write(x, count, random(0,0xffffff)); // Also you can set the 32-bit color value
 
-    display1.write(0, count % 10);
-    display1.write(1, (count / 10)%10);
-    display1.write(2, (count / 100)%10);
-    display1.write(3, (count / 1000)%10);
-
+  }
 
   count = count + increment;
 
-  if (count == 0 || count == 99999)
+  if (count == 0 || count == 15)
   {
     increment = -increment;
   }
