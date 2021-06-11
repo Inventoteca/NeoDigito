@@ -1,6 +1,10 @@
 /*
 NeoDigito:
-  large custom made 7 segment neopixel displays.
+  
+  Display de 7 Segmentos basado en neopixels
+  
+  
+  Large custom made 7 segment neopixel displays.
   Created by Inventoteca and Xircuitos, October 21, 2020.
   Released under GPLv3, based on Seven_Segment_Pixel, by Peter Hartmann.
 */
