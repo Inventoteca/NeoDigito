@@ -8,6 +8,7 @@
 #ifndef NeoDigito_H
 #define NeoDigito_H
 
+#include <Adafruit_NeoPixel.h>
 #include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
 #include <Arduino.h>
 
@@ -33,7 +34,7 @@ public:
   
   void write(uint8_t x, uint8_t num, uint32_t rgb);
   void write(uint8_t x, uint8_t num);
-  void write(uint32_t num);
+  void write(int32_t num);
 
 private:
   Adafruit_NeoPixel *strip;

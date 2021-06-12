@@ -1,5 +1,8 @@
 /* NeoDigito library example code: hexadecimal
 
+    Este ejemplo muestra los caracteres disponibles en la el display
+    
+    
     Show hexadecimal characters using extra data
     in random colors.
 
@@ -13,7 +16,6 @@
 
 */
 
-#include <Adafruit_NeoPixel.h>
 #include <NeoDigito.h>
 
 // Which pin on the Arduino is connected the NeoPixel display connected to?
@@ -64,7 +66,7 @@ void loop()
 
   count = count + increment;
 
-  if (count == 0 || count == 15)
+  if (count == 0 || count == 20)
   {
     increment = -increment;
   }

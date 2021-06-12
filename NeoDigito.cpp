@@ -236,43 +236,31 @@ void NeoDigito::write(uint8_t x, uint8_t num)
 
 
 //---------------------------------------------------------------------------- write(num)
-void NeoDigito::write(uint32_t num)
+// x ----> Representa el display
+// num --> Valor a escribir
+void NeoDigito::write(int32_t num)
 {
-   uint32_t x = 0;
-    //if (x > DisplayNumber)
-    //return;
+ bitmask = characterMap[num]; // Cargo los caracteres disponibles 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,º,OFF,
 
-  bitmask = characterMap[num];
+  int x = 0;        // display
+  int digitos;
+  String textNum = "";
+  int charPos = 0;  // aqui selecciono el caracter a escirbir
+  int delimeter;    // aqui ajuslo lo delimitadores, uno al inicio y otro al final
+  int offset = x*7;
 
-  int charPos = 0;
-  int delimeter;
+  textNum = String(num);
+  digitos = textNum.length();
 
-
-  //Omit the delimiters
-  delimeter = x * 2 + 1;
-
-  // expand bitbask to number of pixels per segment in the proper position
-  for (int i = (x) * 7; i <= (x) * 7 + 6; i++)
+  // cantidad de displays usados para representar el número
+    if (digitos > DisplayNumber)  // Si el display seleccionado no existe, se regresa
+   return;
+  
+  // Barro según la cantidad de displays disponibles
+  for(x = 0; x <= DisplayNumber; x++)
   {
-
-    if (bitmask.charAt(charPos) == '1')
-    {
-      // Lighting up this segment
-      for (int pix = 0; pix < pixPerSeg; pix++)
-      {
-        strip->setPixelColor(((i * pixPerSeg) + pix + delimeter),Color);
-      }
-
-    }
-    else
-    {
-      // Turning off this up this segment.
-      for (int pix = 0; pix < pixPerSeg; pix++)
-      {
-        strip->setPixelColor((i * pixPerSeg + pix + delimeter), 0);
-      }
-    }
-    charPos++;
+    
+    write(x,(textNum[digitos - x - 1])-48);
   }
-  //strip->show();
+  
 }

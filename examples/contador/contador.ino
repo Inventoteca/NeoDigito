@@ -15,7 +15,6 @@
 
 */
 
-#include <Adafruit_NeoPixel.h>
 #include <NeoDigito.h>
 
 // Pin donde estará conectado el display
@@ -35,7 +34,7 @@
 
 NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 500; // retardo para el conteo
+int delayval = 100; // retardo para el conteo
 
 int increment = 1;  // valor a incrementar
 
@@ -48,7 +47,8 @@ void setup()
   // Esta función puede controlar un solo led o toda la tira
   // si se especifica el número del led: display1.setPixelColor(0,0xff00ff);
   // y para toda la tira no se especifica el numero del display solo el color en 32 bits
-  display1.setPixelColor(0x0e0e0e);
+  display1.setPixelColor(0xffffff);
+  Serial.begin(9600);
 
 
 }
@@ -57,11 +57,7 @@ void loop()
 {
 
     // se escribe el digito y el valor a escribir
-
-    display1.write(0, count % 10);
-    display1.write(1, (count / 10)%10);
-    display1.write(2, (count / 100)%10);
-    display1.write(3, (count / 1000)%10);
+    display1.write(count);
 
 
   count = count + increment;
@@ -73,4 +69,5 @@ void loop()
 
   display1.show();
   delay(delayval);
+  Serial.println(count);
 }
