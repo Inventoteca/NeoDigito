@@ -20,40 +20,42 @@ uint16_t DisplayNumber;
 uint32_t Color = 0xffffff;   // white is default color
 
 //<<constructor>>
-NeoDigito::NeoDigito(uint16_t digitsPerDisplay,
-                                         uint16_t pixelsPerSegment,
-                                         uint8_t p, uint8_t t)
+NeoDigito::NeoDigito(uint16_t digitsPerDisplay, uint16_t pixelsPerSegment, uint8_t p, uint8_t t)
     : digPerDisp(digitsPerDisplay), pixPerSeg(pixelsPerSegment),
       numDelims(numDelimiters), pixPerDelim(pixPerDelimiter)
   {
     DisplayNumber = digitsPerDisplay;
 
-    n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + (uint8_t( numDelimiters * pixPerDelimiter));
+    n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( numDelimiters * pixPerDelimiter));
     strip = new Adafruit_NeoPixel(n, p, t);
   }
 //<<destructor>>
 NeoDigito::~NeoDigito() {}
 
+//--------------------------------------------------------- begin
 void NeoDigito::begin()
 {
   strip->begin();
 }
 
+//--------------------------------------------------------- show
 void NeoDigito::show() { strip->show(); }
 
+// -------------------------------------------------------- setPixelColor(n,c)
 void NeoDigito::setPixelColor(uint16_t n, uint32_t c)
 {
     strip->setPixelColor(n, c);
     Color = c;
 }
 
+// -------------------------------------------------------- setPixelColor(c)
 void NeoDigito::setPixelColor(uint32_t c)
 {
     Color = c;
     //strip->setPixelColor(n, c);
 }
 
-//----------------------------------------------------------------------------------updateDigit
+//--------------------------------------------------------- updateDigit
 void NeoDigito::updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
 
@@ -138,13 +140,13 @@ void NeoDigito::print(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GR
   strip->show();
 }
 
-//----------------------------------------------------------------------------------write
+//----------------------------------------------------------------------------------write (x,num,rgb)
 void NeoDigito::write(uint8_t x, uint8_t num, uint32_t rgb)
 {
-  if (x > DisplayNumber)
+  if (x > DisplayNumber) // Si el número de display es mayor al número de displays disponible, rompe
     return;
 
-  bitmask = characterMap[num];
+  bitmask = characterMap[num]; // Se cargan los caracteres disponibles
   Color = rgb;
 
   int charPos = 0;
@@ -180,11 +182,65 @@ void NeoDigito::write(uint8_t x, uint8_t num, uint32_t rgb)
   //strip->show();
 }
 
-//----------------------------------------------------------------------------------write
-void NeoDigito::write(uint8_t x, uint8_t num)
+//---------------------------------------------------------------------------- write(x,num)
+// x ----> Representa el display
+// num --> Valor a escribir
+void NeoDigito::write(uint8_t x, uint8_t num) 
 {
-  if (x > DisplayNumber)
+  if (x > DisplayNumber)  // Si el display seleccionado no existe, se regresa
     return;
+
+  bitmask = characterMap[num]; // Cargo los caracteres disponibles 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,º,OFF,
+
+  int charPos = 0;  // aqui selecciono el caracter a escirbir
+  int delimeter;    // aqui ajuslo lo delimitadores, uno al inicio y otro al final
+  int offset = x*7;
+
+
+  //Omit the delimiters
+  delimeter = (x * 2) + 1;
+  //delimeter = (x * 2);
+
+  // expand bitbask to number of pixels per segment in the proper position
+  // para escribir a la tira de leds uno por uno
+  // primero se revisa a partir de que led iniciar segun la posición del display x
+  // se desplaza por cada 7 segmentos
+  // iniciando por el led 0 del primer segmento 
+  // terminando en el segmento 6
+  for(int i = 0; i <= 6; i++)
+  {
+    offset = (i + (x*7)) * pixPerSeg;
+
+    if (bitmask.charAt(charPos) == '1') // Busco en los caracteres si el segmento se enciende o no
+    {
+      // Lighting up this segment
+      for (int pix = 0; pix < pixPerSeg; pix++) // aquí reviso según la cantidad de neopixels por segmento
+      {
+        //strip->setPixelColor(((offset * pixPerSeg) + pix + delimeter),Color);
+        strip->setPixelColor(((offset) + pix + delimeter),Color);
+      }
+
+    }
+    else
+    {
+      // Turning off this up this segment.
+      for (int pix = 0; pix < pixPerSeg; pix++)
+      {
+        //strip->setPixelColor(((offset * pixPerSeg) + pix + delimeter), 0);
+        strip->setPixelColor(((offset) + pix + delimeter), 0);
+      }
+    }
+    charPos++;
+  }
+}
+
+
+//---------------------------------------------------------------------------- write(num)
+void NeoDigito::write(uint32_t num)
+{
+   uint32_t x = 0;
+    //if (x > DisplayNumber)
+    //return;
 
   bitmask = characterMap[num];
 

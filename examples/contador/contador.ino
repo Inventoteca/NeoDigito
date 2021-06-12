@@ -48,7 +48,7 @@ void setup()
   // Esta función puede controlar un solo led o toda la tira
   // si se especifica el número del led: display1.setPixelColor(0,0xff00ff);
   // y para toda la tira no se especifica el numero del display solo el color en 32 bits
-  display1.setPixelColor(0xffff00);
+  display1.setPixelColor(0x0e0e0e);
 
 
 }
