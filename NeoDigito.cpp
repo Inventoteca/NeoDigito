@@ -92,10 +92,10 @@ void NeoDigito::updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint
 void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
 
-  int digitsOffset = digPerDisp * pixPerSeg * 7;
+  int digitsOffset = (delimeter * pixPerDelim * numDelimiters) + (delimeter * pixPerSeg * 7);
 
-  for (int pix = digitsOffset + delimeter * pixPerDelim - pixPerDelim;
-       pix <= digitsOffset + delimeter * pixPerDelim; pix++) {
+  for (int pix = digitsOffset ; (pix > digitsOffset - (pixPerDelim * numDelimiters)) || (pix == 0); pix--) 
+  {
     strip->setPixelColor(pix, strip->Color(RED, GREEN, BLUE));
   }
 }

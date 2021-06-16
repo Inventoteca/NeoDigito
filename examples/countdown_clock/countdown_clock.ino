@@ -45,17 +45,17 @@ void loop() {
   uint8_t secondsOnes =
       count - (minutes * 60) - (secondsTens * 10); // Seconds ones place
 
-  display1.updateDigit(1, minutes, 255, 0, 0);
-  display1.updateDigit(2, secondsTens, 255, 0, 0);
-  display1.updateDigit(3, secondsOnes, 255, 0, 0);
+  display1.print(2, minutes, 25, 0, 0);
+  display1.print(1, secondsTens, 25, 0, 0);
+  display1.print(0, secondsOnes, 25, 0, 0);
 
   // Flash colon when seconds change
   if (!(secondsOnes % 2)) {
     //  even
-    display1.updateDelimiter(1, 0, 0, 0);
+    display1.updateDelimiter(2, 0, 0, 0);
   } else {
     //  odd
-    display1.updateDelimiter(1, 255, 0, 0);
+    display1.updateDelimiter(2, 25, 0, 0);
   }
 
   display1.show();
