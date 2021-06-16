@@ -24,7 +24,7 @@ public:
        setPixelColor(uint32_t c),
        updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
        updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
-       print(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+       write(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
 /*!
     @brief  Set specific digit # to a numeric value.
     @param  x    Character position.
@@ -34,7 +34,7 @@ public:
   
   void write(uint8_t x, uint8_t num, uint32_t rgb);
   void write(uint8_t x, uint8_t num);
-  void write(int32_t num);
+  void print(int32_t num);
 
 private:
   Adafruit_NeoPixel *strip;

@@ -63,8 +63,8 @@ void NeoDigito::updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint
 
   int charPos = 0;
   // expand bitbask to number of pixels per segment in the proper position
-  //for (int x = (position - 1) * 7; x <= (position - 1) * 7 + 6; x++)
-  for (int x = 0; x <= 6; x++)
+  for (int x = (position) * 7; x <= (position - 1) * 7 + 6; x++)
+  //for (int x = 0; x <= 6; x++)
   {
 
     if (bitmask.charAt(charPos) == '1')
@@ -101,8 +101,8 @@ void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, 
 }
 
 
-//----------------------------------------------------------------------------------print
-void NeoDigito::print(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+//----------------------------------------------------------------------------------write
+void NeoDigito::write(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
 
   bitmask = characterMap[digit];
@@ -235,10 +235,10 @@ void NeoDigito::write(uint8_t x, uint8_t num)
 }
 
 
-//---------------------------------------------------------------------------- write(num)
+//---------------------------------------------------------------------------- print(num)
 // x ----> Representa el display
 // num --> Valor a escribir
-void NeoDigito::write(int32_t num)
+void NeoDigito::print(int32_t num)
 {
  bitmask = characterMap[num]; // Cargo los caracteres disponibles 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,º,OFF,
 
