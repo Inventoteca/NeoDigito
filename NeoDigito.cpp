@@ -253,14 +253,14 @@ void NeoDigito::print(int32_t num)
   digitos = textNum.length();
 
   // cantidad de displays usados para representar el número
-    if (digitos > DisplayNumber)  // Si el display seleccionado no existe, se regresa
-   return;
+   // if (digitos > DisplayNumber)  // Si el display seleccionado no existe, se regresa
+   //return;
   
   // Barro según la cantidad de displays disponibles
   for(x = 0; x <= DisplayNumber; x++)
   {
     
-    write(x,(textNum[digitos - x - 1])-48);
+    write(x,(textNum[x])-48);
   }
   
 }
