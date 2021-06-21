@@ -1,5 +1,10 @@
 /* NeoDigito example code: countdown_clock
 
+    Ejemplo de cuenta regresiva
+    muestra el conteo en formato de reloj
+    el delimitador parpadea cada segundo
+    
+    
     Example code to show the delimeter feature. This sketch displays a 3 minute
     countdown clock on a display with 3 digits and one colon which flashes when the
     seconds change.
@@ -32,7 +37,7 @@
 
 NeoDigito display1 =  NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
 
-#define   tiempo    600
+#define   tiempo    15
 int count = tiempo; // 3 minutes in seconds
 
 void setup() 
@@ -41,13 +46,27 @@ void setup()
   display1.setPixelColor(0x090000);
 }
 
-void loop() {
+void loop() 
+{
 
   int minutes = count / 60;
   int seconds =  count - (minutes * 60) ; // Seconds ones place
 
-  display1.print(minutes,0);
-  display1.print(seconds,2);
+  // Se imprimen los minutos si es solo un dígito entonces se desplaza
+  if(minutes < 10)
+   display1.print(minutes,1); 
+  else
+   display1.print(minutes,0);
+
+  // Si los segundos solo tienen un digito entonces se rellena con cero
+  if(seconds < 10)
+  {
+    display1.print(0,2); 
+    display1.print(seconds,3);
+  }
+
+  else
+    display1.print(seconds,2);
   
   // Flash colon when seconds change
   if (!(seconds % 2)) {
