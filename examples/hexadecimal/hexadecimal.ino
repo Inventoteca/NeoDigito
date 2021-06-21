@@ -19,10 +19,10 @@
 #include <NeoDigito.h>
 
 // Which pin on the Arduino is connected the NeoPixel display connected to?
-#define PIN 6
+#define PIN 12
 
 // How many digits are in the display?
-#define DIGITS 14
+#define DIGITS 4
 
 // How may pixels per segement are there?
 #define PIXPERSEG 2

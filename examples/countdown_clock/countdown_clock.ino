@@ -13,14 +13,14 @@
 
 */
 
-#include <Adafruit_NeoPixel.h>
+
 #include <NeoDigito.h>
 
 // Which pin on the Arduino is connected the NeoPixel display connected to?
-#define PIN 6
+#define PIN 12
 
 // How many digits are in the display?
-#define DIGITS 6
+#define DIGITS 4
 
 // How may pixels per segement are there?
 #define PIXPERSEG 2
@@ -45,17 +45,17 @@ void loop() {
   uint8_t secondsOnes =
       count - (minutes * 60) - (secondsTens * 10); // Seconds ones place
 
-  display1.print(2, minutes, 25, 0, 0);
-  display1.print(1, secondsTens, 25, 0, 0);
-  display1.print(0, secondsOnes, 25, 0, 0);
+  display1.write(0, minutes, 0, 12, 12);
+  display1.write(1, secondsTens, 12, 12, 0);
+  display1.write(2, secondsOnes, 12, 12, 0);
 
   // Flash colon when seconds change
   if (!(secondsOnes % 2)) {
     //  even
-    display1.updateDelimiter(2, 0, 0, 0);
+    display1.updateDelimiter(1, 0, 0, 0);
   } else {
     //  odd
-    display1.updateDelimiter(2, 25, 0, 0);
+    display1.updateDelimiter(1, 0, 25, 0);
   }
 
   display1.show();

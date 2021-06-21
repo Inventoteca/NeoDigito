@@ -1,4 +1,4 @@
-/* NeoDigito ejemplo de código: contador
+/* NeoDigito ejemplo de código: neodigito_adc
 
     Cuenta de 0 a 9999 y luego hace una cuentra regresiva
     el color por defecto es rojo.
@@ -33,42 +33,33 @@
 // adicionalmente se agregan algunos argumentos de 
 // la tira de neopixes usado
 
-NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
+NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
 
-int delayval = 2; // retardo para el conteo
 
-int increment = 1;  // valor a incrementar
 
-int count = 0;      // Variable para almacenar el conteo
-
-void setup()
+void setup() 
 {
   display1.begin(); // Esta función llama Adafruit_NeoPixel.begin() para configurar;
 
-  // Esta función puede controlar un solo led o toda la tira
-  // si se especifica el número del led: display1.setPixelColor(0,0xff00ff);
-  // y para toda la tira no se especifica el numero del display solo el color en 32 bits
-  display1.setPixelColor(0x090000);
- // Serial.begin(9600);
-
-
 }
 
-void loop()
+void loop() 
 {
+  int adc = analogRead(A0);
 
-    // se escribe el digito y el valor a escribir
-    display1.print(count);
-
-
-  count = count + increment;
-
-  if (count == 0 || count == 9999)
+  if(adc > 512)
   {
-    increment = -increment;
+    // Esta función puede controlar un solo led o toda la tira
+    // si se especifica el número del led: display1.setPixelColor(0,0xff00ff);
+    // y para toda la tira no se especifica el numero del display solo el color en 32 bits
+    display1.setPixelColor(0x090000);  // Rojo
   }
 
+  else
+    display1.setPixelColor(0x900); // Verde
+
+  display1.print(adc);
   display1.show();
-  delay(delayval);
-  //Serial.println(count);
+  delay(100);
+
 }
