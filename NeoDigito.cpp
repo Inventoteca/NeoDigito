@@ -251,7 +251,7 @@ void NeoDigito::print(int32_t num)
   int offset = x*7;
 
   textNum = String(num);
-  //digitos = textNum.length();
+  digitos = textNum.length();
 
   // cantidad de displays usados para representar el número
    // if (digitos > DisplayNumber)  // Si el display seleccionado no existe, se regresa
@@ -295,3 +295,35 @@ void NeoDigito::print(int32_t num, uint16_t x)
   }
   
 }
+
+//---------------------------------------------------------------------------- print( char num,x)
+// x ----> Representa el display o posición a partir de la cual imprimir
+// num --> Letra a escribir
+/*
+void NeoDigito::print(char num, int x)
+{
+ bitmask = characterMap[num]; // Cargo los caracteres disponibles 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,º,OFF,
+
+  //int x = 0;        // display
+  int digitos;
+  String textNum = "";
+  int charPos = 0;  // aqui selecciono el caracter a escirbir
+  int delimeter;    // aqui ajuslo lo delimitadores, uno al inicio y otro al final
+  int offset = x;
+
+  textNum = String(num);
+  //digitos = textNum.length();
+
+  // cantidad de displays usados para representar el número
+   // if (digitos > DisplayNumber)  // Si el display seleccionado no existe, se regresa
+   //return;
+  
+  // Barro según la cantidad de displays disponibles
+  for(x = 0; x <= DisplayNumber; x++)
+  {
+    
+    write(x + offset,(textNum[x])-48);
+  }
+  
+}
+*/

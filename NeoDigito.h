@@ -34,7 +34,8 @@ public:
   
   void write(uint8_t x, uint8_t num, uint32_t rgb);
   void write(uint8_t x, uint8_t num);
-  void print(int32_t num, uint16_t x);
+  //void print(char num, int x);  //letra y posición
+  void print(int32_t num, uint16_t x); // número y posición
   void print(int32_t num);
   
 
