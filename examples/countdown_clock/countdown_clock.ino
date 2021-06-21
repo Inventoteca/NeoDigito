@@ -32,30 +32,30 @@
 
 NeoDigito display1 =  NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
 
-uint8_t count = 180; // 3 minutes in seconds
+#define   tiempo    600
+int count = tiempo; // 3 minutes in seconds
 
-void setup() {
+void setup() 
+{
   display1.begin(); // This function calls Adafruit_NeoPixel begin();
+  display1.setPixelColor(0x090000);
 }
 
 void loop() {
 
-  uint8_t minutes = count / 60;
-  uint8_t secondsTens = (count - minutes * 60) / 10; // Seconds tens place
-  uint8_t secondsOnes =
-      count - (minutes * 60) - (secondsTens * 10); // Seconds ones place
+  int minutes = count / 60;
+  int seconds =  count - (minutes * 60) ; // Seconds ones place
 
-  display1.write(0, minutes, 0, 12, 12);
-  display1.write(1, secondsTens, 12, 12, 0);
-  display1.write(2, secondsOnes, 12, 12, 0);
-
+  display1.print(minutes,0);
+  display1.print(seconds,2);
+  
   // Flash colon when seconds change
-  if (!(secondsOnes % 2)) {
+  if (!(seconds % 2)) {
     //  even
-    display1.updateDelimiter(1, 0, 0, 0);
+    display1.updateDelimiter(2, 0, 0, 0);
   } else {
     //  odd
-    display1.updateDelimiter(1, 0, 25, 0);
+    display1.updateDelimiter(2, 0, 25, 0);
   }
 
   display1.show();
@@ -63,6 +63,6 @@ void loop() {
   delay(1000);
   count--;
   if (count == 0) {
-    count = 180;
+    count = tiempo;
   }
 }

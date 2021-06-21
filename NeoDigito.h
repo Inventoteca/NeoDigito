@@ -34,7 +34,9 @@ public:
   
   void write(uint8_t x, uint8_t num, uint32_t rgb);
   void write(uint8_t x, uint8_t num);
+  void print(int32_t num, uint16_t x);
   void print(int32_t num);
+  
 
 private:
   Adafruit_NeoPixel *strip;
