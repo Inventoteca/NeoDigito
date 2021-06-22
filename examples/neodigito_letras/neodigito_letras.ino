@@ -23,7 +23,7 @@
 #define DIGITS 4
 
 // How may pixels per segement are there?
-#define PIXPERSEG 2
+#define PIXPERSEG 3
 
 // When we instatiate a display object we supply the number of digits in the
 // custom built display, as well as the number of pixels per segment.

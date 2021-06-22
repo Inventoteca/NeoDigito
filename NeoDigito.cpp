@@ -275,7 +275,7 @@ void NeoDigito::write(uint8_t x, uint8_t num)
 }
 
 
-//---------------------------------------------------------------------------- print(num)
+//---------------------------------------------------------------------------- print(int num)
 // x ----> Representa el display
 // num --> Valor a escribir
 void NeoDigito::print(int num)
@@ -386,7 +386,7 @@ void NeoDigito::print(char num, int x)
     }
 
     // ----- letras con puntos
-    if(num == '*' || num == 'ยก' || num == 'i' || num == 'T') // tilde atras
+    if(num == '*' || num == 'ก' || num == 'i' || num == 'T') // tilde atras
     {
       write(x,(num-32));
       updateTilde(x);
