@@ -56,6 +56,7 @@ void NeoDigito::setPixelColor(uint32_t c)
 }
 
 //--------------------------------------------------------- updateDigit
+/*
 void NeoDigito::updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
 
@@ -87,6 +88,7 @@ void NeoDigito::updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint
     charPos++;
   }
 }
+*/
 
 //----------------------------------------------------------------------------------updateDelimiter
 void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
@@ -100,6 +102,43 @@ void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, 
   }
 }
 
+
+//----------------------------------------------------------------------------------updateDelimiter
+void NeoDigito::updateDelimiter(uint16_t delimeter)
+{
+
+  int digitsOffset = (delimeter * pixPerDelim * numDelimiters) + (delimeter * pixPerSeg * 7);
+
+  for (int pix = digitsOffset ; (pix > digitsOffset - (pixPerDelim * numDelimiters)) || (pix == 0); pix--) 
+  {
+    strip->setPixelColor(pix, Color);
+  }
+}
+
+
+//----------------------------------------------------------------------------------updatePoint
+void NeoDigito::updatePoint(uint16_t delimeter)
+{
+
+  int digitsOffset = (delimeter * pixPerDelim * numDelimiters) + (delimeter * pixPerSeg * 7) - 1;
+
+  //for (int pix = digitsOffset ; (pix > digitsOffset - (pixPerDelim)); pix--) 
+  //{
+    strip->setPixelColor(digitsOffset, Color);
+  //}
+}
+
+//----------------------------------------------------------------------------------updateTilde
+void NeoDigito::updateTilde(uint16_t delimeter)
+{
+
+  int digitsOffset = (delimeter * pixPerDelim * numDelimiters) + (delimeter * pixPerSeg * 7);
+
+  //for (int pix = digitsOffset ; (pix > digitsOffset - (pixPerDelim)); pix--) 
+  //{
+    strip->setPixelColor(digitsOffset, Color);
+  //}
+}
 
 
 //----------------------------------------------------------------------------------write
@@ -266,7 +305,7 @@ void NeoDigito::print(int num)
   
 }
 
-//---------------------------------------------------------------------------- print(num,x)
+//---------------------------------------------------------------------------- print(int num, int x)
 // x ----> Representa el display o posición a partir de la cual imprimir
 // num --> Valor a escribir
 void NeoDigito::print(int num, int x)
@@ -322,8 +361,67 @@ void NeoDigito::print(char num, int x)
   // Barro según la cantidad de displays disponibles
   //for(x = 0; x <= DisplayNumber; x++)
   //{
-    
-    write(x,(num-32));
+
+    // -------- solo puntos
+    if(num == ':' || num == ';')
+    {
+      //write(x,(num-32));
+      updateDelimiter(x);
+    }
+    else if(num == '.' || num == ',')
+    {
+      updatePoint(x);
+    }
+    else if(num == "'")
+    {
+      updateTilde(x);
+    }
+
+    // solo letras sin delimitador
+    else
+    {
+      write(x,(num-32));
+      updateDelimiter(x,0,0,0);
+      updateDelimiter(x+1,0,0,0);
+    }
+
+    // ----- letras con puntos
+    if(num == '*' || num == '¡' || num == 'i' || num == 'T') // tilde atras
+    {
+      write(x,(num-32));
+      updateTilde(x);
+    }
+
+    if(num == '+') // tilde adelante
+    {
+      write(x,(num-32));
+      updateTilde(x+1);
+    }
+
+    if(num == '!' || num == '?')  // punto atras
+    {
+      write(x,(num-32));
+      updatePoint(x);
+    }
+
+    if(num == 'Q' || num == 'R')  // punto adelante
+    {
+      write(x,(num-32));
+      updatePoint(x +1);
+    }
+
+    if(num == '&')          // dos puntos adelante
+    {
+      write(x,(num-32));
+      updateDelimiter(x + 1);
+    }
+
+    if(num == '$' || num == '%')  // Tilde atras, punto adelante
+    {
+      write(x,(num-32));
+      updatePoint(x+1);
+      updateTilde(x);
+    }
   //}
   
 }

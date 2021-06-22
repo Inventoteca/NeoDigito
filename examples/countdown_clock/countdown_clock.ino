@@ -32,7 +32,7 @@
 
 NeoDigito display1 =  NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
 
-#define   tiempo    60
+#define   tiempo    600
 int count = tiempo; // 3 minutes in seconds
 
 void setup() 
@@ -47,15 +47,16 @@ void loop() {
   uint8_t seconds =  count - (minutes * 60) ; // Seconds ones place
 
 
-  if(minutes > 10)
+  if(minutes < 10)
   {
-   display1.print(minutes,0);
+   display1.print(' ',0); //null
+   display1.print(minutes,1);
+   
    
   } 
   else
   {
-    display1.print(0,11); //null
-    display1.print(minutes,1);
+    display1.print(minutes,0);
   }
    
 

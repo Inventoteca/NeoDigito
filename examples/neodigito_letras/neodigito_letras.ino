@@ -32,8 +32,7 @@
 
 NeoDigito display1 =  NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
 
-#define   tiempo    60
-int count = tiempo; // 3 minutes in seconds
+char letra =' '; // Letra inicial
 
 void setup() 
 {
@@ -41,47 +40,19 @@ void setup()
   display1.setPixelColor(0x090000);
 }
 
-void loop() {
-
-  uint8_t minutes = count / 60;
-  uint8_t seconds =  count - (minutes * 60) ; // Seconds ones place
-
-
-  if(minutes > 10)
-  {
-   display1.print(minutes,0);
-   
-  } 
-  else
-  {
-    display1.print(0,11); //null
-    display1.print(minutes,1);
-  }
-   
-
-  if(seconds < 10)
-  {
-    display1.print(0,2); 
-    display1.print(seconds,3);
-  }
-
-  else
-    display1.print(seconds,2);
-  
-  // Flash colon when seconds change
-  if (!(seconds % 2)) {
-    //  even
-    display1.updateDelimiter(2, 0, 0, 0);
-  } else {
-    //  odd
-    display1.updateDelimiter(2, 0, 25, 0);
-  }
-
+void loop() 
+{
+  display1.setPixelColor(0x090000);
+  display1.print(letra); // imprime en decimal
+  display1.setPixelColor(0x0900);
+  display1.print(letra,2); // imprime la letra
   display1.show();
+  letra++;
 
-  delay(1000);
-  count--;
-  if (count == 0) {
-    count = tiempo;
+  if(letra >= 91)
+  {
+    letra = ' ';
   }
+  
+  delay(500);
 }

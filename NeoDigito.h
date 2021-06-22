@@ -22,9 +22,12 @@ public:
        show(), 
        setPixelColor(uint16_t n, uint32_t c), 
        setPixelColor(uint32_t c),
-       updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
+       //updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
        updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
-       write(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+       updateDelimiter(uint16_t delimeter),
+       updatePoint(uint16_t delimeter),
+       updateTilde(uint16_t delimeter);
+
 /*!
     @brief  Set specific digit # to a numeric value.
     @param  x    Character position.
@@ -32,6 +35,7 @@ public:
     @param  rgb  Color argument in Wheel Format.
   */
   
+  void write(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void write(uint8_t x, uint8_t num, uint32_t rgb);
   void write(uint8_t x, uint8_t num);
   void print(int num, int x); // número y posición
@@ -53,11 +57,11 @@ private:
          6    8
   */
   // then array positions 11-17 are individual segments for funz.
-  char *characterMap[47] = 
+  char *characterMap[60] = 
     // 1234567
   {
       "0000000",    //          32  
-      "1000100",    // !        33
+      "1000000",    // !        33
       "1010000",    // "        34
       "1011101",    // #        35
       "1101011",    // $        36
@@ -66,11 +70,11 @@ private:
       "0010000",    // '        39  
       "1100110",    // (        40  
       "0110011",    // )        41  
-      "1010000",    // *        42
+      "1100000",    // *        42
       "0011001",    // +        43
-      "0000100",    // ,        44
+      "0000000",    // ,        44
       "0001000",    // -        45
-      "0000001",    // .        46
+      "0000000",    // .        46
       "0011100",    // /        47
       "1110111",    // 0        48
       "0010001",    // 1        49
@@ -102,7 +106,19 @@ private:
       "1011100",    // K        75
       "1000110",    // L        76
       "1110101",    // M        77
-      "1110101",};  // N        78          
+      "1110101",    // N        78
+      "1110111",    // 0        79
+      "1111100",    // P        80
+      "1110111",    // Q        81
+      "1111100",    // R        82 
+      "1101011",    // S        83  
+      "1100100",    // T        84
+      "1010111",    // U        85
+      "1010111",    // V        86
+      "1010111",    // W        88
+      "1011001",    // Y        89
+      "0111110",    // Z        90
+      "1110101",};  //                   
   const uint16_t pixPerSeg, digPerDisp, numDelims, pixPerDelim;
   String bitmask;
 };
