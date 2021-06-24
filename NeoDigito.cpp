@@ -386,13 +386,13 @@ void NeoDigito::print(char num, int x)
     }
 
     // ----- letras con puntos
-    if(num == '*' || num == '¡' || num == 'i' || num == 'T') // tilde atras
+    if(num == '*' || num == '¡' || num == 'i' || num == 'T' || num == 'P') // tilde atras
     {
       write(x,(num-32));
       updateTilde(x);
     }
 
-    if(num == '+') // tilde adelante
+    if(num == '+' || num == 'J' || num == 'g' || num == '~') // tilde adelante
     {
       write(x,(num-32));
       updateTilde(x+1);
@@ -404,17 +404,23 @@ void NeoDigito::print(char num, int x)
       updatePoint(x);
     }
 
-    if(num == 'Q' || num == 'R')  // punto adelante
+    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u')  // punto adelante
     {
       write(x,(num-32));
       updatePoint(x +1);
     }
 
-    if(num == '&')          // dos puntos adelante
+    if(num == '&' || num == 'k' || num == 'K' || num == '{' || num == '(')	// dos puntos adelante
     {
       write(x,(num-32));
       updateDelimiter(x + 1);
     }
+    
+    if(num == ')' || num == '}')	// dos puntos atrás
+    {
+    	write(x,(num-32));
+    	updateDelimiter(x);
+	}
 
     if(num == '$' || num == '%')  // Tilde atras, punto adelante
     {
@@ -422,6 +428,20 @@ void NeoDigito::print(char num, int x)
       updatePoint(x+1);
       updateTilde(x);
     }
+    
+    if(num == 'V' || num == 'Y')	// Dos puntos arriba
+    {
+    	write(x,(num-32));
+    	updateTilde(x);
+		updateTilde(x+1);
+	}
+	
+	if(num == 'X')	// Cuatro puntos
+	{
+		write(x,(num-32));
+		updateDelimiter(x);
+		updateDelimiter(x+1);
+	}
   //}
   
 }
