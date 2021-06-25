@@ -392,7 +392,7 @@ void NeoDigito::print(char num, int x)
       updateTilde(x);
     }
 
-    if(num == 'J' || num == 'g' || num == '~') // tilde adelante
+    if(num == '+' || num == 'J' || num == 'g' || num == '~') // tilde adelante
     {
       write(x,(num-32));
       updateTilde(x+1);
@@ -404,7 +404,7 @@ void NeoDigito::print(char num, int x)
       updatePoint(x);
     }
 
-    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u' || num == 'a')  // punto adelante
+    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u')  // punto adelante
     {
       write(x,(num-32));
       updatePoint(x +1);
@@ -441,34 +441,6 @@ void NeoDigito::print(char num, int x)
 		write(x,(num-32));
 		updateDelimiter(x);
 		updateDelimiter(x+1);
-	}
-	
-	// ----- letras y símbolos de dos espacios
-	if(num == '+')
-	{
-		write(x,(num-32));
-		write(x+1,(43-32));
-	}
-	
-	if(num == 'M' || num == 'm')
-	{
-		updatePoint(x);
-		write(x,(num-32));
-		write(x+1,(num-32));
-		updatePoint(x+2);
-	}
-	
-	if(num == 'W')
-	{
-		updateTilde(x);
-		write(x,(num-32));
-		updateTilde(x+1);
-	}
-	
-	if(num == 'w')
-	{
-		write(x,(num-32));
-		write(x+1,(num-32));
 	}
   //}
   
