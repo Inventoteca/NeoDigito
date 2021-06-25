@@ -372,7 +372,7 @@ void NeoDigito::print(char num, int x)
     {
       updatePoint(x);
     }
-    else if(num == "'")
+    else if(num == 39) // aqui se debe cambiar a su codigo no su caracter
     {
       updateTilde(x);
     }
@@ -386,7 +386,7 @@ void NeoDigito::print(char num, int x)
     }
 
     // ----- letras con puntos
-    if(num == '*' || num == '¡' || num == 'i' || num == 'T' || num == 'P') // tilde atras
+    if(num == '*' || num == 'ï¿½' || num == 'i' || num == 'T' || num == 'P') // tilde atras
     {
       write(x,(num-32));
       updateTilde(x);
@@ -416,7 +416,7 @@ void NeoDigito::print(char num, int x)
       updateDelimiter(x + 1);
     }
     
-    if(num == ')' || num == '}')	// dos puntos atrás
+    if(num == ')' || num == '}')	// dos puntos atrï¿½s
     {
     	write(x,(num-32));
     	updateDelimiter(x);
@@ -443,7 +443,7 @@ void NeoDigito::print(char num, int x)
 		updateDelimiter(x+1);
 	}
 	
-	// ----- letras y símbolos de dos espacios
+	// ----- letras y sï¿½mbolos de dos espacios
 	if(num == '+')
 	{
 		write(x,(num-32));
