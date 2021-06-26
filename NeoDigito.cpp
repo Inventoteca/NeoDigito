@@ -361,6 +361,13 @@ void NeoDigito::print(char num, int x)
   // Barro seg√∫n la cantidad de displays disponibles
   //for(x = 0; x <= DisplayNumber; x++)
   //{
+  
+  	//Primero se borra lo que est· en la posiciÛn para luego sobreescribir
+  	write(x,0);
+	write(x+1,0);
+  	updateDelimiter(x,0,0,0);
+  	updateDelimiter(x+1,0,0,0);
+    updateDelimiter(x+2,0,0,0);
 
     // -------- solo puntos
     if(num == ':' || num == ';')
@@ -377,12 +384,14 @@ void NeoDigito::print(char num, int x)
       updateTilde(x);
     }
 
-    // solo letras sin delimitador
+    // solo letras sin delimitador y de un solo espacio
     else
     {
       write(x,(num-32));
-      updateDelimiter(x,0,0,0);
-      updateDelimiter(x+1,0,0,0);
+      //write(x+1,0);
+      //updateDelimiter(x,0,0,0);
+      //updateDelimiter(x+1,0,0,0);
+      //updateDelimiter(x+2,0,0,0);
     }
 
     // ----- letras con puntos
@@ -447,7 +456,7 @@ void NeoDigito::print(char num, int x)
 	if(num == '+')
 	{
 		write(x,(num-32));
-		write(x+1,(43-32));
+		write(x+1,(45-32));
 	}
 	
 	if(num == 'M' || num == 'm')
@@ -462,7 +471,8 @@ void NeoDigito::print(char num, int x)
 	{
 		updateTilde(x);
 		write(x,(num-32));
-		updateTilde(x+1);
+		write(x+1,(num-32));
+		updateTilde(x+2);
 	}
 	
 	if(num == 'w')
