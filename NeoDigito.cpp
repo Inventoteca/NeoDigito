@@ -413,7 +413,7 @@ void NeoDigito::print(char num, int x)
       updatePoint(x);
     }
 
-    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u' || num == 'a')  // punto adelante
+    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u')  // punto adelante
     {
       write(x,(num-32));
       updatePoint(x +1);
