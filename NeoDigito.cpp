@@ -220,6 +220,67 @@ void NeoDigito::write(uint8_t num, uint8_t x, uint32_t rgb)
     charPos++;
   }
   //strip->show();
+  
+  // -------- solo puntos
+    if(num == ':' || num == ';')
+    {
+      updateDelimiter(x);
+    }
+    else if(num == '.' || num == ',')
+    {
+      updatePoint(x);
+    }
+    else if(num == "'")
+    {
+      updateTilde(x);
+    }
+    
+    // solo letras sin delimitador y de un solo espacio
+    else
+    {
+      //write(x,(num-32));
+      //write(x+1,0);
+      updateDelimiter(x,0,0,0);
+      updateDelimiter(x+1,0,0,0);
+      //updateDelimiter(x+2,0,0,0);
+    }
+	
+    // ----- letras con puntos
+    if(num == '*' || num == '¡' || num == 'i' || num == 'T' || num == 'P') // tilde atras
+      updateTilde(x);
+
+    if(num == 'J' || num == 'g' || num == '~') // tilde adelante
+      updateTilde(x+1);
+
+    if(num == '!' || num == '?')  // punto atras
+      updatePoint(x);
+
+    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u')  // punto adelante
+      updatePoint(x +1);
+
+    if(num == '&' || num == 'k' || num == 'K' || num == '{' || num == '(')	// dos puntos adelante
+      updateDelimiter(x + 1);
+    
+    if(num == ')' || num == '}')	// dos puntos atrás
+	  updateDelimiter(x);
+
+    if(num == '$' || num == '%')  // Tilde atras, punto adelante
+    {
+      updatePoint(x+1);
+      updateTilde(x);
+    }
+    
+    if(num == 'V' || num == 'Y')	// Dos puntos arriba
+    {
+      updateTilde(x);
+	  updateTilde(x+1);
+	}
+	
+	if(num == 'X')	// Cuatro puntos
+	{
+	  updateDelimiter(x);
+	  updateDelimiter(x+1);
+	}
 }
 
 //---------------------------------------------------------------------------- write(num,x)
@@ -272,6 +333,97 @@ void NeoDigito::write(uint8_t num, uint8_t x)
     }
     charPos++;
   }
+
+    // -------- solo puntos
+    if(num == ':' || num == ';')
+    {
+      updateDelimiter(x);
+    }
+    else if(num == '.' || num == ',')
+    {
+      updatePoint(x);
+    }
+    else if(num == "'")
+    {
+      updateTilde(x);
+    }
+    
+    // solo letras sin delimitador y de un solo espacio
+    else
+    {
+      //write(x,(num-32));
+      //write(x+1,0);
+      updateDelimiter(x,0,0,0);
+      updateDelimiter(x+1,0,0,0);
+      //updateDelimiter(x+2,0,0,0);
+    }
+	
+    // ----- letras con puntos
+    if(num == '*' || num == '¡' || num == 'i' || num == 'T' || num == 'P') // tilde atras
+      updateTilde(x);
+
+    if(num == 'J' || num == 'g' || num == '~') // tilde adelante
+      updateTilde(x+1);
+
+    if(num == '!' || num == '?')  // punto atras
+      updatePoint(x);
+
+    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u')  // punto adelante
+      updatePoint(x +1);
+
+    if(num == '&' || num == 'k' || num == 'K' || num == '{' || num == '(')	// dos puntos adelante
+      updateDelimiter(x + 1);
+    
+    if(num == ')' || num == '}')	// dos puntos atrás
+	  updateDelimiter(x);
+
+    if(num == '$' || num == '%')  // Tilde atras, punto adelante
+    {
+      updatePoint(x+1);
+      updateTilde(x);
+    }
+    
+    if(num == 'V' || num == 'Y')	// Dos puntos arriba
+    {
+      updateTilde(x);
+	  updateTilde(x+1);
+	}
+	
+	if(num == 'X')	// Cuatro puntos
+	{
+	  updateDelimiter(x);
+	  updateDelimiter(x+1);
+	}
+	
+	/*
+	// ----- letras y símbolos de dos espacios
+	if(num == '+')
+	{
+		write(x,(num-32));
+		write(x+1,(45-32));
+	}
+	
+	if(num == 'M' || num == 'm')
+	{
+		updatePoint(x);
+		write(x,(num-32));
+		write(x+1,(num-32));
+		updatePoint(x+2);
+	}
+	
+	if(num == 'W')
+	{
+		updateTilde(x);
+		write(x,(num-32));
+		write(x+1,(num-32));
+		updateTilde(x+2);
+	}
+	
+	if(num == 'w')
+	{
+		write(x,(num-32));
+		write(x+1,(num-32));
+	}*/
 }
 
 
@@ -280,7 +432,7 @@ void NeoDigito::write(uint8_t num, uint8_t x)
 // num --> Valor a escribir
 void NeoDigito::print(int num)
 {
- bitmask = characterMap[num]; // Cargo los caracteres disponibles 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,Âº,OFF,
+  bitmask = characterMap[num]; // Cargo los caracteres disponibles 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,Âº,OFF,
 
   int x = 0;        // display
   int digitos;
@@ -337,7 +489,7 @@ void NeoDigito::print(int num, int x)
 //---------------------------------------------------------------------------- print( char num,x)
 // x ----> Representa el display o posiciÃ³n a partir de la cual imprimir
 // num --> Letra a escribir
-
+/*
 void NeoDigito::print(char num, int x)
 {
  
@@ -481,4 +633,4 @@ void NeoDigito::print(char num, int x)
 	}
   //}
   
-}
+}*/
