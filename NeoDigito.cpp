@@ -142,7 +142,7 @@ void NeoDigito::updateTilde(uint16_t delimeter)
 
 
 //----------------------------------------------------------------------------------write
-void NeoDigito::write(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+void NeoDigito::write(uint16_t digit, uint16_t position, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
 
   bitmask = characterMap[digit];
@@ -180,8 +180,8 @@ void NeoDigito::write(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GR
   strip->show();
 }
 
-//----------------------------------------------------------------------------------write (x,num,rgb)
-void NeoDigito::write(uint8_t x, uint8_t num, uint32_t rgb)
+//----------------------------------------------------------------------------------write (num,x,rgb)
+void NeoDigito::write(uint8_t num, uint8_t x, uint32_t rgb)
 {
   if (x > DisplayNumber) // Si el número de display es mayor al número de displays disponible, rompe
     return;
@@ -222,10 +222,10 @@ void NeoDigito::write(uint8_t x, uint8_t num, uint32_t rgb)
   //strip->show();
 }
 
-//---------------------------------------------------------------------------- write(x,num)
+//---------------------------------------------------------------------------- write(num,x)
 // x ----> Representa el display
 // num --> Valor a escribir
-void NeoDigito::write(uint8_t x, uint8_t num) 
+void NeoDigito::write(uint8_t num, uint8_t x) 
 {
   if (x > DisplayNumber)  // Si el display seleccionado no existe, se regresa
     return;
@@ -233,7 +233,7 @@ void NeoDigito::write(uint8_t x, uint8_t num)
   bitmask = characterMap[num]; // Cargo los caracteres disponibles 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,º,OFF,
 
   int charPos = 0;  // aqui selecciono el caracter a escirbir
-  int delimeter;    // aqui ajuslo lo delimitadores, uno al inicio y otro al final
+  int delimeter;    // aqui ajusto lo delimitadores, uno al inicio y otro al final
   int offset = x*7;
 
 
@@ -300,9 +300,8 @@ void NeoDigito::print(int num)
   for(x = 0; x <= DisplayNumber; x++)
   {
     
-    write(x,(textNum[x])-32);
+    write((textNum[x])-32,x);
   }
-  
 }
 
 //---------------------------------------------------------------------------- print(int num, int x)
@@ -330,7 +329,7 @@ void NeoDigito::print(int num, int x)
   for(x = 0; x <= DisplayNumber; x++)
   {
     
-    write(x + offset,(textNum[x])-32);
+    write((textNum[x])-32,x + offset);
   }
   
 }
