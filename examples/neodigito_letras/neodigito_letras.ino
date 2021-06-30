@@ -24,7 +24,7 @@
 #define DIGITS 4
 
 // How may pixels per segement are there?
-#define PIXPERSEG 3
+#define PIXPERSEG 2
 
 // When we instatiate a display object we supply the number of digits in the
 // custom built display, as well as the number of pixels per segment.
@@ -48,7 +48,7 @@ void loop()
     display1.setPixelColor(0x090000);
     display1.print(letra); // imprime en decimal
     display1.setPixelColor(0x0900);
-    display1.print(letra,2); // imprime la letra
+    display1.write(letra,2); // imprime la letra
     display1.show();
   }
   
@@ -57,7 +57,7 @@ void loop()
     display1.setPixelColor(0x090000);
     display1.print(letra); // imprime en decimal
     display1.setPixelColor(0x0900);
-    display1.print(letra,3); // imprime la letra
+    display1.write(letra,3); // imprime la letra
     display1.show();
   }
 

@@ -115,7 +115,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 	if (pos > DisplayNumber) // If the number of displays needed is greater than the number of displays available, it returns.
 	    return;
     
-	bitmask = characterMap[digit]; // It loads the characters available.
+	bitmask = characterMap[digit-32]; // It loads the characters available.
 	
 	int charPos = 0;
 	int delimeter = pos * 2 + 1; // Omit the delimeters spaces.
@@ -227,7 +227,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 // pos ----> Represents the digit position in the display
 // digit --> Value to write
 // rgb ----> Display color
-void NeoDigito::write(uint8_t digit, uint8_t pos, uint32_t rgb)
+void NeoDigito::write(uint16_t digit, uint16_t pos, uint32_t rgb)
 {
 	uint8_t R = rgb >> 16;
 	uint8_t G = rgb >> 8;
@@ -239,64 +239,50 @@ void NeoDigito::write(uint8_t digit, uint8_t pos, uint32_t rgb)
 //---------------------------------------------------------------------------- write(digit,pos)
 // pos ----> Represents the digit position in the display
 // digit --> Value to write
-void NeoDigito::write(uint8_t digit, uint8_t pos) 
+void NeoDigito::write(uint16_t digit, uint16_t pos) 
 {
 	uint32_t rgb = Color;
     write(digit, pos, rgb);
 }
 
+//---------------------------------------------------------------------------- print(int num, int pos)
+// pos --> Represents the digit position in the display
+// num --> Value to write
+void NeoDigito::print(int num, int pos)
+{
+	int digitos;
+	String textNum = "";
+	textNum = String(num);
+	digitos = textNum.length()-1;
+	
+	for(int x = 0; x <= digitos; x++)
+	{
+		write((textNum[x]),x + pos);
+	}
+}
 
 //---------------------------------------------------------------------------- print(num)
 // num --> Value to write
 void NeoDigito::print(int num)
 {
-	//int digitos;
-	String textNum = "";
-	textNum = String(num);
-	//digitos = textNum.length();
-	
-	for(int x = 0; x <= DisplayNumber; x++)
-	{
-		write((textNum[x])-32,x);
-  	}
+	int pos = 0;
+	print(num,pos);
 }
-
 
 /*
-//---------------------------------------------------------------------------- print(int num, int x)
-// x ----> Representa el display o posición a partir de la cual imprimir
-// num --> Valor a escribir
-void NeoDigito::print(int num, int x)
+//---------------------------------------------------------------------------- write(char digit,pos)
+// pos -----> Represents the digit position in the display
+// letter --> Value to write
+void NeoDigito::write(char letter, uint8_t pos) 
 {
- bitmask = characterMap[num]; // Cargo los caracteres disponibles 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,º,OFF,
+	uint32_t rgb = Color;
+    write(letter-32, pos, rgb);
+}*/
 
-  //int x = 0;        // display
-  int digitos;
-  String textNum = "";
-  int charPos = 0;  // aqui selecciono el caracter a escirbir
-  int delimeter;    // aqui ajuslo lo delimitadores, uno al inicio y otro al final
-  int offset = x;
-
-  textNum = String(num);
-  //digitos = textNum.length();
-
-  // cantidad de displays usados para representar el número
-   // if (digitos > DisplayNumber)  // Si el display seleccionado no existe, se regresa
-   //return;
-  
-  // Barro según la cantidad de displays disponibles
-  for(x = 0; x <= DisplayNumber; x++)
-  {
-    
-    write((textNum[x])-32,x + offset);
-  }
-  
-}
-
+/*
 //---------------------------------------------------------------------------- print( char num,x)
 // x ----> Representa el display o posición a partir de la cual imprimir
 // num --> Letra a escribir
-
 void NeoDigito::print(char num, int x)
 {
  

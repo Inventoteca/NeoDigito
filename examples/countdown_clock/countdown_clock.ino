@@ -49,7 +49,7 @@ void loop() {
 
   if(minutes < 10)
   {
-   display1.print(' ',0); //null
+   display1.write(' ',0); //null
    display1.print(minutes,1);
    
    
