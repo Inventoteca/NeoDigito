@@ -35,9 +35,9 @@ public:
     @param  rgb  Color argument in Wheel Format.
   */
   
-  void write(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
-  void write(uint8_t x, uint8_t num, uint32_t rgb);
-  void write(uint8_t x, uint8_t num);
+  void write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+  void write(uint8_t digit, uint8_t pos, uint32_t rgb);
+  void write(uint8_t digit, uint8_t pos);
   void print(int num, int x); // número y posición
   void print(int num);
   void print(char num, int x);  //letra y posición

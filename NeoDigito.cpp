@@ -35,11 +35,14 @@ NeoDigito::~NeoDigito() {}
 //--------------------------------------------------------- begin
 void NeoDigito::begin()
 {
-  strip->begin();
+	strip->begin();
 }
 
 //--------------------------------------------------------- show
-void NeoDigito::show() { strip->show(); }
+void NeoDigito::show()
+{
+	strip->show();
+}
 
 // -------------------------------------------------------- setPixelColor(n,c)
 void NeoDigito::setPixelColor(uint16_t n, uint32_t c)
@@ -54,41 +57,6 @@ void NeoDigito::setPixelColor(uint32_t c)
     Color = c;
     //strip->setPixelColor(n, c);
 }
-
-//--------------------------------------------------------- updateDigit
-/*
-void NeoDigito::updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
-{
-
-  bitmask = characterMap[digit];
-
-  int charPos = 0;
-  // expand bitbask to number of pixels per segment in the proper position
-  for (int x = (position) * 7; x <= (position - 1) * 7 + 6; x++)
-  //for (int x = 0; x <= 6; x++)
-  {
-
-    if (bitmask.charAt(charPos) == '1')
-    {
-      // Lighting up this segment
-      for (int pix = 1; pix <= pixPerSeg; pix++)
-      {
-        strip->setPixelColor((x * pixPerSeg + pix),strip->Color(RED, GREEN, BLUE));
-      }
-
-    }
-    else
-    {
-      // Turning off this up this segment.
-      for (int pix = 1; pix <= pixPerSeg; pix++)
-      {
-        strip->setPixelColor((x * pixPerSeg + pix), 0);
-      }
-    }
-    charPos++;
-  }
-}
-*/
 
 //----------------------------------------------------------------------------------updateDelimiter
 void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
@@ -141,321 +109,160 @@ void NeoDigito::updateTilde(uint16_t delimeter)
 }
 
 
-//----------------------------------------------------------------------------------write
-void NeoDigito::write(uint16_t digit, uint16_t position, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+//----------------------------------------------------------------------------------write(digit, pos, RED, GREEN, BLUE)
+void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
+	if (pos > DisplayNumber) // If the number of displays needed is greater than the number of displays available, it returns.
+	    return;
+    
+	bitmask = characterMap[digit]; // It loads the characters available.
+	
+	int charPos = 0;
+	int delimeter = pos * 2 + 1; // Omit the delimeters spaces.
 
-  bitmask = characterMap[digit];
-
-  int charPos = 0;
-  int delimeter;
-
-
-  //Omit the delimiters
-  delimeter = position * 2 + 1;
-
-  // expand bitbask to number of pixels per segment in the proper position
-  for (int x = (position) * 7; x <= (position) * 7 + 6; x++)
-  {
-
-    if (bitmask.charAt(charPos) == '1')
-    {
-      // Lighting up this segment
-      for (int pix = 0; pix < pixPerSeg; pix++)
-      {
-        strip->setPixelColor(((x * pixPerSeg) + pix + delimeter),strip->Color(RED, GREEN, BLUE));
-      }
-
-    }
-    else
-    {
-      // Turning off this up this segment.
-      for (int pix = 0; pix < pixPerSeg; pix++)
-      {
-        strip->setPixelColor((x * pixPerSeg + pix + delimeter), 0);
-      }
-    }
-    charPos++;
-  }
-  strip->show();
-}
-
-//----------------------------------------------------------------------------------write (num,x,rgb)
-void NeoDigito::write(uint8_t num, uint8_t x, uint32_t rgb)
-{
-  if (x > DisplayNumber) // Si el n√∫mero de display es mayor al n√∫mero de displays disponible, rompe
-    return;
-
-  bitmask = characterMap[num]; // Se cargan los caracteres disponibles
-  Color = rgb;
-
-  int charPos = 0;
-  int delimeter;
-
-
-  //Omit the delimiters
-  delimeter = x * 2 + 1;
-
-  // expand bitbask to number of pixels per segment in the proper position
-  for (int i = (x) * 7; i <= (x) * 7 + 6; i++)
-  {
-
-    if (bitmask.charAt(charPos) == '1')
-    {
-      // Lighting up this segment
-      for (int pix = 0; pix < pixPerSeg; pix++)
-      {
-        strip->setPixelColor(((i * pixPerSeg) + pix + delimeter),rgb);
-      }
-
-    }
-    else
-    {
-      // Turning off this up this segment.
-      for (int pix = 0; pix < pixPerSeg; pix++)
-      {
-        strip->setPixelColor((i * pixPerSeg + pix + delimeter), 0);
-      }
-    }
-    charPos++;
-  }
-  //strip->show();
+	// Expand bitbask to number of pixels per segment in the proper position.
+	for (int x = (pos) * 7; x <= (pos) * 7 + 6; x++)
+	{
+		for(int pix = 0; pix < pixPerSeg; pix++)
+		{
+			if (bitmask.charAt(charPos) == '1') // Lighting up this segment
+			strip->setPixelColor(((x * pixPerSeg) + pix + delimeter),strip->Color(RED, GREEN, BLUE));
+			
+			else // Turning off this segment.
+			strip->setPixelColor((x * pixPerSeg + pix + delimeter), 0);
+		}
+		charPos++;
+	}
+	strip->show();
   
-  // -------- solo puntos
-    if(num == ':' || num == ';')
-    {
-      updateDelimiter(x);
-    }
-    else if(num == '.' || num == ',')
-    {
-      updatePoint(x);
-    }
-    else if(num == "'")
-    {
-      updateTilde(x);
-    }
+	// -------- Only dots
+    if(digit == ':' || digit == ';')
+		updateDelimiter(pos);
+
+    else if(digit == '.' || digit == ',')
+		updatePoint(pos);
+		
+    else if(digit == "'")
+		updateTilde(pos);
     
-    // solo letras sin delimitador y de un solo espacio
+    // Single-space letters without delimiter
     else
     {
-      //write(x,(num-32));
-      //write(x+1,0);
-      updateDelimiter(x,0,0,0);
-      updateDelimiter(x+1,0,0,0);
-      //updateDelimiter(x+2,0,0,0);
+		updateDelimiter(pos,0,0,0);
+		updateDelimiter(pos+1,0,0,0);
+		//updateDelimiter(pos+2,0,0,0);
     }
 	
-    // ----- letras con puntos
-    if(num == '*' || num == '°' || num == 'i' || num == 'T' || num == 'P') // tilde atras
-      updateTilde(x);
+    // ----- Letters with dots
+    if(digit == '*' || digit == '°' || digit == 'i' || digit == 'T' || digit == 'P') // Accent mark (behind)
+		updateTilde(pos);
 
-    if(num == 'J' || num == 'g' || num == '~') // tilde adelante
-      updateTilde(x+1);
+    if(digit == 'J' || digit == 'g' || digit == '~') // Accent mark (forward)
+		updateTilde(pos+1);
 
-    if(num == '!' || num == '?')  // punto atras
-      updatePoint(x);
+    if(digit == '!' || digit == '?')  // Dot (behind)
+		updatePoint(pos);
 
-    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u')  // punto adelante
-      updatePoint(x +1);
+    if(digit == 'Q' || digit == 'R' || digit == 'l' || digit == 't' || digit == 'u')  // Dot (forward)
+		updatePoint(pos + 1);
 
-    if(num == '&' || num == 'k' || num == 'K' || num == '{' || num == '(')	// dos puntos adelante
-      updateDelimiter(x + 1);
+    if(digit == '&' || digit == 'k' || digit == 'K' || digit == '{' || digit == '(')	// Double dot (forward)
+		updateDelimiter(pos + 1);
     
-    if(num == ')' || num == '}')	// dos puntos atr·s
-	  updateDelimiter(x);
+    if(digit == ')' || digit == '}')	// Double dot (behind)
+		updateDelimiter(pos);
 
-    if(num == '$' || num == '%')  // Tilde atras, punto adelante
+    if(digit == '$' || digit == '%')  // Accent mark (behind), Dot (forwarD)
     {
-      updatePoint(x+1);
-      updateTilde(x);
+		updatePoint(pos+1);
+		updateTilde(pos);
     }
     
-    if(num == 'V' || num == 'Y')	// Dos puntos arriba
+    if(digit == 'V' || digit == 'Y')	// Double accent mark
     {
-      updateTilde(x);
-	  updateTilde(x+1);
+		updateTilde(pos);
+		updateTilde(pos+1);
 	}
 	
-	if(num == 'X')	// Cuatro puntos
+	if(digit == 'X')	// Double accent mark, double dot
 	{
-	  updateDelimiter(x);
-	  updateDelimiter(x+1);
-	}
-}
-
-//---------------------------------------------------------------------------- write(num,x)
-// x ----> Representa el display
-// num --> Valor a escribir
-void NeoDigito::write(uint8_t num, uint8_t x) 
-{
-  if (x > DisplayNumber)  // Si el display seleccionado no existe, se regresa
-    return;
-
-  bitmask = characterMap[num]; // Cargo los caracteres disponibles 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,¬∫,OFF,
-
-  int charPos = 0;  // aqui selecciono el caracter a escirbir
-  int delimeter;    // aqui ajusto lo delimitadores, uno al inicio y otro al final
-  int offset = x*7;
-
-
-  //Omit the delimiters
-  delimeter = (x * 2) + 1;
-  //delimeter = (x * 2);
-
-  // expand bitbask to number of pixels per segment in the proper position
-  // para escribir a la tira de leds uno por uno
-  // primero se revisa a partir de que led iniciar segun la posici√≥n del display x
-  // se desplaza por cada 7 segmentos
-  // iniciando por el led 0 del primer segmento 
-  // terminando en el segmento 6
-  for(int i = 0; i <= 6; i++)
-  {
-    offset = (i + (x*7)) * pixPerSeg;
-
-    if (bitmask.charAt(charPos) == '1') // Busco en los caracteres si el segmento se enciende o no
-    {
-      // Lighting up this segment
-      for (int pix = 0; pix < pixPerSeg; pix++) // aqu√≠ reviso seg√∫n la cantidad de neopixels por segmento
-      {
-        //strip->setPixelColor(((offset * pixPerSeg) + pix + delimeter),Color);
-        strip->setPixelColor(((offset) + pix + delimeter),Color);
-      }
-
-    }
-    else
-    {
-      // Turning off this up this segment.
-      for (int pix = 0; pix < pixPerSeg; pix++)
-      {
-        //strip->setPixelColor(((offset * pixPerSeg) + pix + delimeter), 0);
-        strip->setPixelColor(((offset) + pix + delimeter), 0);
-      }
-    }
-    charPos++;
-  }
-
-    // -------- solo puntos
-    if(num == ':' || num == ';')
-    {
-      updateDelimiter(x);
-    }
-    else if(num == '.' || num == ',')
-    {
-      updatePoint(x);
-    }
-    else if(num == "'")
-    {
-      updateTilde(x);
-    }
-    
-    // solo letras sin delimitador y de un solo espacio
-    else
-    {
-      //write(x,(num-32));
-      //write(x+1,0);
-      updateDelimiter(x,0,0,0);
-      updateDelimiter(x+1,0,0,0);
-      //updateDelimiter(x+2,0,0,0);
-    }
-	
-    // ----- letras con puntos
-    if(num == '*' || num == '°' || num == 'i' || num == 'T' || num == 'P') // tilde atras
-      updateTilde(x);
-
-    if(num == 'J' || num == 'g' || num == '~') // tilde adelante
-      updateTilde(x+1);
-
-    if(num == '!' || num == '?')  // punto atras
-      updatePoint(x);
-
-    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u')  // punto adelante
-      updatePoint(x +1);
-
-    if(num == '&' || num == 'k' || num == 'K' || num == '{' || num == '(')	// dos puntos adelante
-      updateDelimiter(x + 1);
-    
-    if(num == ')' || num == '}')	// dos puntos atr·s
-	  updateDelimiter(x);
-
-    if(num == '$' || num == '%')  // Tilde atras, punto adelante
-    {
-      updatePoint(x+1);
-      updateTilde(x);
-    }
-    
-    if(num == 'V' || num == 'Y')	// Dos puntos arriba
-    {
-      updateTilde(x);
-	  updateTilde(x+1);
-	}
-	
-	if(num == 'X')	// Cuatro puntos
-	{
-	  updateDelimiter(x);
-	  updateDelimiter(x+1);
+		updateDelimiter(pos);
+		updateDelimiter(pos + 1);
 	}
 	
 	/*
 	// ----- letras y sÌmbolos de dos espacios
-	if(num == '+')
+	if(digit == '+')
 	{
-		write(x,(num-32));
-		write(x+1,(45-32));
+		write(pos,(digit-32));
+		write(pos+1,(45-32));
 	}
 	
-	if(num == 'M' || num == 'm')
+	if(digit == 'M' || digit == 'm')
 	{
-		updatePoint(x);
-		write(x,(num-32));
-		write(x+1,(num-32));
-		updatePoint(x+2);
+		updatePoint(pos);
+		write(pos,(digit-32));
+		write(pos+1,(digit-32));
+		updatePoint(pos+2);
 	}
 	
-	if(num == 'W')
+	if(digit == 'W')
 	{
-		updateTilde(x);
-		write(x,(num-32));
-		write(x+1,(num-32));
-		updateTilde(x+2);
+		updateTilde(pos);
+		write(pos,(digit-32));
+		write(pos+1,(digit-32));
+		updateTilde(pos+2);
 	}
 	
-	if(num == 'w')
+	if(digit == 'w')
 	{
-		write(x,(num-32));
-		write(x+1,(num-32));
+		write(pos,(digit-32));
+		write(pos+1,(digit-32));
 	}*/
 }
 
 
-//---------------------------------------------------------------------------- print(int num)
-// x ----> Representa el display
-// num --> Valor a escribir
-void NeoDigito::print(int num)
+
+//----------------------------------------------------------------------------------write(digit, pos, rgb)
+// pos ----> Represents the digit position in the display
+// digit --> Value to write
+// rgb ----> Display color
+void NeoDigito::write(uint8_t digit, uint8_t pos, uint32_t rgb)
 {
-  bitmask = characterMap[num]; // Cargo los caracteres disponibles 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,¬∫,OFF,
-
-  int x = 0;        // display
-  int digitos;
-  String textNum = "";
-  int charPos = 0;  // aqui selecciono el caracter a escirbir
-  int delimeter;    // aqui ajuslo lo delimitadores, uno al inicio y otro al final
-  int offset = x*7;
-
-  textNum = String(num);
-  digitos = textNum.length();
-
-  // cantidad de displays usados para representar el n√∫mero
-   // if (digitos > DisplayNumber)  // Si el display seleccionado no existe, se regresa
-   //return;
-  
-  // Barro seg√∫n la cantidad de displays disponibles
-  for(x = 0; x <= DisplayNumber; x++)
-  {
-    
-    write((textNum[x])-32,x);
-  }
+	uint8_t R = rgb >> 16;
+	uint8_t G = rgb >> 8;
+	uint8_t B = rgb;
+	write(digit, pos, R, G, B);
 }
 
+
+//---------------------------------------------------------------------------- write(digit,pos)
+// pos ----> Represents the digit position in the display
+// digit --> Value to write
+void NeoDigito::write(uint8_t digit, uint8_t pos) 
+{
+	uint32_t rgb = Color;
+    write(digit, pos, rgb);
+}
+
+
+//---------------------------------------------------------------------------- print(num)
+// num --> Value to write
+void NeoDigito::print(int num)
+{
+	//int digitos;
+	String textNum = "";
+	textNum = String(num);
+	//digitos = textNum.length();
+	
+	for(int x = 0; x <= DisplayNumber; x++)
+	{
+		write((textNum[x])-32,x);
+  	}
+}
+
+
+/*
 //---------------------------------------------------------------------------- print(int num, int x)
 // x ----> Representa el display o posici√≥n a partir de la cual imprimir
 // num --> Valor a escribir
@@ -489,7 +296,7 @@ void NeoDigito::print(int num, int x)
 //---------------------------------------------------------------------------- print( char num,x)
 // x ----> Representa el display o posici√≥n a partir de la cual imprimir
 // num --> Letra a escribir
-/*
+
 void NeoDigito::print(char num, int x)
 {
  
@@ -512,125 +319,6 @@ void NeoDigito::print(char num, int x)
   // Barro seg√∫n la cantidad de displays disponibles
   //for(x = 0; x <= DisplayNumber; x++)
   //{
-  
-  	//Primero se borra lo que est· en la posiciÛn para luego sobreescribir
-  	write(x,0);
-	write(x+1,0);
-  	updateDelimiter(x,0,0,0);
-  	updateDelimiter(x+1,0,0,0);
-    updateDelimiter(x+2,0,0,0);
-
-    // -------- solo puntos
-    if(num == ':' || num == ';')
-    {
-      //write(x,(num-32));
-      updateDelimiter(x);
-    }
-    else if(num == '.' || num == ',')
-    {
-      updatePoint(x);
-    }
-    else if(num == "'")
-    {
-      updateTilde(x);
-    }
-
-    // solo letras sin delimitador y de un solo espacio
-    else
-    {
-      write(x,(num-32));
-      //write(x+1,0);
-      //updateDelimiter(x,0,0,0);
-      //updateDelimiter(x+1,0,0,0);
-      //updateDelimiter(x+2,0,0,0);
-    }
-
-    // ----- letras con puntos
-    if(num == '*' || num == '°' || num == 'i' || num == 'T' || num == 'P') // tilde atras
-    {
-      write(x,(num-32));
-      updateTilde(x);
-    }
-
-    if(num == 'J' || num == 'g' || num == '~') // tilde adelante
-    {
-      write(x,(num-32));
-      updateTilde(x+1);
-    }
-
-    if(num == '!' || num == '?')  // punto atras
-    {
-      write(x,(num-32));
-      updatePoint(x);
-    }
-
-    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u')  // punto adelante
-    {
-      write(x,(num-32));
-      updatePoint(x +1);
-    }
-
-    if(num == '&' || num == 'k' || num == 'K' || num == '{' || num == '(')	// dos puntos adelante
-    {
-      write(x,(num-32));
-      updateDelimiter(x + 1);
-    }
-    
-    if(num == ')' || num == '}')	// dos puntos atr·s
-    {
-    	write(x,(num-32));
-    	updateDelimiter(x);
-	}
-
-    if(num == '$' || num == '%')  // Tilde atras, punto adelante
-    {
-      write(x,(num-32));
-      updatePoint(x+1);
-      updateTilde(x);
-    }
-    
-    if(num == 'V' || num == 'Y')	// Dos puntos arriba
-    {
-    	write(x,(num-32));
-    	updateTilde(x);
-		updateTilde(x+1);
-	}
-	
-	if(num == 'X')	// Cuatro puntos
-	{
-		write(x,(num-32));
-		updateDelimiter(x);
-		updateDelimiter(x+1);
-	}
-	
-	// ----- letras y sÌmbolos de dos espacios
-	if(num == '+')
-	{
-		write(x,(num-32));
-		write(x+1,(45-32));
-	}
-	
-	if(num == 'M' || num == 'm')
-	{
-		updatePoint(x);
-		write(x,(num-32));
-		write(x+1,(num-32));
-		updatePoint(x+2);
-	}
-	
-	if(num == 'W')
-	{
-		updateTilde(x);
-		write(x,(num-32));
-		write(x+1,(num-32));
-		updateTilde(x+2);
-	}
-	
-	if(num == 'w')
-	{
-		write(x,(num-32));
-		write(x+1,(num-32));
-	}
   //}
   
 }*/
