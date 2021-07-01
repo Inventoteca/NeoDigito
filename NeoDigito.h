@@ -37,8 +37,12 @@ public:
   void write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void write(uint16_t digit, uint16_t pos, uint32_t rgb);
   void write(uint16_t digit, uint16_t pos);
+  void print(String word, int pos);
+  void print(String word);
   void print(int num, int pos); // number and initial position
   void print(int num);
+  void print(float num, int pos); // number and initial position
+  void print(float num);
   
 
 private:

@@ -34,6 +34,10 @@
 NeoDigito display1 =  NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
 
 char letra =' '; // Letra inicial
+String texto1 ="Hola";
+String texto2 ="Ejem";
+String textoE ="    ";
+int pos = 2;
 
 void setup() 
 {
@@ -43,30 +47,30 @@ void setup()
 
 void loop() 
 {
-  if(letra < 100)
-  {
-    display1.setPixelColor(0x090000);
-    display1.print(letra); // imprime en decimal
-    display1.setPixelColor(0x0900);
-    display1.write(letra,2); // imprime la letra
-    display1.show();
-  }
-  
-  if(letra >= 100)
-  {
-    display1.setPixelColor(0x090000);
-    display1.print(letra); // imprime en decimal
-    display1.setPixelColor(0x0900);
-    display1.write(letra,3); // imprime la letra
-    display1.show();
-  }
-
-  letra++;
-
-  if(letra >= 126)
-  {
-    letra = ' ';
-  }
-  
-  delay(800);
+	display1.setPixelColor(0x090009);
+	display1.print(texto1);
+	delay(1000);
+	display1.setPixelColor(0x000909);
+	display1.print(texto2);
+	delay(1000);
+	display1.print(textoE);
+	
+	while(letra < 127)
+	{
+		if(letra < 100)
+			pos = 2;
+		
+		if(letra >= 100)
+			pos = 3;
+		
+		display1.setPixelColor(0x090000);
+		display1.print(letra); // imprime en decimal
+		display1.setPixelColor(0x0900);
+		display1.write(letra,pos); // imprime la letra
+		display1.show();
+		letra++;
+		delay(500);
+	}
+	
+	letra = ' ';  
 }
