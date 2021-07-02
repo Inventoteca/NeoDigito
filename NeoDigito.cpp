@@ -142,7 +142,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
     else if(digit == '.' || digit == ',')
 		updatePoint(pos);
 		
-    else if(digit == "'")
+    else if(digit == 39)
 		updateTilde(pos);
     
     // Single-space letters without delimiter
@@ -301,3 +301,8 @@ void NeoDigito::print(float num)
 {
 	print(num,0);
 }
+
+/*void NeoDigito::slide(String word, int time)
+{
+	
+}*/

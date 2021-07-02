@@ -43,6 +43,7 @@ public:
   void print(int num);
   void print(float num, int pos); // number and initial position
   void print(float num);
+  //void slide(String word, int pos, int time, char direction);
   
 
 private:
