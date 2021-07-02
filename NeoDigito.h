@@ -33,7 +33,7 @@ public:
     @param  num  Numeric (not ASCII) value.
     @param  rgb  Color argument in Wheel Format.
   */
-  
+  void clear();
   void write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void write(uint16_t digit, uint16_t pos, uint32_t rgb);
   void write(uint16_t digit, uint16_t pos);
@@ -43,6 +43,7 @@ public:
   void print(int num);
   void print(float num, int pos); // number and initial position
   void print(float num);
+  
   //void slide(String word, int pos, int time, char direction);
   
 
