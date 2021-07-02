@@ -22,7 +22,6 @@ public:
        show(), 
        setPixelColor(uint16_t n, uint32_t c), 
        setPixelColor(uint32_t c),
-       //updateDigit(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
        updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
        updateDelimiter(uint16_t delimeter),
        updatePoint(uint16_t delimeter),
@@ -34,13 +33,18 @@ public:
     @param  num  Numeric (not ASCII) value.
     @param  rgb  Color argument in Wheel Format.
   */
-  
-  void write(uint16_t position, uint16_t digit, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
-  void write(uint8_t x, uint8_t num, uint32_t rgb);
-  void write(uint8_t x, uint8_t num);
-  void print(int num, int x); // número y posición
+  void clear();
+  void write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+  void write(uint16_t digit, uint16_t pos, uint32_t rgb);
+  void write(uint16_t digit, uint16_t pos);
+  void print(String word, int pos);
+  void print(String word);
+  void print(int num, int pos); // number and initial position
   void print(int num);
-  void print(char num, int x);  //letra y posición
+  void print(float num, int pos); // number and initial position
+  void print(float num);
+  
+  //void slide(String word, int pos, int time, char direction);
   
 
 private:
@@ -86,8 +90,8 @@ private:
       "0110001",    // 7        55
       "1111111",    // 8        56
       "1111011",    // 9        57
-      "0001010",    // :        58
-      "0001010",    // ;        59
+      "0000000",    // :        58
+      "0000000",    // ;        59
       "0001110",    // <        60
       "0001010",    // =        61
       "0001011",    // >        62
@@ -115,7 +119,7 @@ private:
       "1100100",    // T        84
       "1010111",    // U        85
       "1010111",    // V        86
-      "1011111",    // W        87
+      "1010111",    // W        87
       "1011101",    // X        88
       "1011011",    // Y        89
       "0111110",    // Z        90
@@ -125,7 +129,7 @@ private:
       "1110000",    // ^        94
       "0000010",    // _        95
       "1000000",    // `        96
-      "0001111",    // a        97
+      "0111111",    // a        97
       "1001111",    // b        98
       "0001110",    // c        99
       "0011111",    // d       100
