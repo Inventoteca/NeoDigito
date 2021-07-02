@@ -275,7 +275,7 @@ void NeoDigito::write(uint8_t x, uint8_t num)
 }
 
 
-//---------------------------------------------------------------------------- print(num)
+//---------------------------------------------------------------------------- print(int num)
 // x ----> Representa el display
 // num --> Valor a escribir
 void NeoDigito::print(int num)
@@ -372,7 +372,7 @@ void NeoDigito::print(char num, int x)
     {
       updatePoint(x);
     }
-    else if(num == "'")
+    else if(num == 39) // aqui se debe cambiar a su codigo no su caracter
     {
       updateTilde(x);
     }
@@ -386,13 +386,13 @@ void NeoDigito::print(char num, int x)
     }
 
     // ----- letras con puntos
-    if(num == '*' || num == '¡' || num == 'i' || num == 'T') // tilde atras
+    if(num == '*' || num == '�' || num == 'i' || num == 'T' || num == 'P') // tilde atras
     {
       write(x,(num-32));
       updateTilde(x);
     }
 
-    if(num == '+') // tilde adelante
+    if(num == 'J' || num == 'g' || num == '~') // tilde adelante
     {
       write(x,(num-32));
       updateTilde(x+1);
@@ -404,17 +404,23 @@ void NeoDigito::print(char num, int x)
       updatePoint(x);
     }
 
-    if(num == 'Q' || num == 'R')  // punto adelante
+    if(num == 'Q' || num == 'R' || num == 'l' || num == 't' || num == 'u' || num == 'a')  // punto adelante
     {
       write(x,(num-32));
       updatePoint(x +1);
     }
 
-    if(num == '&')          // dos puntos adelante
+    if(num == '&' || num == 'k' || num == 'K' || num == '{' || num == '(')	// dos puntos adelante
     {
       write(x,(num-32));
       updateDelimiter(x + 1);
     }
+    
+    if(num == ')' || num == '}')	// dos puntos atr�s
+    {
+    	write(x,(num-32));
+    	updateDelimiter(x);
+	}
 
     if(num == '$' || num == '%')  // Tilde atras, punto adelante
     {
@@ -422,6 +428,48 @@ void NeoDigito::print(char num, int x)
       updatePoint(x+1);
       updateTilde(x);
     }
+    
+    if(num == 'V' || num == 'Y')	// Dos puntos arriba
+    {
+    	write(x,(num-32));
+    	updateTilde(x);
+		updateTilde(x+1);
+	}
+	
+	if(num == 'X')	// Cuatro puntos
+	{
+		write(x,(num-32));
+		updateDelimiter(x);
+		updateDelimiter(x+1);
+	}
+	
+	// ----- letras y s�mbolos de dos espacios
+	if(num == '+')
+	{
+		write(x,(num-32));
+		write(x+1,(43-32));
+	}
+	
+	if(num == 'M' || num == 'm')
+	{
+		updatePoint(x);
+		write(x,(num-32));
+		write(x+1,(num-32));
+		updatePoint(x+2);
+	}
+	
+	if(num == 'W')
+	{
+		updateTilde(x);
+		write(x,(num-32));
+		updateTilde(x+1);
+	}
+	
+	if(num == 'w')
+	{
+		write(x,(num-32));
+		write(x+1,(num-32));
+	}
   //}
   
 }

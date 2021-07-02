@@ -1,8 +1,9 @@
-/* NeoDigito example code: countdown_clock
+/* NeoDigito example code: neodigito_letras
 
-    Example code to show the delimeter feature. This sketch displays a 3 minute
-    countdown clock on a display with 3 digits and one colon which flashes when the
-    seconds change.
+    Example code to show the characters from the ASCII table. The code prints
+	the number associated with the ASCII table's character in the  firsts
+	positions, and the character itself in the subsecuents positions of the
+	strip.  
 
     Created by Inventoteca and Xircuitos, October 21, 2020.
     Released under GPLv3, based on Seven_Segment_Pixel, by Peter Hartmann.
@@ -23,7 +24,7 @@
 #define DIGITS 4
 
 // How may pixels per segement are there?
-#define PIXPERSEG 2
+#define PIXPERSEG 3
 
 // When we instatiate a display object we supply the number of digits in the
 // custom built display, as well as the number of pixels per segment.
@@ -42,17 +43,30 @@ void setup()
 
 void loop() 
 {
-  display1.setPixelColor(0x090000);
-  display1.print(letra); // imprime en decimal
-  display1.setPixelColor(0x0900);
-  display1.print(letra,2); // imprime la letra
-  display1.show();
+  if(letra < 100)
+  {
+    display1.setPixelColor(0x090000);
+    display1.print(letra); // imprime en decimal
+    display1.setPixelColor(0x0900);
+    display1.print(letra,2); // imprime la letra
+    display1.show();
+  }
+  
+  if(letra >= 100)
+  {
+    display1.setPixelColor(0x090000);
+    display1.print(letra); // imprime en decimal
+    display1.setPixelColor(0x0900);
+    display1.print(letra,3); // imprime la letra
+    display1.show();
+  }
+
   letra++;
 
-  if(letra >= 91)
+  if(letra >= 126)
   {
     letra = ' ';
   }
   
-  delay(500);
+  delay(800);
 }
