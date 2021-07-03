@@ -41,12 +41,11 @@ PubSubClient client(espClient);
 unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE	(50)
 char msg[MSG_BUFFER_SIZE];
-int value = 0;
 
 // Pin donde estará conectado el display
 #define PIN 0           // Para el caso especifico del ESP8266 con batería, D3 - GPIO0
 #define DIGITS 8        // Neodigitos conectados
-#define PIXPERSEG 2     // Neopixels por segmento
+#define PIXPERSEG 3     // Neopixels por segmento
 
 
 // Una vez especificado el número de displays,
@@ -56,11 +55,6 @@ int value = 0;
 
 NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 2; // retardo para el conteo
-
-int increment = 1;  // valor a incrementar
-
-int count = 0;      // Variable para almacenar el conteo
 
 void setup()
 {
@@ -104,6 +98,7 @@ void loop()
 void setup_wifi() 
 {
 
+  int i = 1;
   delay(10);
   // We start by connecting to a WiFi network
   Serial.println();
@@ -112,12 +107,17 @@ void setup_wifi()
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
+  
+  display1.print(ssid);
+  display1.show();
+  delay(500);
+  display1.clear();
 
   while (WiFi.status() != WL_CONNECTED) 
   {
     delay(500);
     Serial.print(".");
-    display1.print(".");
+    display1.write('.',i++);
     display1.show();
   }
 
@@ -136,19 +136,38 @@ void setup_wifi()
 // aqui se lee el mensaje letra por letra
 void callback(char* topic, byte* payload, unsigned int length) 
 {
+  String StrColor = "";
+  String StrTopic = topic;
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
 
-  display1.clear();
-  
-  for (int i = 0; i < length; i++) 
+  if(StrTopic == "neoColor")
   {
-    Serial.print((char)payload[i]);
-    display1.write((char)payload[i],i);
+    for (int i = 0; i < length; i++) 
+    {
+      StrColor += (char)payload[i];
+      
+    }
+    display1.setPixelColor(StrColor.toInt());
+    //display1.print(StrColor);
+    display1.show();
+    Serial.print(StrColor);
+    StrColor = "";
   }
-  Serial.println();
-  display1.show();
+
+  else if(StrTopic == "neoNumber")
+  {
+    display1.clear();
+    for (int i = 0; i < length; i++) 
+    {
+      Serial.print((char)payload[i]);
+      display1.write((char)payload[i],i);
+    }
+    Serial.println();
+    display1.show();
+  }
+
 
 }
 
@@ -170,6 +189,7 @@ void reconnect()
       client.publish("neoStatus", "hello world");
       // ... and resubscribe
       client.subscribe("neoNumber");
+      client.subscribe("neoColor");
     } 
     else 
     {
