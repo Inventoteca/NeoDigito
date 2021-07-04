@@ -58,7 +58,7 @@ void NeoDigito::setPixelColor(uint32_t c)
     Color = c;
 	for(int i = 0; i < n; i++)
 	{
-		if(strip->getPixelColor(i) != 0)
+		if((strip->getPixelColor(i) != 0) && (c != 0))
 		{
 			strip->setPixelColor(i, c);
 		}	
