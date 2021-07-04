@@ -44,8 +44,8 @@ char msg[MSG_BUFFER_SIZE];
 
 // Pin donde estará conectado el display
 #define PIN 0           // Para el caso especifico del ESP8266 con batería, D3 - GPIO0
-#define DIGITS 8        // Neodigitos conectados
-#define PIXPERSEG 3     // Neopixels por segmento
+#define DIGITS 10        // Neodigitos conectados
+#define PIXPERSEG 2     // Neopixels por segmento
 
 
 // Una vez especificado el número de displays,
@@ -130,6 +130,9 @@ void setup_wifi()
   display1.print("Internet");
   display1.show();
   delay(500);
+  display1.print(WiFi.localIP().toString());
+  display1.show();
+  delay(500);
 }
 
 // -------------------------------------------- callback
@@ -162,8 +165,11 @@ void callback(char* topic, byte* payload, unsigned int length)
     for (int i = 0; i < length; i++) 
     {
       Serial.print((char)payload[i]);
-      display1.write((char)payload[i],i);
+      StrColor += (char)payload[i];
+      //display1.write((char)payload[i],i);
     }
+
+    display1.print(StrColor);
     Serial.println();
     display1.show();
   }

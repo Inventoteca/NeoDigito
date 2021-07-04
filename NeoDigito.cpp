@@ -145,8 +145,13 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
   	{
   		clear();
 	}
+
+	//else if(digit = '°' ) // para grados
+	//{
+
+	//}
 	
-	else
+	else if(digit <= 127)
 	{
 		// Expand bitbask to number of pixels per segment in the proper position.
 		for (int x = (pos) * 7; x <= (pos) * 7 + 6; x++)
@@ -324,8 +329,9 @@ void NeoDigito::print(int num)
 void NeoDigito::print(float num, int pos)
 {
 	String textNum = "";
-	textNum = String(num); //Contar la cantidad de decimales que tiene el 'float' para saber cuantos imprimira
-	
+	//textNum = String(num); //Contar la cantidad de decimales que tiene el 'float' para saber cuantos imprimira
+	textNum.concat(num);
+
 	print(textNum,pos);
 }
 
