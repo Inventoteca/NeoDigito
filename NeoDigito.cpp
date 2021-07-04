@@ -56,7 +56,14 @@ void NeoDigito::setPixelColor(uint16_t n, uint32_t c)
 void NeoDigito::setPixelColor(uint32_t c)
 {
     Color = c;
-    //strip->setPixelColor(n, c);
+	for(int i = 0; i < n; i++)
+	{
+		if(strip->getPixelColor(i) != 0)
+		{
+			strip->setPixelColor(i, c);
+		}	
+	}
+	
 }
 
 //----------------------------------------------------------------------------------updateDelimiter
