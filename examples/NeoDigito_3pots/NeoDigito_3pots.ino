@@ -2,7 +2,7 @@
 
     Muestra el valor en hexadecimal del color con el que se configura el
     display. Los valores del Rojo, Verde y Azul, son manipulados con tres
-  potenciÃ³metros.
+  	potenciómetros.
 
     Creado por David Figueroa
     Potenciado por Inventoteca y Xircuitos, Junio 11, 2021.
@@ -21,7 +21,7 @@
 #define PIN 12
 
 // Neodigitos conectados
-#define DIGITS 4
+#define DIGITS 6
 
 // Neopixels por segmento
 #define PIXPERSEG 2
@@ -32,7 +32,7 @@
 // adicionalmente se agregan algunos argumentos de 
 // la tira de neopixes usado
 
-NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
+NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
 uint32_t rgb = 0xFFFFFF;
 uint32_t R, G, B;
@@ -56,24 +56,24 @@ void loop()
   G = map(adcG,0,1023,0,255);
   B = map(adcB,0,1023,0,255);
 
-  /*
-  Serial.print("Rojo: ");
-  Serial.print(R, HEX);
-  Serial.print("\t Verde: ");
-  Serial.print(G, HEX);
-  Serial.print("\t Azul: ");
-  Serial.print(B, HEX);
-  */
-
   rgb = R << 16 | G << 8 | B;
   display1.setPixelColor(rgb);
 
   text = String(rgb,HEX);
   Serial.print("Color: ");
   Serial.println(text);
-  
-  display1.print(text);
-  display1.show();
-  delay(300);
 
+  if(R <= 9)
+  {
+    display1.print(0);
+    display1.print(text,1);
+    display1.show();
+  }
+  else
+  {
+    display1.print(text);
+    display1.show();
+  }
+
+  delay(300);
 }
