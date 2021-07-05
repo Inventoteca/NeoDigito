@@ -1,7 +1,7 @@
 /* NeoDigito ejemplo de cÃƒÂ³digo: neodigito_adc
 
-    Se manipula el color del display con un potenciómetro, empezando por rojo 
-    y atravsenando el verde y azul hasta terminar nuevamente en el rojo. Además
+    Se manipula el color del display con un potenciï¿½metro, empezando por rojo 
+    y atravsenando el verde y azul hasta terminar nuevamente en el rojo. Ademï¿½s
     muestra el valor del color en hexadecimal.
 
     Creado por David Figueroa
@@ -39,11 +39,9 @@ uint32_t rgb = 0xFFFFFF;
 uint32_t R;
 uint32_t B;
 uint32_t G;
-uint8_t wheel = 0;
+uint8_t color;
 int pot = A0;
 int adc;
-String text1, text2, text3;
-int posZ;
 
 void setup() 
 {
@@ -54,43 +52,20 @@ void setup()
 void loop() 
 {
   adc = analogRead(pot);
-  wheel = map(adc,0,1023,255,0);
+  color = map(adc,0,1023,0,255);
 
-  if(wheel < 85)
-  {
-    R = 255 - 3*wheel;
-    G = 0;
-    B = 3*wheel;
-    posZ = 3;
-  }
-  else if(wheel < 170)
-  {
-    wheel -= 85;
-    R = 0;
-    G = 3*wheel;
-    B = 255 - 3*wheel;
-    posZ = 1;
-  }
-  else if(wheel < 255)
-  {
-    wheel -= 170;
-    R = 3*wheel;
-    G = 255 - 3*wheel;
-    B = 0;
-    posZ = 5;
-  }
+  B = 0;
+  R = 255 - color;
+  G = color;
 
   rgb = R << 16 | G << 8 | B;
 
-  text1 = String(R, HEX);
-  text2 = String(G, HEX);
-  text3 = String(B, HEX);
-  
   display1.setPixelColor(rgb);
-  display1.print(text1);
-  display1.print(text2,2);
-  display1.print(text3,4);
-  display1.print(0,posZ);
+  
+  display1.clear();
   display1.show();
-  delay(100);
+
+  display1.print(adc);
+  display1.show();
+  delay(300);
 }
