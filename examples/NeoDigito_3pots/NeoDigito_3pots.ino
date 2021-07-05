@@ -2,7 +2,7 @@
 
     Muestra el valor en hexadecimal del color con el que se configura el
     display. Los valores del Rojo, Verde y Azul, son manipulados con tres
-  	potenciómetros.
+  	potenciï¿½metros.
 
     Creado por David Figueroa
     Potenciado por Inventoteca y Xircuitos, Junio 11, 2021.
@@ -39,7 +39,8 @@ uint32_t R, G, B;
 int adcR = 0, potR = A0;
 int adcG = 0, potG = A1;
 int adcB = 0, potB = A2;
-String text;
+String text1, text2, text3;
+int posR, posG, posB;
 
 void setup() 
 {
@@ -59,21 +60,45 @@ void loop()
   rgb = R << 16 | G << 8 | B;
   display1.setPixelColor(rgb);
 
-  text = String(rgb,HEX);
-  Serial.print("Color: ");
-  Serial.println(text);
+  text1 = String(R,HEX);
+  text2 = String(G,HEX);
+  text3 = String(B,HEX);
+  
+  Serial.print("Color:\t");
+  Serial.print(text1);
+  Serial.print("\t");
+  Serial.print(text2);
+  Serial.print("\t");
+  Serial.println(text3);
 
   if(R <= 9)
   {
     display1.print(0);
-    display1.print(text,1);
-    display1.show();
+    posR = 1;
   }
   else
+    posR = 0;
+  
+  if(G <= 9)
   {
-    display1.print(text);
-    display1.show();
+    display1.print(0,2);
+    posG = 3;
   }
+  else
+    posG = 2;
+  
+  if(B <= 9)
+  {
+    display1.print(0,4);
+    posB = 5;
+  }
+  else
+    posB = 4;
+
+  display1.print(text1,posR);
+  display1.print(text2,posG);
+  display1.print(text3,posB);
+  display1.show();
 
   delay(300);
 }
