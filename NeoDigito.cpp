@@ -125,7 +125,13 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 		write((word[x]), x + pos);
 	}
 	*/
+	//Serial.println(digit);
+	if(digit == '°')
+		digit = 128;
 	
+	else if(digit < 32 || digit > 127)
+		digit = 95;
+		
 	bitmask = characterMap[digit-32]; // It loads the characters available.
 	
 	int charPos = 0;

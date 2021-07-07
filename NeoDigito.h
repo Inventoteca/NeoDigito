@@ -61,7 +61,7 @@ private:
          6    8
   */
   // then array positions 11-17 are individual segments for funz.
-  byte *characterMap[96] = 
+  byte *characterMap[97] = 
     // 1234567
   {
       0b00000000,    //          32  
@@ -159,7 +159,8 @@ private:
       0b01000100,    // |       124
       0b01001100,    // }       125
       0b00011000,    // ~       126
-      0b00000000};    // [DEL]   127
+      0b00000000,    // [DEL]   127
+	  0b01111000};   // ° 		167
 /*
 	  0b01100111,    // Cedilla 128
       0b00000111,    // ü       129
