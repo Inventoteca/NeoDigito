@@ -3,11 +3,8 @@
     Cuenta de 0 a 9999 y luego hace una cuentra regresiva
     el color por defecto es rojo.
 
-    Creado por David Figueroa
-    Potenciado por Inventoteca y Xircuitos, Junio 11, 2021.
-    basado en la libreria de Seven_Segment_Pixel, de Peter Hartmann.
-
-    
+    Creado y potenciado por Inventoteca y Xircuitos, Junio 11, 2021.
+  
 
     https://github.com/Inventoteca/NeoDigito
 
@@ -63,9 +60,10 @@ void loop()
 
   count = count + increment;
 
-  if (count == 0 || count == 9999)
+  if (count >= 9999)
   {
-    increment = -increment;
+    display1.clear();
+    count = 0;
   }
 
   display1.show();
