@@ -36,25 +36,28 @@ NeoDigito display1 =  NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
 char letra =' '; // Letra inicial
 String texto1 ="Hola";
 String texto2 ="Ejem";
-String textoE ="    ";
 int pos = 2;
 
 void setup() 
 {
   display1.begin(); // This function calls Adafruit_NeoPixel begin();
   display1.setPixelColor(0x090000);
+
+  display1.setPixelColor(0x090009);
+  display1.print(texto1);
+  display1.show();
+  delay(1000);
+  display1.setPixelColor(0x000909);
+  display1.print(texto2);
+  display1.show();
+  delay(1000);
+  display1.clear();
+  display1.show();
+  delay(1000);
 }
 
 void loop() 
 {
-	display1.setPixelColor(0x090009);
-	display1.print(texto1);
-	delay(1000);
-	display1.setPixelColor(0x000909);
-	display1.print(texto2);
-	delay(1000);
-	display1.print(textoE);
-	
 	while(letra < 127)
 	{
 		if(letra < 100)
@@ -72,5 +75,6 @@ void loop()
 		delay(500);
 	}
 	
-	letra = ' ';  
+	letra = ' ';
+  display1.clear();
 }

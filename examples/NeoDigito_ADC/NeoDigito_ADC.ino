@@ -1,7 +1,8 @@
-/* NeoDigito ejemplo de código: neodigito_adc
+/* NeoDigito ejemplo de cÃ³digo: neodigito_adc
 
-    Cuenta de 0 a 9999 y luego hace una cuentra regresiva
-    el color por defecto es rojo.
+    Se manipula el color del display con un potenci�metro, empezando por rojo 
+    y atravsenando el verde y azul hasta terminar nuevamente en el rojo. Adem�s
+    muestra el valor del color en hexadecimal.
 
     Creado por David Figueroa
     Potenciado por Inventoteca y Xircuitos, Junio 11, 2021.
@@ -12,54 +13,59 @@
     https://github.com/Inventoteca/NeoDigito
 
     This example code is in the public domain.
-    Recuerda que debes tener instalada la librería de Adafruit_NeoPixel
+    Recuerda que debes tener instalada la librerÃ­a de Adafruit_NeoPixel
 
 */
 
 #include <NeoDigito.h>
 
-// Pin donde estará conectado el display
+// Pin donde estarÃ¡ conectado el display
 #define PIN 12
 
 // Neodigitos conectados
-#define DIGITS 4
+#define DIGITS 6
 
 // Neopixels por segmento
 #define PIXPERSEG 2
 
-
-// Una vez especificado el número de displays,
-// así como el número de neopixels por segmento.
+// Una vez especificado el nÃºmero de displays,
+// asÃ­ como el nÃºmero de neopixels por segmento.
 // adicionalmente se agregan algunos argumentos de 
 // la tira de neopixes usado
 
-NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
+NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
-
+uint32_t rgb = 0xFFFFFF;
+uint32_t R;
+uint32_t B;
+uint32_t G;
+uint8_t color;
+int pot = A0;
+int adc;
 
 void setup() 
 {
-  display1.begin(); // Esta función llama Adafruit_NeoPixel.begin() para configurar;
-
+  Serial.begin(9600);
+  display1.begin(); // Esta funciÃ³n llama Adafruit_NeoPixel.begin() para configurar;
 }
 
 void loop() 
 {
-  int adc = analogRead(A0);
+  adc = analogRead(pot);
+  color = map(adc,0,1023,0,255);
 
-  if(adc > 512)
-  {
-    // Esta función puede controlar un solo led o toda la tira
-    // si se especifica el número del led: display1.setPixelColor(0,0xff00ff);
-    // y para toda la tira no se especifica el numero del display solo el color en 32 bits
-    display1.setPixelColor(0x090000);  // Rojo
-  }
+  B = 0;
+  R = 255 - color;
+  G = color;
 
-  else
-    display1.setPixelColor(0x900); // Verde
+  rgb = R << 16 | G << 8 | B;
+
+  display1.setPixelColor(rgb);
+  
+  display1.clear();
+  display1.show();
 
   display1.print(adc);
   display1.show();
-  delay(100);
-
+  delay(300);
 }

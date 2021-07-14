@@ -132,7 +132,13 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 		write((word[x]), x + pos);
 	}
 	*/
+	//Serial.println(digit);
+	if(digit == '°')
+		digit = 128;
 	
+	else if(digit < 32 || digit > 127)
+		return;
+		
 	bitmask = characterMap[digit-32]; // It loads the characters available.
 	
 	int charPos = 0;
@@ -153,18 +159,25 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 	
 	else if(digit <= 127)
 	{
+		int i = 6;
 		// Expand bitbask to number of pixels per segment in the proper position.
 		for (int x = (pos) * 7; x <= (pos) * 7 + 6; x++)
 		{
+			uint8_t ref = 0x01;
+			uint8_t res = 0x00;
+		
+			res = (bitmask >> i) & ref;
+			
 			for(int pix = 0; pix < pixPerSeg; pix++)
 			{
-				if (bitmask.charAt(charPos) == '1') // Lighting up this segment
-				strip->setPixelColor(((x * pixPerSeg) + pix + delimeter),strip->Color(RED, GREEN, BLUE));
+				if (res == 0x01) // Lighting up this segment
+					strip->setPixelColor(((x * pixPerSeg) + pix + delimeter),strip->Color(RED, GREEN, BLUE));
 				
-				else // Turning off this segment.
-				strip->setPixelColor((x * pixPerSeg + pix + delimeter), 0);
-			}
-			charPos++;
+				if (res == 0x00) // Turning off this segment.
+					strip->setPixelColor((x * pixPerSeg + pix + delimeter), 0);
+				
+			}	
+			i--;
 		}  
 	  
 		// -------- Only dots
@@ -180,7 +193,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 	    // Single-space letters without delimiter
 	    else
 	    {
-			//updateDelimiter(pos,0,0,0);
+			updateDelimiter(pos,0,0,0);
 			updateDelimiter(pos+1,0,0,0);
 			//updateDelimiter(pos+2,0,0,0);
 			displayCursor++;
