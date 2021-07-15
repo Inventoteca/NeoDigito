@@ -44,7 +44,8 @@ public:
   void print(float num, int pos); // number and initial position
   void print(float num);
   
-  //void slide(String word, int pos, int time, char direction);
+  void wheel(byte wheelPos);
+  void colorFX(int number);
   
 
 private:

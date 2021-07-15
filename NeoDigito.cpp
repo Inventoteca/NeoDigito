@@ -56,14 +56,13 @@ void NeoDigito::setPixelColor(uint16_t n, uint32_t c)
 void NeoDigito::setPixelColor(uint32_t c)
 {
     Color = c;
-	for(int i = 0; i < n; i++)
+    for(int i = 0; i < n; i++)
 	{
 		if((strip->getPixelColor(i) != 0) && (c != 0))
 		{
 			strip->setPixelColor(i, c);
 		}	
 	}
-	
 }
 
 //----------------------------------------------------------------------------------updateDelimiter
@@ -133,7 +132,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 	}
 	*/
 	//Serial.println(digit);
-	if(digit == '°')
+	if(digit == 'ï¿½')
 		digit = 128;
 	
 	else if(digit < 32 || digit > 127)
@@ -355,8 +354,48 @@ void NeoDigito::print(float num)
 	print(num,0);
 }
 
-/*
-void NeoDigito::slide(String word, int time)
-{
+void NeoDigito::wheel(byte wheelPos)
+{	
+	byte R, G, B;
 	
-}*/
+	if(wheelPos < 85)
+	{
+		R = 255 - 3*wheelPos;
+		G = 0;
+		B = 3*wheelPos;
+	}
+	else if(wheelPos < 170)
+	{
+		wheelPos -= 85;
+		R = 0;
+		G = 3*wheelPos;
+		B = 255 - 3*wheelPos;
+	}
+	else if(wheelPos < 255)
+	{
+		wheelPos -= 170;
+		R = 3*wheelPos;
+		G = 255 - 3*wheelPos;
+		B = 0;
+	}
+	
+	Color = R << 16 | G << 8 | B;
+	
+	setPixelColor(Color);
+}
+
+void NeoDigito::colorFX(int number)
+{
+	switch(number)
+	{
+		case 0:
+			for(byte wheelPos = 255; wheelPos >= 0; wheelPos--)
+			{
+				wheel(wheelPos);
+				delay(100);
+			}
+			break;
+		default:
+			break;
+	}
+}
