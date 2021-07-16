@@ -29,10 +29,11 @@
 class NeoDigito 
 {
 public:
+  NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint16_t numDelimiters, uint16_t pixPerDelimiter, uint8_t p, uint8_t t);
   NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint8_t p, uint8_t t);
   ~NeoDigito();
 
-  void begin(), 
+  void begin(),
        show(), 
        setPixelColor(uint32_t c), 
        updatePixelColor(uint32_t FX),
