@@ -45,24 +45,76 @@ void NeoDigito::show()
 	strip->show();
 }
 
-// -------------------------------------------------------- setPixelColor(n,c)
-void NeoDigito::setPixelColor(uint16_t n, uint32_t c)
-{
-    strip->setPixelColor(n, c);
-    Color = c;
-}
-
 // -------------------------------------------------------- setPixelColor(c)
 void NeoDigito::setPixelColor(uint32_t c)
 {
     Color = c;
-    for(int i = 0; i < n; i++)
+}
+
+// -------------------------------------------------------- updatePixelColor(c)
+void NeoDigito::updatePixelColor(String FX)
+{
+
+    if(FX == "Rainbow")
+	{
+		byte wheelPos;
+		uint32_t R, G, B;
+
+		for(int i = 0; i < n; i++)
+		{
+			wheelPos = map(i,0,n,0,255);
+
+			if(wheelPos < 85)
+			{
+				R = 255 - 3*wheelPos;
+				G = 0;
+				B = 3*wheelPos;
+			}
+			else if(wheelPos < 170)
+			{
+				wheelPos -= 85;
+				R = 0;
+				G = 3*wheelPos;
+				B = 255 - 3*wheelPos;
+			}
+			else if(wheelPos < 255)
+			{
+				wheelPos -= 170;
+				R = 3*wheelPos;
+				G = 255 - 3*wheelPos;
+				B = 0;
+			}
+
+			Color = R << 16 | G << 8 | B;
+
+			if((strip->getPixelColor(i) != 0) && (Color != 0))
+			{
+				strip->setPixelColor(i, Color);
+			}	
+		}
+	}
+	//if(FX == "Random")
+	//if(FX == "Xmas")
+	//if(FX == "Halloween")
+	//if(FX == "Birthday")
+	//if(FX == "Pulse")    for(int i = 0; i < n; i++)
+	else
+	{
+		return;
+	}
+}
+
+// -------------------------------------------------------- updatePixelColor(c)
+void NeoDigito::updatePixelColor(uint32_t c)
+{
+	Color = c;
+	for(int i = 0; i < n; i++)
 	{
 		if((strip->getPixelColor(i) != 0) && (c != 0))
 		{
 			strip->setPixelColor(i, c);
 		}	
-	}
+	} 
 }
 
 //----------------------------------------------------------------------------------updateDelimiter
@@ -125,20 +177,13 @@ void NeoDigito::clear()
 //----------------------------------------------------------------------------------write(digit, pos, RED, GREEN, BLUE)
 void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
-	/*
-	for(int x = 0; x < digitos; x++)
-	{
-		write((word[x]), x + pos);
-	}
-	*/
-	//Serial.println(digit);
-	if(digit == '�')
+	if(digit == '°')
 		digit = 128;
 	
 	else if(digit < 32 || digit > 127)
 		return;
 		
-	bitmask = characterMap[digit-32]; // It loads the characters available.
+	bitmask = characterMap[digit - 32]; // It loads the characters available.
 	
 	int charPos = 0;
 	int delimeter = pos * 2 + 1; // Omit the delimeters spaces.
@@ -150,11 +195,6 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
   	{
   		clear();
 	}
-
-	//else if(digit = '°' ) // para grados
-	//{
-
-	//}
 	
 	else if(digit <= 127)
 	{
@@ -193,8 +233,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 	    else
 	    {
 			updateDelimiter(pos,0,0,0);
-			updateDelimiter(pos+1,0,0,0);
-			//updateDelimiter(pos+2,0,0,0);
+			updateDelimiter(pos + 1,0,0,0);
 			displayCursor++;
 	    }
 	}
@@ -204,7 +243,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 		updateTilde(pos);
 
     if(digit == 'J' || digit == '~') // Accent mark (forward)
-		updateTilde(pos+1);
+		updateTilde(pos + 1);
 
     if(digit == '!' || digit == '?')  // Dot (behind)
 		updatePoint(pos);
@@ -220,14 +259,14 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 
     if(digit == '$' || digit == '%')  // Accent mark (behind), Dot (forwarD)
     {
-		updatePoint(pos+1);
+		updatePoint(pos + 1);
 		updateTilde(pos);
     }
     
     if(digit == 'V' || digit == 'Y')	// Double accent mark
     {
 		updateTilde(pos);
-		updateTilde(pos+1);
+		updateTilde(pos + 1);
 	}
 	
 	if(digit == 'X')	// Double accent mark, double dot
@@ -322,10 +361,11 @@ void NeoDigito::print(String word)
 // num --> Value to write
 void NeoDigito::print(int num, int pos)
 {
+	displayCursor = pos;
 	String textNum = "";
 	textNum = String(num);
 	
-	print(textNum,pos);
+	print(textNum,displayCursor);
 }
 
 //---------------------------------------------------------------------------- print(int num)
@@ -340,11 +380,12 @@ void NeoDigito::print(int num)
 // num --> Value to write
 void NeoDigito::print(float num, int pos)
 {
+	displayCursor = pos;
 	String textNum = "";
 	//textNum = String(num); //Contar la cantidad de decimales que tiene el 'float' para saber cuantos imprimira
 	textNum.concat(num);
 
-	print(textNum,pos);
+	print(textNum,displayCursor);
 }
 
 //---------------------------------------------------------------------------- print(float num)
@@ -354,6 +395,7 @@ void NeoDigito::print(float num)
 	print(num,0);
 }
 
+/*
 void NeoDigito::wheel(byte wheelPos)
 {	
 	byte R, G, B;
@@ -399,3 +441,4 @@ void NeoDigito::colorFX(int number)
 			break;
 	}
 }
+*/

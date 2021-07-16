@@ -20,8 +20,9 @@ public:
 
   void begin(), 
        show(), 
-       setPixelColor(uint16_t n, uint32_t c), 
-       setPixelColor(uint32_t c),
+       setPixelColor(uint32_t c), 
+       updatePixelColor(String FX),
+       updatePixelColor(uint32_t c),
        updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
        updateDelimiter(uint16_t delimeter),
        updatePoint(uint16_t delimeter),
@@ -44,9 +45,10 @@ public:
   void print(float num, int pos); // number and initial position
   void print(float num);
   
+  /*
   void wheel(byte wheelPos);
   void colorFX(int number);
-  
+  */
 
 private:
   Adafruit_NeoPixel *strip;
