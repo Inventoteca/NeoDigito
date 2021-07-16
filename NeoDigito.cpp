@@ -71,7 +71,7 @@ void NeoDigito::updatePixelColor(String FX)
 		}
 	}
 	
-	if(FX == "Random")
+	else if(FX == "Random")
 	{
 		for(int i = 0; i < n; i++)
 		{
@@ -86,13 +86,66 @@ void NeoDigito::updatePixelColor(String FX)
 		}
 	}
 
-	//if(FX == "Xmas")
-	//if(FX == "Halloween")
-	//if(FX == "Birthday")
-	//if(FX == "Pulse")    for(int i = 0; i < n; i++)
+	else if(FX == "Xmas")
+	{
+		for(int i = 0; i < n; i++)
+		{		
+			wheelPos = i % 4;
+			switch(wheelPos)
+			{
+				case 0:
+					Color = 0xFF0000;
+					break;
+				case 1:
+					Color = 0xFFFFFF;
+					break;
+				case 2:
+					Color = 0x00FF00;
+					break;
+				case 3:
+					Color = 0x0000FF;
+					break;
+			}
+
+			if((strip->getPixelColor(i) != 0) && (Color != 0))
+			{
+				strip->setPixelColor(i, Color);
+			}	
+		}
+	}
+	
+	else if(FX == "Halloween")
+	{
+		for(int i = 0; i < n; i++)
+		{		
+			wheelPos = i % 2;
+			switch(wheelPos)
+			{
+				case 0:
+					wheel(55);
+					break;
+				case 1:
+					wheel(245);
+					break;
+			}
+
+			if((strip->getPixelColor(i) != 0) && (Color != 0))
+			{
+				strip->setPixelColor(i, Color);
+			}	
+		}
+	}
+	
 	else
 	{
-		return;
+		Color = 0x090909;
+		for(int i = 0; i < n; i++)
+		{
+			if((strip->getPixelColor(i) != 0) && (Color != 0))
+			{
+				strip->setPixelColor(i, Color);
+			}	
+		} 
 	}
 }
 
