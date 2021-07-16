@@ -52,103 +52,126 @@ void NeoDigito::setPixelColor(uint32_t c)
 }
 
 // -------------------------------------------------------- updatePixelColor(c)
-void NeoDigito::updatePixelColor(String FX)
+void NeoDigito::updatePixelColor(uint8_t FX)
 {
 	byte wheelPos;
 
-    if(FX == "Rainbow")
+	switch(FX)
 	{
-		for(int i = 0; i < n; i++)
-		{
-			wheelPos = map(i,0,n,0,255);
-			
-			wheel(wheelPos);
-
-			if((strip->getPixelColor(i) != 0) && (Color != 0))
+		case 0:
+			for(int i = 0; i < n; i++)
 			{
-				strip->setPixelColor(i, Color);
-			}	
-		}
-	}
+				wheelPos = map(i,0,n,0,255);
+				
+				wheel(wheelPos);
 	
-	else if(FX == "Random")
-	{
-		for(int i = 0; i < n; i++)
-		{
-			wheelPos = random(0,255);
-			
-			wheel(wheelPos);
-
-			if((strip->getPixelColor(i) != 0) && (Color != 0))
-			{
-				strip->setPixelColor(i, Color);
-			}	
-		}
-	}
-
-	else if(FX == "Xmas")
-	{
-		for(int i = 0; i < n; i++)
-		{		
-			wheelPos = i % 4;
-			switch(wheelPos)
-			{
-				case 0:
-					Color = 0xFF0000;
-					break;
-				case 1:
-					Color = 0xFFFFFF;
-					break;
-				case 2:
-					Color = 0x00FF00;
-					break;
-				case 3:
-					Color = 0x0000FF;
-					break;
+				if((strip->getPixelColor(i) != 0) && (Color != 0))
+				{
+					strip->setPixelColor(i, Color);
+				}	
 			}
-
-			if((strip->getPixelColor(i) != 0) && (Color != 0))
+			break;
+		case 1:
+			for(int i = 0; i < n; i++)
 			{
-				strip->setPixelColor(i, Color);
-			}	
-		}
-	}
+				wheelPos = random(0,255);
+				
+				wheel(wheelPos);
 	
-	else if(FX == "Halloween")
-	{
-		for(int i = 0; i < n; i++)
-		{		
-			wheelPos = i % 2;
-			switch(wheelPos)
-			{
-				case 0:
-					wheel(55);
-					break;
-				case 1:
-					wheel(245);
-					break;
+				if((strip->getPixelColor(i) != 0) && (Color != 0))
+				{
+					strip->setPixelColor(i, Color);
+				}	
 			}
-
-			if((strip->getPixelColor(i) != 0) && (Color != 0))
-			{
-				strip->setPixelColor(i, Color);
-			}	
-		}
-	}
+			break;
+		case 2:
+			for(int i = 0; i < n; i++)
+			{	
+				/*	
+				wheelPos = i % 4;
+				switch(wheelPos)
+				{
+					case 0:
+						Color = 0xFF0000;
+						break;
+					case 1:
+						Color = 0xFFFFFF;
+						break;
+					case 2:
+						Color = 0x00FF00;
+						break;
+					case 3:
+						Color = 0x0000FF;
+						break;
+				}
+				*/
+				
+				if(i < (n/2))
+				{
+					wheelPos = map(i,0,n/2,171,215);	
+				}
+				
+				else if(i < n)
+				{
+					wheelPos = map(i,n/2,n,235,255);
+				}
+				
+				wheel(wheelPos);
 	
-	else
-	{
-		Color = 0x090909;
-		for(int i = 0; i < n; i++)
-		{
-			if((strip->getPixelColor(i) != 0) && (Color != 0))
+				if((strip->getPixelColor(i) != 0) && (Color != 0))
+				{
+					strip->setPixelColor(i, Color);
+				}	
+			}
+			break;
+		case 3:
+			for(int i = 0; i < n; i++)
+			{	
+				/*
+				wheelPos = i % 2;
+				switch(wheelPos)
+				{
+					case 0:
+						wheel(55);
+						break;
+					case 1:
+						wheel(245);
+						break;
+				}
+				*/
+							
+				if(i < (n/2) )
+				{
+					wheelPos = map(i,0,n/2,65,1);
+				}
+				
+				else if(i < n)
+				{
+					wheelPos = map(i,n/2,n,254,245);
+				}
+				
+				wheel(wheelPos);
+				
+				if((strip->getPixelColor(i) != 0) && (Color != 0))
+				{
+					strip->setPixelColor(i, Color);
+				}	
+			}
+			break;
+		default:
+			Color = 0x090909;
+			for(int i = 0; i < n; i++)
 			{
-				strip->setPixelColor(i, Color);
-			}	
-		} 
+				if((strip->getPixelColor(i) != 0) && (Color != 0))
+				{
+					strip->setPixelColor(i, Color);
+				}	
+			}
+			break;
 	}
 }
 
+/*
 // -------------------------------------------------------- updatePixelColor(c)
 void NeoDigito::updatePixelColor(uint32_t c)
 {
@@ -161,6 +184,7 @@ void NeoDigito::updatePixelColor(uint32_t c)
 		}	
 	} 
 }
+*/
 
 //----------------------------------------------------------------------------------updateDelimiter
 void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
