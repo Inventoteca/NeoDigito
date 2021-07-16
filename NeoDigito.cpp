@@ -54,38 +54,15 @@ void NeoDigito::setPixelColor(uint32_t c)
 // -------------------------------------------------------- updatePixelColor(c)
 void NeoDigito::updatePixelColor(String FX)
 {
+	byte wheelPos;
 
     if(FX == "Rainbow")
 	{
-		byte wheelPos;
-		uint32_t R, G, B;
-
 		for(int i = 0; i < n; i++)
 		{
 			wheelPos = map(i,0,n,0,255);
-
-			if(wheelPos < 85)
-			{
-				R = 255 - 3*wheelPos;
-				G = 0;
-				B = 3*wheelPos;
-			}
-			else if(wheelPos < 170)
-			{
-				wheelPos -= 85;
-				R = 0;
-				G = 3*wheelPos;
-				B = 255 - 3*wheelPos;
-			}
-			else if(wheelPos < 255)
-			{
-				wheelPos -= 170;
-				R = 3*wheelPos;
-				G = 255 - 3*wheelPos;
-				B = 0;
-			}
-
-			Color = R << 16 | G << 8 | B;
+			
+			wheel(wheelPos);
 
 			if((strip->getPixelColor(i) != 0) && (Color != 0))
 			{
@@ -93,7 +70,22 @@ void NeoDigito::updatePixelColor(String FX)
 			}	
 		}
 	}
-	//if(FX == "Random")
+	
+	if(FX == "Random")
+	{
+		for(int i = 0; i < n; i++)
+		{
+			wheelPos = random(0,255);
+			
+			wheel(wheelPos);
+
+			if((strip->getPixelColor(i) != 0) && (Color != 0))
+			{
+				strip->setPixelColor(i, Color);
+			}	
+		}
+	}
+
 	//if(FX == "Xmas")
 	//if(FX == "Halloween")
 	//if(FX == "Birthday")
@@ -395,10 +387,10 @@ void NeoDigito::print(float num)
 	print(num,0);
 }
 
-/*
+
 void NeoDigito::wheel(byte wheelPos)
 {	
-	byte R, G, B;
+	uint32_t R, G, B;
 	
 	if(wheelPos < 85)
 	{
@@ -422,10 +414,9 @@ void NeoDigito::wheel(byte wheelPos)
 	}
 	
 	Color = R << 16 | G << 8 | B;
-	
-	setPixelColor(Color);
 }
 
+/*
 void NeoDigito::colorFX(int number)
 {
 	switch(number)

@@ -45,8 +45,8 @@ public:
   void print(float num, int pos); // number and initial position
   void print(float num);
   
-  /*
   void wheel(byte wheelPos);
+  /*
   void colorFX(int number);
   */
 
@@ -151,7 +151,7 @@ private:
       0b01111001,    // q       113
       0b00001100,    // r       114
       0b01101011,    // s       115
-	  0b00011001,    // t       116
+	  0b01001110,    // t       116
       0b00000111,    // u       117
       0b00000111,    // v       118
       0b00000111,    // w       119
