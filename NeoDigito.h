@@ -7,10 +7,20 @@
 
 #ifndef NeoDigito_H
 #define NeoDigito_H
+
 #define Rainbow 0
 #define Random 1
 #define Xmas 2
 #define Halloween 3
+#define white 4
+#define red 5
+#define green 6
+#define blue 7
+#define orange 8
+#define yellow 9
+#define cian 10
+#define pink 11
+#define purple 12
 
 #include <Adafruit_NeoPixel.h>
 #include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
@@ -25,7 +35,7 @@ public:
   void begin(), 
        show(), 
        setPixelColor(uint32_t c), 
-       updatePixelColor(uint8_t FX),
+       updatePixelColor(uint32_t FX),
        //updatePixelColor(uint32_t c),
        updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
        updateDelimiter(uint16_t delimeter),
