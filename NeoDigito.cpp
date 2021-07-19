@@ -91,8 +91,11 @@ void NeoDigito::updatePixelColor(uint32_t FX)
 				break;
 			
 			case 1:	//random
-				wheelPos = random(0,255);
-				wheel(wheelPos);
+				if ((i+1) % (pixPerSeg * 7 + numDelims * pixPerDelim) == 0)
+				{
+					wheelPos = random(0, 255);
+					wheel(wheelPos);
+				}
 				break;
 			
 			case 2:	//xmas
@@ -314,7 +317,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
     if(digit == '!' || digit == '?')  // Dot (behind)
 		updatePoint(pos);
 
-    if(digit == 'Q' || digit == 'R' || digit == 't' || digit == 'u')  // Dot (forward)
+    if(digit == 'Q' || digit == 'R' || digit == 'u')  // Dot (forward)
 		updatePoint(pos + 1);
 
     if(digit == '&' || digit == 'k' || digit == 'K' || digit == '{' || digit == '(')	// Double dot (forward)
