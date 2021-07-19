@@ -1,37 +1,31 @@
-/* NeoDigito ejemplo de código: contador
+/* NeoDigito example code: decimalCounter
 
-    Cuenta de 0 a 9.99 y luego hace una cuentra regresiva
-    el color por defecto es violeta.
+    Counts from 0 to 9.99, then it counts down. The default color is purple
 
-    Creado por David Figueroa
-    Potenciado por Inventoteca y Xircuitos, Junio 11, 2021.
-    basado en la libreria de Seven_Segment_Pixel, de Peter Hartmann.
-
-    
+    Created and empowered by Inventoteca & Xircuitos.
+	Puebla, Pue. June 11, 2021.
 
     https://github.com/Inventoteca/NeoDigito
 
     This example code is in the public domain.
-    Recuerda que debes tener instalada la librería de Adafruit_NeoPixel
-
+    Remember that you must have installed Adafruit_NeoPixel library.
 */
 
 #include <NeoDigito.h>
 
-// Pin donde estará conectado el display
+// Pin where the display will be attached
 #define PIN 12
 
-// Neodigitos conectados
+// NeoDigitos number connected
 #define DIGITS 4
 
-// Neopixels por segmento
+// NeoPixel per segment
 #define PIXPERSEG 2
 
-
-// Una vez especificado el número de displays,
-// así como el número de neopixels por segmento.
-// adicionalmente se agregan algunos argumentos de 
-// la tira de neopixes usado
+// Once you have specified the number of displays
+// and the number of neopixels per segment, some
+// arguments of the neopixel strip used must be
+// added.
 
 NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 int delayval = 20; // retardo para el conteo
@@ -40,27 +34,25 @@ float count = 0.00;      // Variable para almacenar el conteo
 
 void setup()
 {
-  display1.begin(); // Esta función llama Adafruit_NeoPixel.begin() para configurar;
+    display1.begin();
+        // This fuction calls Adafruit_NeoPixel.begin() to configure.
 
-  // Esta función puede controlar un solo led o toda la tira
-  // si se especifica el número del led: display1.setPixelColor(0,0xff00ff);
-  // y para toda la tira no se especifica el numero del display solo el color en 32 bits
-  display1.setPixelColor(0x090009);
+    display1.setPixelColor(0x090009);
+        // This function set a default color for the whole strip. It can be specified by
+        // a 32bit hexadecimal number or three 8bit hexadecimal numbers that represents
+        // red, green and blue separately.
 }
 
 void loop()
 {
-  // se escribe el digito y el valor a escribir
-  display1.print(count);
+    display1.print(count);    // It prints the value
+    display1.show();          // Lights up the pixels.
+    delay(delayval);
   
+    count = count + increment;
   
-  count = count + increment;
-  
-  if (count < 0 || count > 9.99)
-  {
-    increment = -increment;
-  }
-  
-  display1.show();
-  delay(delayval);
+    if (count < 0 || count > 9.99)
+    {
+        increment = -increment;
+    }
 }

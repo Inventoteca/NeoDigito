@@ -1,40 +1,38 @@
-/* NeoDigito ejemplo de codigo: neodigito_adc
+/* NeoDigito example code: neodigito_3pots
 
-    Muestra el valor en hexadecimal del color con el que se configura el
-    display. Los valores del Rojo, Verde y Azul, son manipulados con tres
-  	potenci�metros.
+    Shows the hexadecimal value that represents the colour with which the
+    the display is configured. Three potenciometers are attached to control
+    the saturation of red, green and blue.
 
-    Creado por David Figueroa
-    Potenciado por Inventoteca y Xircuitos, Junio 11, 2021.
-    basado en la libreria de Seven_Segment_Pixel, de Peter Hartmann.
+    Created and empowered by Inventoteca & Xircuitos.
+	Puebla, Pue. June 11, 2021.
 
     https://github.com/Inventoteca/NeoDigito
 
     This example code is in the public domain.
-    Recuerda que debes tener instalada la libreria de Adafruit_NeoPixel
+    Remember that you must have installed Adafruit_NeoPixel library.
 
 */
 
 #include <NeoDigito.h>
 
-// Pin donde estara conectado el display
+// Pin where the display will be attached
 #define PIN 12
 
-// Neodigitos conectados
+// NeoDigitos number connected
 #define DIGITS 6
 
-// Neopixels por segmento
+// NeoPixel per segment
 #define PIXPERSEG 2
 
-
-// Una vez especificado el numero de displays,
-// asi como el numero de neopixels por segmento.
-// adicionalmente se agregan algunos argumentos de 
-// la tira de neopixes usado
+// Once you have specified the number of displays
+// and the number of neopixels per segment, some
+// arguments of the neopixel strip used must be
+// added.
 
 NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
-uint32_t rgb = 0xFFFFFF;
+// uint32_t rgb = 0xFFFFFF;
 uint32_t R, G, B;
 int adcR = 0, potR = A0;
 int adcG = 0, potG = A1;
@@ -45,7 +43,8 @@ int posR, posG, posB;
 void setup() 
 {
   Serial.begin(9600);
-  display1.begin(); // Esta funcion llama Adafruit_NeoPixel.begin() para configurar
+  display1.begin();
+    // This fuction calls Adafruit_NeoPixel.begin() to configure.
 }
 
 void loop() 
@@ -57,8 +56,8 @@ void loop()
   G = map(adcG,0,1023,0,255);
   B = map(adcB,0,1023,0,255);
 
-  rgb = R << 16 | G << 8 | B;
-  display1.setPixelColor(rgb);
+  // rgb = R << 16 | G << 8 | B;
+  display1.setPixelColor(R,G,B);
 
   text1 = String(R,HEX);
   text2 = String(G,HEX);
@@ -74,6 +73,7 @@ void loop()
   if(R <= 9)
   {
     display1.print(0);
+    display1.show();
     posR = 1;
   }
   else
@@ -82,6 +82,7 @@ void loop()
   if(G <= 9)
   {
     display1.print(0,2);
+    display1.show();
     posG = 3;
   }
   else
@@ -90,14 +91,15 @@ void loop()
   if(B <= 9)
   {
     display1.print(0,4);
+    display1.show();
     posB = 5;
   }
   else
     posB = 4;
 
-  display1.print(text1,posR);
-  display1.print(text2,posG);
-  display1.print(text3,posB);
+  display1.print(text1,posR);   // Prints the hexadecimal value of Red
+  display1.print(text2,posG);   // Prints the hexadecimal value of Green
+  display1.print(text3,posB);   // Prints the hexadecimal value of Blue
   display1.show();
 
   delay(300);

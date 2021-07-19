@@ -4,15 +4,14 @@
     countdown clock on a display with 3 digits and one colon which flashes when the
     seconds change.
 
-    Created by Inventoteca and Xircuitos, October 21, 2020.
-    Released under GPLv3, based on Seven_Segment_Pixel, by Peter Hartmann.
+    Created and empowered by Inventoteca & Xircuitos.
+	Puebla, Pue. June 11, 2021.
 
     https://github.com/Inventoteca/NeoDigito
 
     This example code is in the public domain.
 
 */
-
 
 #include <NeoDigito.h>
 
@@ -25,10 +24,10 @@
 // How may pixels per segement are there?
 #define PIXPERSEG 2
 
-// When we instatiate a display object we supply the number of digits in the
-// custom built display, as well as the number of pixels per segment.
-// Additionally we pass the ususal Adafruit_NeoPixel arguments for object
-// instatiation.
+// Once you have specified the number of displays
+// and the number of neopixels per segment, some
+// arguments of the neopixel strip used must
+// be added.
 
 NeoDigito display1 =  NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
 
@@ -37,8 +36,13 @@ int count = tiempo; // 3 minutes in seconds
 
 void setup() 
 {
-  display1.begin(); // This function calls Adafruit_NeoPixel begin();
-  display1.setPixelColor(0x090000);
+    display1.begin();
+        // This function calls Adafruit_NeoPixel begin();
+
+    display1.setPixelColor(0x090000);
+        // This function set a default color for the whole strip. It can be specified by
+        // a 32bit hexadecimal number or three 8bit hexadecimal numbers that represents
+        // red, green and blue separately.
 }
 
 void loop() {

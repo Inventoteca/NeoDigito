@@ -1,8 +1,7 @@
 /*
   NeoDigito.h - Library for driving NeoDigito
   large custom made 7 segment neopixel displays.
-  Created by Inventoteca and Xircuitos, October 21, 2020.
-  Released under GPLv3, based on Seven_Segment_Pixel, by Peter Hartmann.
+  Created and empowered by Inventoteca and Xircuitos, October 21, 2020.
 */
 
 #ifndef NeoDigito_H
@@ -30,46 +29,36 @@ class NeoDigito
 {
 public:
   NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint16_t numDelimiters, uint16_t pixPerDelimiter, uint8_t p, uint8_t t);
+  NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint16_t numDelimiters, uint8_t p, uint8_t t);
   NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint8_t p, uint8_t t);
   ~NeoDigito();
 
   void begin(),
-       show(), 
-       setPixelColor(uint32_t c), 
+       show(),
+       setPixelColor(uint32_t R, uint16_t G, uint8_t B),
+       setPixelColor(uint32_t c),
        updatePixelColor(uint32_t FX),
-       //updatePixelColor(uint32_t c),
        updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
        updateDelimiter(uint16_t delimeter),
        updatePoint(uint16_t delimeter),
        updateTilde(uint16_t delimeter);
 
-/*!
-    @brief  Set specific digit # to a numeric value.
-    @param  x    Character position.
-    @param  num  Numeric (not ASCII) value.
-    @param  rgb  Color argument in Wheel Format.
-  */
   void clear();
   void write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void write(uint16_t digit, uint16_t pos, uint32_t rgb);
   void write(uint16_t digit, uint16_t pos);
   void print(String word, int pos);
   void print(String word);
-  void print(int num, int pos); // number and initial position
+  void print(int num, int pos);
   void print(int num);
-  void print(float num, int pos); // number and initial position
+  void print(float num, int pos);
   void print(float num);
-  
   void wheel(byte wheelPos);
-  /*
-  void colorFX(int number);
-  */
 
 private:
   Adafruit_NeoPixel *strip;
   // 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,ยบ,-,OFF,
   /*
-    Aqui hay que poner la imagen del orden
     '8.
 
     0    2
@@ -85,100 +74,100 @@ private:
       0b00000000,    //          32  
       0b01000000,    // !        33
       0b01010000,    // "        34
-      0b01011101,    // #        35
-	  0b01101011,    // $        36
-      0b00011100,    // %        37
+      0b01011011,    // #        35
+	  0b01101101,    // $        36
+      0b00010011,    // %        37
       0b01111111,    // &        38
       0b00010000,    // '        39  
-      0b00010001,    // (        40  
-      0b01000100,    // )        41  
+      0b00011000,    // (        40  
+      0b01000010,    // )        41  
       0b01100000,    // *        42
       0b00011001,    // +        43
       0b00000000,    // ,        44
-      0b00001000,    // -        45
+      0b00000001,    // -        45
       0b00000000,    // .        46
-      0b00011100,    // /        47
-      0b01110111,    // 0        48
-      0b00010001,    // 1        49
-      0b00111110,    // 2        50
-      0b00111011,    // 3        51
+      0b00010011,    // /        47
+      0b01111110,    // 0        48
+      0b00011000,    // 1        49
+      0b00110111,    // 2        50
+      0b00111101,    // 3        51
       0b01011001,    // 4        52
-      0b01101011,    // 5        53
+      0b01101101,    // 5        53
       0b01101111,    // 6        54  
-      0b00110001,    // 7        55
+      0b00111000,    // 7        55
       0b01111111,    // 8        56
-      0b01111011,    // 9        57
+      0b01111101,    // 9        57
       0b00000000,    // :        58
       0b00000000,    // ;        59
-      0b00001110,    // <        60
-      0b00001010,    // =        61
-      0b00001011,    // >        62
-      0b00111100,    // ?        63
+      0b00000111,    // <        60
+      0b00000101,    // =        61
+      0b00001101,    // >        62
+      0b00110011,    // ?        63
       0b00111111,    // @        64
-      0b01111101,    // A        65
+      0b01111011,    // A        65
       0b01111111,    // B        66
       0b01100110,    // C        67
       0b00011111,    // D        68
-      0b01101110,    // E        69
-      0b01101100,    // F        70
+      0b01100111,    // E        69
+      0b01100011,    // F        70
       0b01101111,    // G        71
-      0b01011101,    // H        72
-      0b01000100,    // I        73
-      0b00110011,    // J        74
-      0b01011100,    // K        75
+      0b01011011,    // H        72
+      0b01000010,    // I        73
+      0b00111100,    // J        74
+      0b01010011,    // K        75
       0b01000110,    // L        76
-      0b01110101,    // M        77
-      0b01110101,    // N        78
-      0b01110111,    // 0        79
-      0b01111100,    // P        80
-      0b01110111,    // Q        81
-      0b01111100,    // R        82 
-      0b01101011,    // S        83  
-      0b01100100,    // T        84
-      0b01010111,    // U        85
-      0b01010111,    // V        86
-      0b01010111,    // W        87
-      0b01011101,    // X        88
-      0b01011011,    // Y        89
-      0b00111110,    // Z        90
+      0b01111010,    // M        77
+      0b01111010,    // N        78
+      0b01111110,    // 0        79
+      0b01110011,    // P        80
+      0b01111110,    // Q        81
+      0b01110011,    // R        82 
+      0b01101101,    // S        83  
+      0b01100010,    // T        84
+      0b01011110,    // U        85
+      0b01011110,    // V        86
+      0b01011110,    // W        87
+      0b01011011,    // X        88
+      0b01011101,    // Y        89
+      0b00110111,    // Z        90
       0b01100110,    // [        91
       0b01001001,    // \        92
-      0b00110011,    // ]        93
+      0b00111100,    // ]        93
       0b01110000,    // ^        94
-      0b00000010,    // _        95
+      0b00000100,    // _        95
       0b01000000,    // `        96
       0b00111111,    // a        97
       0b01001111,    // b        98
-      0b00001110,    // c        99
+      0b00000111,    // c        99
       0b00011111,    // d       100
-      0b01111110,    // e       101
-      0b01101100,    // f       102
-      0b01111011,    // g       103
-      0b01001101,    // h       104
-      0b00000100,    // i       105
-      0b00010011,    // j       106
-      0b01001100,    // k       107
-      0b00010001,    // l       108
-      0b00001101,    // m       109
-      0b00001101,    // n       110
+      0b01110111,    // e       101
+      0b01100011,    // f       102
+      0b01111101,    // g       103
+      0b01001011,    // h       104
+      0b00000010,    // i       105
+      0b00011100,    // j       106
+      0b01000011,    // k       107
+      0b00011000,    // l       108
+      0b00001011,    // m       109
+      0b00001011,    // n       110
       0b00001111,    // o       111
-      0b01111100,    // p       112
+      0b01110011,    // p       112
       0b01111001,    // q       113
-      0b00001100,    // r       114
-      0b01101011,    // s       115
-	  0b01001110,    // t       116
-      0b00000111,    // u       117
-      0b00000111,    // v       118
-      0b00000111,    // w       119
-      0b01011101,    // x       120
-      0b01011011,    // y       121
-      0b00111110,    // z       122
+      0b00000011,    // r       114
+      0b01101101,    // s       115
+	  0b01000111,    // t       116
+      0b00001110,    // u       117
+      0b00001110,    // v       118
+      0b00001110,    // w       119
+      0b01011011,    // x       120
+      0b01011101,    // y       121
+      0b00110111,    // z       122
       0b00011001,    // {       123
-      0b01000100,    // |       124
-      0b01001100,    // }       125
-      0b00011000,    // ~       126
+      0b01000010,    // |       124
+      0b01000011,    // }       125
+      0b00010001,    // ~       126
       0b00000000,    // [DEL]   127
-	  0b01111000};   // ฐ 		167
+	  0b01110001};   // ฐ 		167
 /*
 	  0b01100111,    // Cedilla 128
       0b00000111,    // ü       129

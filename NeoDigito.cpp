@@ -1,12 +1,7 @@
 /*
 NeoDigito:
-  
-  Display de 7 Segmentos basado en neopixels
-  
-  
   Large custom made 7 segment neopixel displays.
-  Created by Inventoteca and Xircuitos, October 21, 2020.
-  Released under GPLv3, based on Seven_Segment_Pixel, by Peter Hartmann.
+  Created and empowered by Inventoteca and Xircuitos, October 21, 2020.
 */
 
 #include "NeoDigito.h"
@@ -14,32 +9,44 @@ NeoDigito:
 
 // How many NeoPixels are in the seven segment display total?
 uint8_t n;
-//uint16_t numDelimiters = 2;
-//uint16_t pixPerDelimiter = 1;
 uint16_t DisplayNumber;
 uint32_t Color = 0xffffff;   // white is default color
 uint16_t displayCursor = 0;
 
 //<<constructor>>
+// |--- delimiter number and pixels per delimiter are different than 2 and 1 respectively 
 NeoDigito::NeoDigito(uint16_t digitsPerDisplay, uint16_t pixelsPerSegment, uint16_t numDelimiters, uint16_t pixPerDelimiter, uint8_t p, uint8_t t)
-    : digPerDisp(digitsPerDisplay), pixPerSeg(pixelsPerSegment),
-      numDelims(numDelimiters), pixPerDelim(pixPerDelimiter)
-  {
-    DisplayNumber = digitsPerDisplay;
+	: digPerDisp(digitsPerDisplay), pixPerSeg(pixelsPerSegment),
+	numDelims(numDelimiters), pixPerDelim(pixPerDelimiter)
+{
+	DisplayNumber = digitsPerDisplay;
+	
+	n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( numDelimiters * pixPerDelimiter));
+	strip = new Adafruit_NeoPixel(n, p, t);
+}
 
-    n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( numDelimiters * pixPerDelimiter));
-    strip = new Adafruit_NeoPixel(n, p, t);
-  }
-  
+// |--- delimiter number is different than 2 but the number of pixels per delimiter is 1 by default
+NeoDigito::NeoDigito(uint16_t digitsPerDisplay, uint16_t pixelsPerSegment, uint16_t numDelimiters, uint8_t p, uint8_t t)
+	: digPerDisp(digitsPerDisplay), pixPerSeg(pixelsPerSegment),
+	numDelims(numDelimiters), pixPerDelim(1)
+{
+	DisplayNumber = digitsPerDisplay;
+	
+	n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( numDelimiters * 1));
+	strip = new Adafruit_NeoPixel(n, p, t);
+}
+
+// |--- delimiter number and pixels per delimiter are 2 and 1 respectively by default
 NeoDigito::NeoDigito(uint16_t digitsPerDisplay, uint16_t pixelsPerSegment, uint8_t p, uint8_t t)
-    : digPerDisp(digitsPerDisplay), pixPerSeg(pixelsPerSegment),
-      numDelims(2), pixPerDelim(1)
-  {
-    DisplayNumber = digitsPerDisplay;
-
-    n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( 2 * 1));
-    strip = new Adafruit_NeoPixel(n, p, t);
-  }
+	: digPerDisp(digitsPerDisplay), pixPerSeg(pixelsPerSegment),
+	numDelims(2), pixPerDelim(1)
+{
+	DisplayNumber = digitsPerDisplay;
+	
+	n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( 2 * 1));
+	strip = new Adafruit_NeoPixel(n, p, t);
+}
+  
 //<<destructor>>
 NeoDigito::~NeoDigito() {}
 
@@ -55,13 +62,21 @@ void NeoDigito::show()
 	strip->show();
 }
 
+// -------------------------------------------------------- setPixelColor(R,G,B)
+void NeoDigito::setPixelColor(uint32_t R, uint16_t G, uint8_t B)
+{
+	Color = R << 16 | G << 8 | B;
+}
+
 // -------------------------------------------------------- setPixelColor(c)
 void NeoDigito::setPixelColor(uint32_t c)
 {
     Color = c;
 }
 
-// -------------------------------------------------------- updatePixelColor(c)
+// -------------------------------------------------------- updatePixelColor(FX)
+// |--- This fuction admits the name of color FX and some solid colors, also admits
+// |--- a 32bit number to assign a particular color.
 void NeoDigito::updatePixelColor(uint32_t FX)
 {
 	byte wheelPos;
@@ -147,21 +162,6 @@ void NeoDigito::updatePixelColor(uint32_t FX)
 	
 }
 
-/*
-// -------------------------------------------------------- updatePixelColor(c)
-void NeoDigito::updatePixelColor(uint32_t c)
-{
-	Color = c;
-	for(int i = 0; i < n; i++)
-	{
-		if((strip->getPixelColor(i) != 0) && (c != 0))
-		{
-			strip->setPixelColor(i, c);
-		}	
-	} 
-}
-*/
-
 //----------------------------------------------------------------------------------updateDelimiter
 void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
@@ -203,10 +203,7 @@ void NeoDigito::updatePoint(uint16_t delimeter)
 	{
 		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7) - 1;
 		
-		//for (int pix = digitsOffset ; (pix > digitsOffset - (pixPerDelim)); pix--) 
-		//{
 		strip->setPixelColor(digitsOffset, Color);
-		//}
 	}
 	else
 		return;
@@ -219,10 +216,7 @@ void NeoDigito::updateTilde(uint16_t delimeter)
 	{
 		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7);
 		
-		//for (int pix = digitsOffset ; (pix > digitsOffset - (pixPerDelim)); pix--) 
-		//{
 		strip->setPixelColor(digitsOffset, Color);
-		//}
 	}
 	else
 		return;
@@ -317,7 +311,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
     if(digit == ')' || digit == '}')	// Double dot (behind)
 		updateDelimiter(pos);
 
-    if(digit == '$' || digit == '%')  // Accent mark (behind), Dot (forwarD)
+    if(digit == '$' || digit == '%') 	// Accent mark (behind), Dot (forwarD)
     {
 		updatePoint(pos + 1);
 		updateTilde(pos);
@@ -336,7 +330,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 	}
 	
 	/*
-	// ----- letras y s�mbolos de dos espacios
+	// ----- double-space letters and symbols
 	if(digit == '+')
 	{
 		write(pos,(digit-32));
@@ -397,11 +391,9 @@ void NeoDigito::print(String word, int pos)
 {	
 	displayCursor = pos;
 	int digitos;
-	//int x=displayCursor;
 	digitos = word.length();
 	int x = 0;
 
-	//for(int x = 0; x < digitos; x++)
 	while(x < digitos)
 	{
 		write((word[x]), displayCursor);
@@ -455,7 +447,8 @@ void NeoDigito::print(float num)
 	print(num,0);
 }
 
-
+//---------------------------------------------------------------------------- wheel(byte wheelPos)
+// wheelPos --> Value from 0 to 255 that represents a color; the colours are a transition from red - green- blue back to red. 
 void NeoDigito::wheel(byte wheelPos)
 {	
 	uint32_t R, G, B;
@@ -483,21 +476,3 @@ void NeoDigito::wheel(byte wheelPos)
 	
 	Color = R << 16 | G << 8 | B;
 }
-
-/*
-void NeoDigito::colorFX(int number)
-{
-	switch(number)
-	{
-		case 0:
-			for(byte wheelPos = 255; wheelPos >= 0; wheelPos--)
-			{
-				wheel(wheelPos);
-				delay(100);
-			}
-			break;
-		default:
-			break;
-	}
-}
-*/

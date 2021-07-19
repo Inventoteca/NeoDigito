@@ -1,44 +1,40 @@
-/* NeoDigito ejemplo de cÃ³digo: neodigito_adc
-
-    Se manipula el color del display con un potenci�metro, empezando por rojo 
-    y atravsenando el verde y azul hasta terminar nuevamente en el rojo. Adem�s
-    muestra el valor del color en hexadecimal.
-
-    Creado por David Figueroa
-    Potenciado por Inventoteca y Xircuitos, Junio 11, 2021.
-    basado en la libreria de Seven_Segment_Pixel, de Peter Hartmann.
-
+/* NeoDigito example code: neodigito_adc
     
+    It controls the display color with a single potenciometer. The colour transition
+    is from red to green. In addition, it shows the adc value where the pot is
+    attached.
+
+    Created and empowered by Inventoteca & Xircuitos.
+	Puebla, Pue. June 11, 2021.
 
     https://github.com/Inventoteca/NeoDigito
 
     This example code is in the public domain.
-    Recuerda que debes tener instalada la librerÃ­a de Adafruit_NeoPixel
-
+    Remember that you must have installed Adafruit_NeoPixel library.
 */
 
 #include <NeoDigito.h>
 
-// Pin donde estarÃ¡ conectado el display
+// Pin where the display will be attached
 #define PIN 12
 
-// Neodigitos conectados
-#define DIGITS 6
+// NeoDigitos number connected
+#define DIGITS 4
 
-// Neopixels por segmento
+// NeoPixel per segment
 #define PIXPERSEG 2
 
-// Una vez especificado el nÃºmero de displays,
-// asÃ­ como el nÃºmero de neopixels por segmento.
-// adicionalmente se agregan algunos argumentos de 
-// la tira de neopixes usado
+// Once you have specified the number of displays
+// and the number of neopixels per segment, some
+// arguments of the neopixel strip used must be
+// added.
 
 NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
 uint32_t rgb = 0xFFFFFF;
-uint32_t R;
-uint32_t B;
-uint32_t G;
+// uint32_t R;
+// uint32_t B;
+// uint32_t G;
 uint8_t color;
 int pot = A0;
 int adc;
@@ -46,7 +42,8 @@ int adc;
 void setup() 
 {
   Serial.begin(9600);
-  display1.begin(); // Esta funciÃ³n llama Adafruit_NeoPixel.begin() para configurar;
+  display1.begin();
+    // This fuction calls Adafruit_NeoPixel.begin() to configure.
 }
 
 void loop() 
@@ -54,13 +51,12 @@ void loop()
   adc = analogRead(pot);
   color = map(adc,0,1023,0,255);
 
-  B = 0;
   R = 255 - color;
   G = color;
+  B = 0;
 
-  rgb = R << 16 | G << 8 | B;
-
-  display1.setPixelColor(rgb);
+  // rgb = R << 16 | G << 8 | B;
+  display1.setPixelColor(R,G,B);
   
   display1.clear();
   display1.show();
