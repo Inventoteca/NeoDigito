@@ -45,8 +45,8 @@ bool shouldSaveConfig = true;
 #define mqtt_port         "1883"
 #define mqtt_user         "mqtt_user"
 #define mqtt_pass         "mqtt_pass"
-#define number_topic    "Neodigito/Number"
-#define color_topic    "Neodigito/Color"
+#define number_topic    "Number"
+#define color_topic    "Color"
 
 float temp = 0.0;
 float hum = 0.0;
@@ -74,8 +74,8 @@ void setup()
   // id/name placeholder/prompt default length
   WiFiManagerParameter custom_mqtt_server("server", "MQTT Server", mqtt_server, 40);
   WiFiManagerParameter custom_mqtt_port("port", "MQTT Port", mqtt_port, 6);
-  WiFiManagerParameter custom_number_topic("number", "Topico NeoNumber: ESPXXXX/", number_topic, 40);
-  WiFiManagerParameter custom_color_topic("color", "Topico NeoColor: ESPXXXX/", color_topic, 40);
+  WiFiManagerParameter custom_number_topic("number", "Topico NeoNumber: Neodigito/ESPXXXX/", number_topic, 40);
+  WiFiManagerParameter custom_color_topic("color", "Topico NeoColor: Neodigito/ESPXXXX/", color_topic, 40);
   //add all your parameters here
   wifiManager.addParameter(&custom_mqtt_server);
   wifiManager.addParameter(&custom_mqtt_port);
@@ -88,7 +88,7 @@ void setup()
   //Intenta conectarse a WiFi, si fracasa genera AP
   //y se queda en bucle esperando a la nueva configuración
   //wifiManager.autoConnect(); //Alternativamente: wifiManager.autoConnect("NombreAP_Aqui","password");
-  wifiManager.autoConnect("Neodigito_Ring","12345678");
+  wifiManager.autoConnect("Neodigito","12345678");
   
   //if you get here you have connected to the WiFi
   Serial.println("connected...yeey :)");
@@ -112,8 +112,8 @@ void setup()
   display1.show();
   delay(500);
 
-  NumberTopicWithESP_ID = "ESP" + ESP_ID + "/" + number_topic;
-  ColorTopicWithESP_ID = "ESP" + ESP_ID + "/" + color_topic;
+  NumberTopicWithESP_ID = "Neodigito/ESP" + ESP_ID + "/" + number_topic;
+  ColorTopicWithESP_ID = "Neodigito/ESP" + ESP_ID + "/" + color_topic;
   NumberTopicWithESP_ID.toCharArray(charNumberTopic, 100);
   ColorTopicWithESP_ID.toCharArray(charColorTopic, 100);
   Serial.print("Esperando mensajes en: ");
