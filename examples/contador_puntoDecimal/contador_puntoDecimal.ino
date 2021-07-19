@@ -51,8 +51,10 @@ void loop()
   
     count = count + increment;
   
-    if (count < 0 || count > 9.99)
+    if (count < 0.01 || count > 9.99)
     {
         increment = -increment;
+        display1.clear();
+        display1.show();
     }
 }

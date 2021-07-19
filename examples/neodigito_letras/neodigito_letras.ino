@@ -5,13 +5,13 @@
 	positions, and the character itself in the subsecuents positions of the
 	strip.  
 
-    Created by Inventoteca and Xircuitos, October 21, 2020.
-    Released under GPLv3, based on Seven_Segment_Pixel, by Peter Hartmann.
+    Created and empowered by Inventoteca and Xircuitos.
+    Puebla, Pue. October 21, 2020.
 
     https://github.com/Inventoteca/NeoDigito
 
     This example code is in the public domain.
-
+	Remember that you must have installed Adafruit_NeoPixel library.
 */
 
 
@@ -26,34 +26,28 @@
 // How may pixels per segement are there?
 #define PIXPERSEG 2
 
-// When we instatiate a display object we supply the number of digits in the
-// custom built display, as well as the number of pixels per segment.
-// Additionally we pass the ususal Adafruit_NeoPixel arguments for object
-// instatiation.
+// Once you have specified the number of displays
+// and the number of neopixels per segment, some
+// arguments of the neopixel strip used must be
+// added.
 
 NeoDigito display1 =  NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
 
-char letra =' '; // Letra inicial
+char letra =' '; // Initial character
 String texto1 ="Hola";
-String texto2 ="Ejem";
 int pos = 2;
 
 void setup() 
 {
-  display1.begin(); // This function calls Adafruit_NeoPixel begin();
-  display1.setPixelColor(0x090000);
+  display1.begin();
+	// This function calls Adafruit_NeoPixel begin();
 
   display1.setPixelColor(0x090009);
-  display1.print(texto1);
-  display1.show();
+  display1.print(texto1);	// Prints a full word
+  display1.show();			// Lights up the pixels
   delay(1000);
-  display1.setPixelColor(0x000909);
-  display1.print(texto2);
-  display1.show();
-  delay(1000);
-  display1.clear();
-  display1.show();
-  delay(1000);
+  display1.clear();			// Clear the display
+  display1.show();			// Lights off the pixels
 }
 
 void loop() 
@@ -67,14 +61,15 @@ void loop()
 			pos = 3;
 		
 		display1.setPixelColor(0x090000);
-		display1.print(letra); // imprime en decimal
+		display1.print(letra); // prints the ASCII number
 		display1.setPixelColor(0x0900);
-		display1.write(letra,pos); // imprime la letra
+		display1.write(letra,pos); // prints de character
 		display1.show();
 		letra++;
 		delay(500);
 	}
 	
 	letra = ' ';
-  display1.clear();
+	display1.clear();
+	display1.show();
 }
