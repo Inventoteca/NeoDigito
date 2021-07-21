@@ -4,6 +4,13 @@
     por medio de un Captive Portal. Este Captive Portal se genera
     cada que no logra conectarse a su red wifi configurada previamente.
 
+    Está planeado para suscribirse a un tópico personalizable para el 
+    número y a otro tambien personalizable para el color a recibir.
+    El formato que tomará es "Neodigito/[TópicoPersonalizableAquí]/ESP14345274"
+    y también se suscribirá a "Neodigito/[TópicoPersonalizableAquí]" en caso de 
+    querer controlar más de un Neodigito a la vez.
+
+
     Basado en las librerías de NeoDígito y WiFiManager.
     Potenciado por Inventoteca y Xircuitos, Julio, 2021.
 
@@ -54,7 +61,12 @@ float diff = 1.0;
 String ESP_ID = String(ESP.getChipId());
 String NumberTopicWithESP_ID;
 String ColorTopicWithESP_ID;
-
+String NumberTopic;
+String ColorTopic;
+String literalementeNada = "";
+//Porque la librería WM los quiere como arreglos de caracteres
+char charColorTopicESP_ID[100];
+char charNumberTopicESP_ID[100];
 char charColorTopic[100];
 char charNumberTopic[100];
 
@@ -64,18 +76,12 @@ void setup()
   display1.setPixelColor(0x090000);
   Serial.begin(115200);
 
-  //clean FS for testing
-  //SPIFFS.format(); //<--COMENTAR DESPUÉS DE TESTEAR
-
-  //Revisa si ya hay config de parámetros extra guardada previamente
-  checkSPIFFS();
-
   // Para que el Captive Portal también pida esta info
   // id/name placeholder/prompt default length
   WiFiManagerParameter custom_mqtt_server("server", "MQTT Server", mqtt_server, 40);
   WiFiManagerParameter custom_mqtt_port("port", "MQTT Port", mqtt_port, 6);
-  WiFiManagerParameter custom_number_topic("number", "Topico NeoNumber: Neodigito/ESPXXXX/", number_topic, 40);
-  WiFiManagerParameter custom_color_topic("color", "Topico NeoColor: Neodigito/ESPXXXX/", color_topic, 40);
+  WiFiManagerParameter custom_number_topic("number", "Topico NeoNumber: Neodigito/ ... /ESPXXXX", number_topic, 40);
+  WiFiManagerParameter custom_color_topic("color", "Topico NeoColor: Neodigito/ ... /ESPXXXX", color_topic, 40);
   //add all your parameters here
   wifiManager.addParameter(&custom_mqtt_server);
   wifiManager.addParameter(&custom_mqtt_port);
@@ -84,7 +90,12 @@ void setup()
 
   // Reset Wifi settings for testing
   //wifiManager.resetSettings(); //<--COMENTAR DESPUÉS DE TESTEAR
+  //clean FS for testing
+  //SPIFFS.format(); //<--COMENTAR DESPUÉS DE TESTEAR
 
+  //Revisa si ya hay config de parámetros extra guardada previamente
+  checkSPIFFS();
+  
   //Intenta conectarse a WiFi, si fracasa genera AP
   //y se queda en bucle esperando a la nueva configuración
   //wifiManager.autoConnect(); //Alternativamente: wifiManager.autoConnect("NombreAP_Aqui","password");
@@ -112,14 +123,22 @@ void setup()
   display1.show();
   delay(500);
 
-  NumberTopicWithESP_ID = "Neodigito/ESP" + ESP_ID + "/" + number_topic;
-  ColorTopicWithESP_ID = "Neodigito/ESP" + ESP_ID + "/" + color_topic;
-  NumberTopicWithESP_ID.toCharArray(charNumberTopic, 100);
-  ColorTopicWithESP_ID.toCharArray(charColorTopic, 100);
+  //Para poder controlar individualmente cada neodigito
+  NumberTopicWithESP_ID = literalementeNada + "Neodigito/" + number_topic + "/ESP" + ESP_ID;
+  ColorTopicWithESP_ID = literalementeNada + "Neodigito/" + color_topic + "/ESP" + ESP_ID;
+  //Para poder controlar grupalmente los neodigitos
+  NumberTopic = literalementeNada + "Neodigito/" + number_topic;
+  ColorTopic = literalementeNada + "Neodigito/" + color_topic;
+    
+  NumberTopicWithESP_ID.toCharArray(charNumberTopicESP_ID, 100);
+  ColorTopicWithESP_ID.toCharArray(charColorTopicESP_ID, 100);
+  NumberTopic.toCharArray(charNumberTopic, 100);
+  ColorTopic.toCharArray(charColorTopic, 100);
+    
   Serial.print("Esperando mensajes en: ");
-  Serial.println(charNumberTopic);
+  Serial.println(charNumberTopicESP_ID);
   Serial.print("Y tambien en: ");
-  Serial.println(charColorTopic);
+  Serial.println(charColorTopicESP_ID);
   
   int  mqtt_port_int;
   mqtt_port_int = atoi(mqtt_port);
@@ -148,10 +167,10 @@ void callback(char* topic, byte* payload, unsigned int length)
   String StrTopic = topic;
   Serial.print("Message arrived [");
   Serial.print(topic);
-  Serial.print("] ");
+  Serial.println("] ");
 
   
-    if (StrTopic == charColorTopic)
+    if (StrTopic == charColorTopicESP_ID|| StrTopic == charColorTopic) 
   {
     for (int i = 0; i < length; i++)
     {
@@ -165,7 +184,7 @@ void callback(char* topic, byte* payload, unsigned int length)
     StrColor = "";
   }
 
-  else if (StrTopic == charNumberTopic)
+  else if (StrTopic == charNumberTopicESP_ID || StrTopic == charNumberTopic) 
   {
     display1.clear();
     for (int i = 0; i < length; i++)
@@ -198,8 +217,10 @@ void reconnect()
     {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish("neoStatus", "hello world");
+      client.publish("neoAlive", charNumberTopicESP_ID);
       // ... and resubscribe
+      client.subscribe(charNumberTopicESP_ID);
+      client.subscribe(charColorTopicESP_ID);
       client.subscribe(charNumberTopic);
       client.subscribe(charColorTopic);
     }
