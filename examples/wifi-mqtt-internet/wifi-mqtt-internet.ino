@@ -1,28 +1,16 @@
-/* NeoDigito ejemplo de código: wifi mqtt internet
-    Cuenta de 0 a 9999 y luego hace una cuentra regresiva
-    el color por defecto es rojo.
+/* NeoDigito example code: wifi mqtt internet
 
-    Creado por David Figueroa
-    Potenciado por Inventoteca y Xircuitos, Junio 11, 2021.
-    basado en la libreria de Seven_Segment_Pixel, de Peter Hartmann.
-
-    
+    Created and empowered by Inventoteca and Xircuitos.
+    Puebla, Pue. October 21, 2020.
 
     https://github.com/Inventoteca/NeoDigito
 
     This example code is in the public domain.
-    
-    Recuerda que debes tener instalada la librería de 
-
-    Adafruit_NeoPixel
-
-    Así como instalado la tarjeta ESP8266, (using Arduino 1.6.4+):
+	Remember that you must have installed Adafruit_NeoPixel library,
+    the ESP8266 board, (using Arduino 1.6.4+):
   - Add the following 3rd party board manager under "File -> Preferences -> Additional Boards Manager URLs":
        http://arduino.esp8266.com/stable/package_esp8266com_index.json
-
-  y la PubSubClient
-
-
+    and the PubSubClient library.
 */
 
 #include <NeoDigito.h>
@@ -35,41 +23,46 @@ const char* ssid = "Inventoteca_2G";
 const char* password = "science_7425";
 const char* mqtt_server = "broker.mqtt-dashboard.com";
 
-// Para configurar el cliente de mqtt
+// Configure the mqtt client
 WiFiClient espClient;
 PubSubClient client(espClient);
 unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE	(50)
 char msg[MSG_BUFFER_SIZE];
 
-// Pin donde estará conectado el display
-#define PIN 0           // Para el caso especifico del ESP8266 con batería, D3 - GPIO0
-#define DIGITS 10        // Neodigitos conectados
-#define PIXPERSEG 2     // Neopixels por segmento
+// Pin where the display will be attached
+#define PIN 0       // Specifically for the ESP8266 board with battery, D3 - GPIO0
 
+// Number of NeoDigitos connected
+#define DIGITS 10
 
-// Una vez especificado el número de displays,
-// así como el número de neopixels por segmento.
-// adicionalmente se agregan algunos argumentos de 
-// la tira de neopixes usado
+// NeoPixel per segment
+#define PIXPERSEG 2
+
+// Once you have specified the number of displays
+// and the number of neopixels per segment, some
+// arguments of the neopixel strip used must be
+// added. NeoDigito() also admits the number of
+// delimiters and the number of pixels per delimiter.
 
 NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
 
 void setup()
 {
-  display1.begin(); // Esta función llama Adafruit_NeoPixel.begin() para configurar;
+  display1.begin();
+    // This function calls Adafruit_NeoPixel begin();
 
-  // Esta función puede controlar un solo led o toda la tira
-  // si se especifica el número del led: display1.setPixelColor(0,0xff00ff);
-  // y para toda la tira no se especifica el numero del display solo el color en 32 bits
   display1.setPixelColor(0x090000);
+    // This function sets a default color for the whole strip. It can be specified by
+    // a 32bit hexadecimal number or three 8bit hexadecimal numbers that represents
+    // red, green and blue separately.
+
   Serial.begin(115200);
   
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
-
 }
 
 void loop()
@@ -97,7 +90,6 @@ void loop()
 // ------------------------------------- setup_wifi
 void setup_wifi() 
 {
-
   int i = 1;
   delay(10);
   // We start by connecting to a WiFi network
@@ -136,7 +128,7 @@ void setup_wifi()
 }
 
 // -------------------------------------------- callback
-// aqui se lee el mensaje letra por letra
+// here reads the message letter by letter
 void callback(char* topic, byte* payload, unsigned int length) 
 {
   String StrColor = "";

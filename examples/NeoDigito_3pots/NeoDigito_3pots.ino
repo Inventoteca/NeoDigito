@@ -1,7 +1,7 @@
 /* NeoDigito example code: neodigito_3pots
 
-    Shows the hexadecimal value that represents the colour with which the
-    the display is configured. Three potenciometers are attached to control
+    Shows the hexadecimal value that represents the color with which the
+    display is configured. Three potenciometers are attached to control
     the saturation of red, green and blue.
 
     Created and empowered by Inventoteca & Xircuitos.
@@ -19,7 +19,7 @@
 // Pin where the display will be attached
 #define PIN 12
 
-// NeoDigitos number connected
+// Number of NeoDigitos connected
 #define DIGITS 6
 
 // NeoPixel per segment
@@ -28,11 +28,11 @@
 // Once you have specified the number of displays
 // and the number of neopixels per segment, some
 // arguments of the neopixel strip used must be
-// added.
+// added. NeoDigito() also admits the number of
+// delimiters and the number of pixels per delimiter.
 
 NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
-// uint32_t rgb = 0xFFFFFF;
 uint32_t R, G, B;
 int adcR = 0, potR = A0;
 int adcG = 0, potG = A1;
@@ -42,7 +42,6 @@ int posR, posG, posB;
 
 void setup() 
 {
-  Serial.begin(9600);
   display1.begin();
     // This fuction calls Adafruit_NeoPixel.begin() to configure.
 }
@@ -56,19 +55,7 @@ void loop()
   G = map(adcG,0,1023,0,255);
   B = map(adcB,0,1023,0,255);
 
-  // rgb = R << 16 | G << 8 | B;
-  display1.setPixelColor(R,G,B);
-
-  text1 = String(R,HEX);
-  text2 = String(G,HEX);
-  text3 = String(B,HEX);
-  
-  Serial.print("Color:\t");
-  Serial.print(text1);
-  Serial.print("\t");
-  Serial.print(text2);
-  Serial.print("\t");
-  Serial.println(text3);
+  display1.setPixelColor(R,G,B);    // Sets the display color.
 
   if(R <= 9)
   {
@@ -100,7 +87,7 @@ void loop()
   display1.print(text1,posR);   // Prints the hexadecimal value of Red
   display1.print(text2,posG);   // Prints the hexadecimal value of Green
   display1.print(text3,posB);   // Prints the hexadecimal value of Blue
-  display1.show();
+  display1.show();              // Lights up the pixels.
 
   delay(300);
 }

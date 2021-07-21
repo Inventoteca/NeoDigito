@@ -17,19 +17,20 @@
 
 #include <NeoDigito.h>
 
-// Which pin on the Arduino is connected the NeoPixel display connected to?
+// Pin where the display will be attached
 #define PIN 12
 
-// How many digits are in the display?
+// Number of NeoDigitos connected
 #define DIGITS 4
 
-// How may pixels per segement are there?
+// NeoPixel per segment
 #define PIXPERSEG 2
 
 // Once you have specified the number of displays
 // and the number of neopixels per segment, some
 // arguments of the neopixel strip used must be
-// added.
+// added. NeoDigito() also admits the number of
+// delimiters and the number of pixels per delimiter.
 
 NeoDigito display1 =  NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_RGB + NEO_KHZ800);
 
@@ -60,16 +61,16 @@ void loop()
 		if(letra >= 100)
 			pos = 3;
 		
-		display1.setPixelColor(0x090000);
-		display1.print(letra); // prints the ASCII number
-		display1.setPixelColor(0x0900);
-		display1.write(letra,pos); // prints de character
-		display1.show();
+		display1.setPixelColor(0x090000);	// Sets the color for the first text
+		display1.print(letra);				// Prints the ASCII number
+		display1.setPixelColor(0x0900);		// Sets the color for the next text
+		display1.write(letra,pos);			// Prints de character.
+		display1.show();					// Lights up the pixels.
 		letra++;
 		delay(500);
 	}
 	
 	letra = ' ';
-	display1.clear();
-	display1.show();
+	display1.clear();	// Erase the text.
+	display1.show();	// Lights off the pixels.
 }

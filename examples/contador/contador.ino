@@ -16,20 +16,21 @@
 // Pin where the display will be attached
 #define PIN 12
 
-// NeoDigitos number connected
+// Number of NeoDigitos connected
 #define DIGITS 4
 
-// NeoPixel per segment
+// NeoPixels per segment
 #define PIXPERSEG 2
 
 // Once you have specified the number of displays
 // and the number of neopixels per segment, some
 // arguments of the neopixel strip used must be
-// added.
+// added. NeoDigito() also admits the number of
+// delimiters and the number of pixels per delimiter.
 
 NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 2;	// count delay
+int delayval = 2;	// counter delay
 
 int increment = 1; 	// increment
 
@@ -41,22 +42,22 @@ void setup()
 		// This fuction calls Adafruit_NeoPixel.begin() to configure.
 	 
 	display1.setPixelColor(0x090000);
-		// This function set a default color for the whole strip. It can be specified by
+		// This function sets a default color for the whole strip. It can be specified by
 		// a 32bit hexadecimal number or three 8bit hexadecimal numbers that represents
 		// red, green and blue separately.
 }
 
 void loop()
 {
-	display1.print(count);	// It prints the value
+	display1.print(count);	// It prints the value.
 	display1.show();		// Lights up the pixels.
 	delay(delayval);
 	count = count + increment;
 
 	if (count >= 9999)
 	{
-	display1.clear();
-	display1.show();
+	display1.clear();		// It erase the text in the whole strip.
+	display1.show();		// Lights off the pixels.
 	count = 0;
 	}
 }

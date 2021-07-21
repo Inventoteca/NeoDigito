@@ -18,7 +18,7 @@
 // Pin where the display will be attached
 #define PIN 12
 
-// NeoDigitos number connected
+// Number of NeoDigitos connected
 #define DIGITS 4
 
 // NeoPixel per segment
@@ -27,21 +27,18 @@
 // Once you have specified the number of displays
 // and the number of neopixels per segment, some
 // arguments of the neopixel strip used must be
-// added.
+// added. NeoDigito() also admits the number of
+// delimiters and the number of pixels per delimiter.
 
 NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
 uint32_t rgb = 0xFFFFFF;
-// uint32_t R;
-// uint32_t B;
-// uint32_t G;
 uint8_t color;
 int pot = A0;
 int adc;
 
 void setup() 
 {
-  Serial.begin(9600);
   display1.begin();
     // This fuction calls Adafruit_NeoPixel.begin() to configure.
 }
@@ -55,13 +52,12 @@ void loop()
   G = color;
   B = 0;
 
-  // rgb = R << 16 | G << 8 | B;
-  display1.setPixelColor(R,G,B);
+  display1.setPixelColor(R,G,B);    // Sets the display color.
   
-  display1.clear();
-  display1.show();
+  display1.clear();     // It erase the value.
+  display1.show();      // Lights off the pixels.
 
-  display1.print(adc);
-  display1.show();
+  display1.print(adc);  // It prints the adc value.
+  display1.show();      // Lights up the pixels.
   delay(300);
 }
