@@ -5,6 +5,8 @@
     Basado en las librerías de NeoDígito y WiFiManager.
     Potenciado por Inventoteca y Xircuitos, Julio, 2021.
 
+    ¡¡INSTALAR VERSIÓN 5.13 DE ArduinoJson.h!!
+    
     Referencias:
     https://github.com/Inventoteca/NeoDigito/tree/main/examples/wifi-mqtt-internet
     https://github.com/CurlyWurly-1/ESP8266-WIFIMANAGER-MQTT
@@ -16,7 +18,7 @@
 #include <DNSServer.h>
 #include <ESP8266WebServer.h>
 #include <WiFiManager.h>          //https://github.com/tzapu/WiFiManager
-#include <ArduinoJson.h>          //https://github.com/bblanchon/ArduinoJson
+#include <ArduinoJson.h>          //https://github.com/bblanchon/ArduinoJson <- Versión 5.13
 #include <PubSubClient.h>
 #include <NeoDigito.h>            //https://github.com/Inventoteca/NeoDigito
 
