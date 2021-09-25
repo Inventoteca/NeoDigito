@@ -9,7 +9,7 @@ es importante tomar en cuenta el diseño del display para el orden y dimenciones
 
 La primera versión consta de una placa perforada para circuito, sin embargo el tamaño tan ancho no permitia
 que este se pudiera cerrar.
-![Algoaca](prototipo.jpg.jpg?raw=true "Thumbnail")
+![Algoaca](prototipo.jpg?raw=true "Thumbnail")
 
 La segunda versión fue rediseñada en Eagle para realizarse en router para pcb de esta manera se puede ahorrar espacio,
 lo que nos permite que el display no sea tan ancho, dando como resultado un diseño mas compacto.
