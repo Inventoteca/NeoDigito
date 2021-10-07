@@ -181,6 +181,22 @@ void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, 
 		return;
 }
 
+//----------------------------------------------------------------------------------updateDelimiter
+void NeoDigito::updateDelimiter(uint16_t delimeter, uint32_t c)
+{
+	Color = c;
+	if(numDelims > 0 && pixPerDelim > 0)
+	{
+		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7);
+	
+		for (int pix = digitsOffset ; (pix > digitsOffset - (pixPerDelim * numDelims)) || (pix == 0); pix--) 
+		{
+			strip->setPixelColor(pix, Color);
+		}
+	}
+	else
+		return;
+}
 
 //----------------------------------------------------------------------------------updateDelimiter
 void NeoDigito::updateDelimiter(uint16_t delimeter)
@@ -198,6 +214,32 @@ void NeoDigito::updateDelimiter(uint16_t delimeter)
 		return;
 }
 
+//----------------------------------------------------------------------------------updatePoint
+void NeoDigito::updatePoint(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+{
+	if(numDelims > 0 && pixPerDelim > 0)
+	{
+		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7) - 1;
+		
+		strip->setPixelColor(digitsOffset, strip->Color(RED, GREEN, BLUE));
+	}
+	else
+		return;
+}
+
+//----------------------------------------------------------------------------------updatePoint
+void NeoDigito::updatePoint(uint16_t delimeter, uint32_t c)
+{
+	Color = c;
+	if(numDelims > 0 && pixPerDelim > 0)
+	{
+		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7) - 1;
+		
+		strip->setPixelColor(digitsOffset, Color);
+	}
+	else
+		return;
+}
 
 //----------------------------------------------------------------------------------updatePoint
 void NeoDigito::updatePoint(uint16_t delimeter)
@@ -205,6 +247,33 @@ void NeoDigito::updatePoint(uint16_t delimeter)
 	if(numDelims > 0 && pixPerDelim > 0)
 	{
 		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7) - 1;
+		
+		strip->setPixelColor(digitsOffset, Color);
+	}
+	else
+		return;
+}
+
+//----------------------------------------------------------------------------------updateTilde
+void NeoDigito::updateTilde(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+{
+	if(numDelims > 0 && pixPerDelim > 0)
+	{
+		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7);
+		
+		strip->setPixelColor(digitsOffset, strip->Color(RED, GREEN, BLUE));
+	}
+	else
+		return;
+}
+
+//----------------------------------------------------------------------------------updateTilde
+void NeoDigito::updateTilde(uint16_t delimeter, uint32_t c)
+{
+	Color = c;
+	if(numDelims > 0 && pixPerDelim > 0)
+	{
+		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7);
 		
 		strip->setPixelColor(digitsOffset, Color);
 	}
