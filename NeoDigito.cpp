@@ -71,7 +71,54 @@ void NeoDigito::setPixelColor(uint32_t R, uint16_t G, uint8_t B)
 // -------------------------------------------------------- setPixelColor(c)
 void NeoDigito::setPixelColor(uint32_t c)
 {
-    Color = c;
+    for(int i = 0; i < n; i++)
+	{
+		switch(c)
+		{
+			case 4:	//white
+				Color = 0xAAAAAA;
+				break;
+			
+			case 5:	//red
+				Color = 0xFF0000;
+				break;
+			
+			case 6:	//green
+				Color = 0x00FF00;
+				break;
+			
+			case 7:	//blue
+				Color = 0x0000FF;
+				break;
+			
+			case 8:	//orange
+				Color = 0xFFA500;
+				break;
+			
+			case 9: //yellow
+				Color = 0xFFFF00;
+				break;
+			
+			case 10://cian
+				Color = 0x00FFFF;
+				break;
+			
+			case 11://pink
+				Color = 0xFF1493;
+				break;
+			
+			case 12://purple
+				Color = 0xAA00FF;
+				break;
+			
+			default:
+				Color = c;
+				break;
+		}
+		
+		if((strip->getPixelColor(i) != 0) && (Color != 0))
+			strip->setPixelColor(i, Color);
+	}
 }
 
 // -------------------------------------------------------- updatePixelColor(FX)
