@@ -412,6 +412,8 @@ void NeoDigito::print(String word, int pos)
 	while(x < digitos)
 	{
 		write((word[x]), displayCursor);
+		if(word[x+1] == '.')
+			displayCursor++;
 		x++;
 	}
 }
