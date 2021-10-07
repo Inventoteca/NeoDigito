@@ -122,11 +122,13 @@ void NeoDigito::setPixelColor(uint32_t c)
 }
 
 // -------------------------------------------------------- updatePixelColor(FX)
-// |--- This fuction admits the name of color FX and some solid colors, also admits
-// |--- a 32bit number to assign a particular color.
-void NeoDigito::updatePixelColor(uint32_t FX)
+// This fuction admits the name of color FX and some solid colors, also admits
+// a 32bit number to assign a particular color.
+// Add offset to make FX start in a different color or to move along the pixels (for Random fx is not neccesary)
+void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
 {
 	byte wheelPos;
+	int pix_offset;
 
 	for(int i = 0; i < n; i++)
 	{
@@ -134,7 +136,7 @@ void NeoDigito::updatePixelColor(uint32_t FX)
 		{
 			case 0:	//rainbow
 				wheelPos = map(i,0,n,0,255);
-				wheel(wheelPos);
+				wheel(wheelPos+offset);
 				break;
 			
 			case 1:	//random
@@ -146,11 +148,14 @@ void NeoDigito::updatePixelColor(uint32_t FX)
 				break;
 			
 			case 2:	//xmas
-				if(i < (n/2))
-					wheelPos = map(i,0,n/2,171,215);	
+				pix_offset = i + map(offset,0,255,0,n);
+				if(pix_offset < (n/2))	
+					wheelPos = map(pix_offset,0,n/2,171,215);	
 				
-				else if(i < n)
-					wheelPos = map(i,n/2,n,235,255);
+				else if(pix_offset < n){
+					pix_offset -= (n/2);
+					wheelPos = map(pix_offset,n/2,n,235,255);
+				}
 
 				wheel(wheelPos);
 				break;
@@ -162,7 +167,7 @@ void NeoDigito::updatePixelColor(uint32_t FX)
 				else if(i < n)
 					wheelPos = map(i,n/2,n,254,245);
 				
-				wheel(wheelPos);	
+				wheel(wheelPos+offset);	
 				break;
 			
 			case 4:	//white
@@ -209,7 +214,14 @@ void NeoDigito::updatePixelColor(uint32_t FX)
 		if((strip->getPixelColor(i) != 0) && (Color != 0))
 			strip->setPixelColor(i, Color);
 	}
-	
+}
+
+// -------------------------------------------------------- updatePixelColor(FX)
+// This fuction admits the name of color FX and some solid colors, also admits
+// a 32bit number to assign a particular color.
+void NeoDigito::updatePixelColor(uint32_t FX)
+{
+	updatePixelColor(FX,0);
 }
 
 //----------------------------------------------------------------------------------updateDelimiter

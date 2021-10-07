@@ -37,6 +37,7 @@ public:
        show(),
        setPixelColor(uint32_t R, uint16_t G, uint8_t B),
        setPixelColor(uint32_t c),
+       updatePixelColor(uint32_t FX, byte offset),
        updatePixelColor(uint32_t FX),
        updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
        updateDelimiter(uint16_t delimeter, uint32_t c),
