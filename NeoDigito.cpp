@@ -5,7 +5,7 @@ NeoDigito:
 */
 
 #include "NeoDigito.h"
-#include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
+//#include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
 
 // How many NeoPixels are in the seven segment display total?
 uint8_t n;
