@@ -128,7 +128,6 @@ void NeoDigito::setPixelColor(uint32_t c)
 void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
 {
 	byte wheelPos;
-	int pix_offset;
 
 	for(int i = 0; i < n; i++)
 	{
@@ -148,16 +147,7 @@ void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
 				break;
 			
 			case 2:	//xmas
-				pix_offset = i + map(offset,0,255,0,n);
-				if(pix_offset < (n/2))	
-					wheelPos = map(pix_offset,0,n/2,171,215);	
-				
-				else if(pix_offset < n){
-					pix_offset -= (n/2);
-					wheelPos = map(pix_offset,n/2,n,235,255);
-				}
-
-				wheel(wheelPos);
+				RedToWhite(wheelPos+offset);			
 				break;
 			
 			case 3:	//halloween					
@@ -619,5 +609,26 @@ void NeoDigito::wheel(byte wheelPos)
 		B = 0;
 	}
 	
+	Color = R << 16 | G << 8 | B;
+}
+
+void NeoDigito::RedToWhite(byte wheelPos)
+{
+	uint32_t R = 255;
+	uint16_t G;
+	uint8_t B;
+	
+	if(wheelPos < 128)
+	{
+		G = 2*wheelPos;
+		B = 2*wheelPos;
+	}
+	else if(wheelPos < 255)
+	{	
+		wheelPos -= 127;
+		G = 255 - 2*wheelPos;
+		B = 255 - 2*wheelPos;
+	}
+
 	Color = R << 16 | G << 8 | B;
 }

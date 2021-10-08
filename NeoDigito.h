@@ -60,6 +60,7 @@ public:
   void print(float num, int pos);
   void print(float num);
   void wheel(byte wheelPos);
+  void RedToWhite(byte wheelPos);
 
 private:
   Adafruit_NeoPixel *strip;
