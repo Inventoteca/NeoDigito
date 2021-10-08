@@ -192,21 +192,21 @@ void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
 					pix_offset -= n;
 					
 				if(pix_offset < n/4)
-					wheelPos = map(pix_offset,0,n/4,65,3);
+					wheelPos = map(pix_offset,0,n/4,60,2);
 				
 				else if(pix_offset < n/2){
 					pix_offset -= n/4;
-					wheelPos = map(pix_offset,0,n/4,254,245);
+					wheelPos = map(pix_offset,0,n/4,254,240);
 				}
 
 				else if(pix_offset < 3*n/4){
 					pix_offset -= n/2;
-					wheelPos = map(pix_offset,0,n/4,245,254);
+					wheelPos = map(pix_offset,0,n/4,240,254);
 				}
 
-				else if(pix_offset < n){
+				else if(pix_offset <= n){
 					pix_offset -= 3*n/4;
-					wheelPos = map(pix_offset,0,n/4,3,65);
+					wheelPos = map(pix_offset,0,n/4,2,60);
 				}
 
 				wheel(wheelPos);	
@@ -216,7 +216,7 @@ void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
 				break;
 			
 			default:
-				Color = c;
+				Color = FX;
 				break;
 		}
 		
@@ -549,8 +549,9 @@ void NeoDigito::print(String word, int pos)
 	while(x < digitos)
 	{
 		write((word[x]), displayCursor);
-		if(word[x+1] == '.' || word[x+1] == ',' || word[x+1] == ':' || word[x+1] == ';' || word[x+1] || 39)
+		if(word[x+1] == '.' || word[x+1] == ',' || word[x+1] == ':' || word[x+1] == ';' || word[x+1] == 39){
 			displayCursor++;
+		}
 		x++;
 	}
 }
