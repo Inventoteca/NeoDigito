@@ -75,39 +75,39 @@ void NeoDigito::setPixelColor(uint32_t c)
 	{
 		switch(c)
 		{
-			case 4:	//white
+			case 0:	//white
 				Color = 0xAAAAAA;
 				break;
 			
-			case 5:	//red
+			case 1:	//red
 				Color = 0xFF0000;
 				break;
 			
-			case 6:	//green
+			case 2:	//green
 				Color = 0x00FF00;
 				break;
 			
-			case 7:	//blue
+			case 3:	//blue
 				Color = 0x0000FF;
 				break;
 			
-			case 8:	//orange
+			case 4:	//orange
 				Color = 0xFFA500;
 				break;
 			
-			case 9: //yellow
+			case 5: //yellow
 				Color = 0xFFFF00;
 				break;
 			
-			case 10://cian
+			case 6://cian
 				Color = 0x00FFFF;
 				break;
 			
-			case 11://pink
+			case 7://pink
 				Color = 0xFF1493;
 				break;
 			
-			case 12://purple
+			case 8://purple
 				Color = 0xAA00FF;
 				break;
 			
@@ -132,13 +132,49 @@ void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
 	for(int i = 0; i < n; i++)
 	{
 		switch(FX)
-		{
-			case 0:	//rainbow
+		{			
+			case 0: //white
+				Color = 0xAAAAAA;
+				break;
+				
+			case 1:	//red
+				Color = 0xFF0000;
+				break;
+			
+			case 2:	//green
+				Color = 0x00FF00;
+				break;
+			
+			case 3:	//blue
+				Color = 0x0000FF;
+				break;
+			
+			case 4:	//orange
+				Color = 0xFFA500;
+				break;
+			
+			case 5: //yellow
+				Color = 0xFFFF00;
+				break;
+			
+			case 6: //cian
+				Color = 0x00FFFF;
+				break;
+			
+			case 7: //pink
+				Color = 0xFF1493;
+				break;
+			
+			case 8: //purple
+				Color = 0xAA00FF;
+				break;
+
+			case 10:	//rainbow
 				wheelPos = map(i,0,n,0,255);
 				wheel(wheelPos+offset);
 				break;
 			
-			case 1:	//random
+			case 11:	//random
 				if ((i+1) % (pixPerSeg * 7 + numDelims * pixPerDelim) == 0)
 				{
 					wheelPos = random(0, 255);
@@ -146,11 +182,11 @@ void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
 				}
 				break;
 			
-			case 2:	//xmas
+			case 12:	//xmas
 				RedToWhite(wheelPos+offset);			
 				break;
 			
-			case 3:	//halloween
+			case 13:	//halloween
 				uint8_t pix_offset = i + map(offset,0,255,0,n);
 				if(pix_offset > n)
 					pix_offset -= n;
@@ -175,45 +211,12 @@ void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
 
 				wheel(wheelPos);	
 				break;
-			
-			case 4:	//white
-				Color = 0xAAAAAA;
-				break;
-			
-			case 5:	//red
-				Color = 0xFF0000;
-				break;
-			
-			case 6:	//green
-				Color = 0x00FF00;
-				break;
-			
-			case 7:	//blue
-				Color = 0x0000FF;
-				break;
-			
-			case 8:	//orange
-				Color = 0xFFA500;
-				break;
-			
-			case 9: //yellow
-				Color = 0xFFFF00;
-				break;
-			
-			case 10://cian
-				Color = 0x00FFFF;
-				break;
-			
-			case 11://pink
-				Color = 0xFF1493;
-				break;
-			
-			case 12://purple
-				Color = 0xAA00FF;
+
+			case 14:	//thunder
 				break;
 			
 			default:
-				Color = FX;
+				Color = c;
 				break;
 		}
 		
@@ -546,7 +549,7 @@ void NeoDigito::print(String word, int pos)
 	while(x < digitos)
 	{
 		write((word[x]), displayCursor);
-		if(word[x+1] == '.')
+		if(word[x+1] == '.' || word[x+1] == ',' || word[x+1] == ':' || word[x+1] == ';' || word[x+1] || 39)
 			displayCursor++;
 		x++;
 	}
