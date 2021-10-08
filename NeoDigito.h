@@ -25,6 +25,75 @@
 #include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
 #include <Arduino.h>
 
+struct Digito{
+  uint8_t _size;
+  //uint8_t _type;       //Indicates whether the Digito is Numeric or Alphanumeric 0 is Numeric, 1 is Alphanumeric
+  Segment *_segments;  //the array of Digitos that make the Display up.
+
+
+  /*!
+    @brief  Initializer for Digito struct that helps on determining the type of Digito and
+            the number of segments that makes it up. 9 segments for numeric and 16 for alphanumeric
+    @param type Indicate the type of the Digito
+                0 = Numeric
+                1 = Alphanumeric
+  */
+ void init(uint8_t type, uint8_t size){
+   uint8_t nSegments = type == 0 ? 9:16;
+   _segments = new Segment[nSegments];
+      for(int i = 0; i < nSegments; i++){
+        _segments[i].init(type, size, i);
+      }
+    }
+  /*!
+    @brief  Destructor for Digito struct that helps freeing the memory allocated by the constructor
+  */
+  ~Digito(){
+    delete _segments;
+  }
+
+};
+
+
+/*!
+  @brief Represents a Segment in the NeoDigito and contains the ID of the 
+  NeoPixels that make it
+  @note The ID is the number of the NeoPixel that will be pointed by the 
+  Adafruit_NeoPixel object
+*/
+struct Segment
+{
+  uint8_t _segmentNumber;
+  uint8_t _pixOnSegment;           //Number of NeoPixels on segment
+  uint16_t pixID[_pixOnSegment];   //Array containing the NeoPixels of the segment
+  void init(uint8_t type, uint8_t size, uint8_t number){
+    _segmentNumber = number;
+    
+    AllocatePixels(type, _pixOnSegment);
+  }
+  void AllocatePixels(uint8_t nSegments, uint8_t size)
+  {
+
+  }
+
+
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class NeoDigito 
 {
 public:
@@ -61,6 +130,8 @@ public:
   void wheel(byte wheelPos);
 
 private:
+
+
   Adafruit_NeoPixel *strip;
   // 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,º,-,OFF,
   /*

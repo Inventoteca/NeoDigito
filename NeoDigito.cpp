@@ -7,11 +7,10 @@ NeoDigito:
 #include "NeoDigito.h"
 //#include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
 
-// How many NeoPixels are in the seven segment display total?
-uint8_t n;
-uint16_t DisplayNumber;
-uint32_t Color = 0xffffff;   // white is default color
-uint16_t displayCursor = 0;
+uint8_t n;						// How many NeoPixels are in the seven segment display total?
+uint16_t DisplayNumber;			// Length of display
+uint32_t Color = 0xffffff;  	// white is default color
+uint16_t displayCursor = 0;		// Cursor position on display
 
 //<<constructor>>
 // |--- delimiter number and pixels per delimiter are different than 2 and 1 respectively 
