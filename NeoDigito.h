@@ -26,7 +26,7 @@
 #include <Arduino.h>
 
 struct Digito{
-  uint8_t _size;
+  uint8_t _size;        //Indicates whether the Digito is small, medium, large
   //uint8_t _type;       //Indicates whether the Digito is Numeric or Alphanumeric 0 is Numeric, 1 is Alphanumeric
   Segment *_segments;  //the array of Digitos that make the Display up.
 
@@ -80,18 +80,6 @@ struct Segment
 
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class NeoDigito 
