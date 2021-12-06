@@ -1,72 +1,63 @@
-/* NeoDigito ejemplo de código: contador
+/* NeoDigito example code: counter
 
-    Cuenta de 0 a 9999 y luego hace una cuentra regresiva
-    el color por defecto es rojo.
+	Counts from 0 to 9999. Red is the default color.
 
-    Creado y potenciado por Inventoteca y Xircuitos, Junio 11, 2021.
-  
+	Created and empowered by Inventoteca & Xircuitos.
+	Puebla, Pue. June 11, 2021.
 
     https://github.com/Inventoteca/NeoDigito
 
     This example code is in the public domain.
-    Recuerda que debes tener instalada la librería de Adafruit_NeoPixel
-
+    Remember that you must have installed Adafruit_NeoPixel library.
 */
 
 #include <NeoDigito.h>
 
-// Pin donde estará conectado el display
+// Pin where the display will be attached
 #define PIN 12
 
-// Neodigitos conectados
+// Number of NeoDigitos connected
 #define DIGITS 4
 
-// Neopixels por segmento
+// NeoPixels per segment
 #define PIXPERSEG 2
 
-
-// Una vez especificado el número de displays,
-// así como el número de neopixels por segmento.
-// adicionalmente se agregan algunos argumentos de 
-// la tira de neopixes usado
+// Once you have specified the number of displays
+// and the number of neopixels per segment, some
+// arguments of the neopixel strip used must be
+// added. NeoDigito() also admits the number of
+// delimiters and the number of pixels per delimiter.
 
 NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 2; // retardo para el conteo
+int delayval = 2;	// counter delay
 
-int increment = 1;  // valor a incrementar
+int increment = 1; 	// increment
 
-int count = 0;      // Variable para almacenar el conteo
+int count = 0;     	// counter
 
 void setup()
 {
-  display1.begin(); // Esta función llama Adafruit_NeoPixel.begin() para configurar;
-
-  // Esta función puede controlar un solo led o toda la tira
-  // si se especifica el número del led: display1.setPixelColor(0,0xff00ff);
-  // y para toda la tira no se especifica el numero del display solo el color en 32 bits
-  display1.setPixelColor(0x090000);
- // Serial.begin(9600);
-
-
+	display1.begin();
+		// This fuction calls Adafruit_NeoPixel.begin() to configure.
+	 
+	display1.setPixelColor(0x090000);
+		// This function sets a default color for the whole strip. It can be specified by
+		// a 32bit hexadecimal number or three 8bit hexadecimal numbers that represents
+		// red, green and blue separately.
 }
 
 void loop()
 {
+	display1.print(count);	// It prints the value.
+	display1.show();		// Lights up the pixels.
+	delay(delayval);
+	count = count + increment;
 
-    // se escribe el digito y el valor a escribir
-    display1.print(count);
-
-
-  count = count + increment;
-
-  if (count >= 9999)
-  {
-    display1.clear();
-    count = 0;
-  }
-
-  display1.show();
-  delay(delayval);
-  //Serial.println(count);
+	if (count >= 9999)
+	{
+	display1.clear();		// It erase the text in the whole strip.
+	display1.show();		// Lights off the pixels.
+	count = 0;
+	}
 }
