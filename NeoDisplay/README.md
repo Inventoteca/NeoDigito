@@ -1,4 +1,4 @@
-Dispay echo de 4 displays de 7 segmentos basados en NeoPixel
+Display hecho de 4 displays de 7 segmentos basados en NeoPixel
 ![Algoaca](display.jpg?raw=true "Thumbnail")
 
 Archivos de esquematico y placa en Eagle para el diseño de pcb,
