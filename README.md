@@ -1,15 +1,28 @@
-Displays de 7 segmentos basado en Neopixel
+NeoDigito are seven-segment displays, RGB Color and one pin control. 
 
 
-Librería para controlar Displays de 7 Segmentos, basados en Neopixel, compatible con Arduino.
 
-Puedes indicar el número de neopixels por segmento y cambiar colores por cada display.
+Based on ws2812b controller aka Adafruit_NeoPixel.
 
-Recuerda que debes tener instalada la librería de 
+Installing
+After downloading both libraries Adafruit_NeoPixel and this, rename folder to 'NeoDigito' and 'Adafruit_NeoPixel', and  and install in Arduino Libraries folder. Restart Arduino IDE, then open File->Sketchbook->Library->NeoDigito->hello sketch.
 
-Adafruit_NeoPixel
+Features
+- Easy to use: 
+- Free: 
 
 
-![photo5053583178060638612](https://user-images.githubusercontent.com/44323612/121759665-69242080-caec-11eb-9036-01392e85cb26.jpg)
-![photo5053583178060638614](https://user-images.githubusercontent.com/44323612/121759667-6b867a80-caec-11eb-9d5e-f6797d33ce50.jpg)
-NeoDigito
+Functions
+- begin()
+- print()
+- show()
+- clear()
+- setPixelColor()
+- updateDelimiter()
+- updatePoint()
+- updateTilde()
+
+Examples
+
+There are many examples implemented in this library. One of the examples is below. You can find other examples here
+
