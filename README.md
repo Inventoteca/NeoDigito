@@ -26,3 +26,10 @@ Examples
 
 There are many examples implemented in this library. One of the examples is below. You can find other examples here
 
+
+
+
+Work In Progress:
+- Customize the order of segments
+- Control brigness
+- 
