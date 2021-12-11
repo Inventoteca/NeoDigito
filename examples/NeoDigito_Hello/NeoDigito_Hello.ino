@@ -16,16 +16,14 @@
 #define DIGITS 4      // Number of NeoDigitos connected
 #define PIXPERSEG 3   // NeoPixels per segment
 
-// Once you have specified the number of displays and the number of neopixels per segment, 
-// some arguments of the neopixel strip used must be added. For more info abaut the last argumets check Adafruit_Neopixel documentation.
-
-NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800);
+// Specified the number of displays and the number of neopixels per segment, some arguments of the neopixel strip used must be added. 
+NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800); // For more info abaut the last argumets check Adafruit_Neopixel documentation.
 
 
 void setup()
 {
   display1.begin();             // This fuction calls Adafruit_NeoPixel.begin() to configure. 
-  display1.setPixelColor(cian); // Color specified by a 32bit hex, or 8bit numbers (red, green, blue). Use some colors names, red, white, yellow, etc.    
+  display1.setPixelColor(cian); // Color specified by a 32bit hex, or 8bit numbers (red, green, blue), Also colors names, red, white, yellow, etc.    
   display1.print("HELLO");      // It prints the value.
   display1.show();              // Lights up the pixels.
   
