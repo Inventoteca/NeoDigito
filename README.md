@@ -8,6 +8,8 @@ Based on ws2812b controller aka Adafruit_NeoPixel.
 Installing
 After downloading both libraries Adafruit_NeoPixel and this, rename folder to 'NeoDigito' and 'Adafruit_NeoPixel', and  and install in Arduino Libraries folder. Restart Arduino IDE, then open File->Sketchbook->Library->NeoDigito->hello sketch.
 
+![giphy-downsized-large](https://user-images.githubusercontent.com/44323612/145860314-622879d7-d031-40ad-876e-b6196665457d.gif)
+
 Features
 - Easy to use: Just print('1234');
 - Free: GNU 3.0
@@ -28,10 +30,14 @@ Examples
 
 There are many examples implemented in this library. One of the examples is below. You can find other examples here
 
-
+![neoarduino](https://user-images.githubusercontent.com/44323612/145861976-3156a997-853f-4ab2-ad80-031e8bc15af8.gif)
 
 
 Work In Progress:
 - Customize the order of segments
 - Control brigness
-- 
+- Alphanumeric
+
+
+
+![alpha](https://user-images.githubusercontent.com/44323612/145863119-c40b0c46-0237-4394-b09f-d7fb6e496b3d.png)
