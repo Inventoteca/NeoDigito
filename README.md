@@ -11,10 +11,11 @@ After downloading both libraries Adafruit_NeoPixel and this, rename folder to 'N
 ![giphy-downsized-large](https://user-images.githubusercontent.com/44323612/145860314-622879d7-d031-40ad-876e-b6196665457d.gif)
 
 Features
-- Easy to use: Just print('1234');
+- Arduino, easy to use, print('1234');
 - Free: GNU 3.0
+- One pin control
+- 16 millions of colors
 
-![neoinvento] (https://media.giphy.com/media/OvY6BVPAJYF0Lw5E3U/giphy.gif)
 
 Functions
 - begin()
