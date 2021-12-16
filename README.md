@@ -1,5 +1,8 @@
 NeoDigito are seven-segment displays, RGB Color and one pin control. 
 
+Support us on Kickstarter
+
+https://www.kickstarter.com/projects/neodigitos/neodigito-modular-7-segment-rgb-display
 
 
 Based on ws2812b controller aka Adafruit_NeoPixel.
