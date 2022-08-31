@@ -8,7 +8,7 @@ NeoDigito:
 //#include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
 
 // How many NeoPixels are in the seven segment display total?
-uint8_t n;
+uint32_t n;
 uint16_t DisplayNumber;
 uint32_t Color = 0xffffff;   // white is default color
 uint16_t displayCursor = 0;
@@ -21,7 +21,7 @@ NeoDigito::NeoDigito(uint16_t digitsPerDisplay, uint16_t pixelsPerSegment, uint1
 {
 	DisplayNumber = digitsPerDisplay;
 	
-	n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( numDelimiters * pixPerDelimiter));
+	n =  (uint32_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( numDelimiters * pixPerDelimiter));
 	strip = new Adafruit_NeoPixel(n, p, t);
 }
 
