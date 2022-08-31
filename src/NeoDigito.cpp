@@ -59,6 +59,7 @@ void NeoDigito::begin()
 //--------------------------------------------------------- show
 void NeoDigito::show()
 {
+	displayCursor = 0;
 	strip->show();
 }
 
@@ -588,7 +589,8 @@ void NeoDigito::print(String word, int pos)
 // word --> Word to write
 void NeoDigito::print(String word)
 {	
-	print(word,0);
+	//print(word,0);
+	print(word,displayCursor);
 }
 
 //---------------------------------------------------------------------------- print(int num, int pos)
@@ -607,7 +609,8 @@ void NeoDigito::print(int num, int pos)
 // num --> Value to write
 void NeoDigito::print(int num)
 {
-	print(num,0);
+	//print(num,0);
+	print(num,displayCursor);
 }
 
 //---------------------------------------------------------------------------- print(float num, int pos)
@@ -627,7 +630,8 @@ void NeoDigito::print(float num, int pos)
 // num --> Value to write
 void NeoDigito::print(float num)
 {
-	print(num,0);
+	//print(num,0);
+	print(num,displayCursor);
 }
 
 //---------------------------------------------------------------------------- wheel(byte wheelPos)
