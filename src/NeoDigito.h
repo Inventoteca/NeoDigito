@@ -40,8 +40,9 @@ public:
 
   void begin(),
        show(),
-       setPixelColor(uint32_t R, uint16_t G, uint8_t B),
-       setPixelColor(uint32_t c),
+       setColor(uint32_t R, uint16_t G, uint8_t B),
+       setColor(uint32_t c),
+       setCursor(uint16_t pos),
        updatePixelColor(uint32_t FX, byte offset),
        updatePixelColor(uint32_t FX),
        updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
@@ -58,16 +59,18 @@ public:
   void write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void write(uint16_t digit, uint16_t pos, uint32_t rgb);
   void write(uint16_t digit, uint16_t pos);
-  void print(String word, int pos);
+  //void print(String word, int pos);
   void print(String word);
-  void print(String word, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+  void print(String word, uint32_t rgb);
+  //void print(String word, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void print(String word, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
-  void print(int num, int pos);
-  void print(int num);
-  void print(float num, int pos);
-  void print(float num);
-  void print(int num, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
-  void print(int num, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+  //void print(int num, int pos);
+  void print(int16_t num, uint32_t rgb);
+  void print(int16_t num);
+  //void print(double num, uint32_t rgb);
+  //void print(double num);
+  void print(int16_t num, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+  //void print(int num, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void wheel(byte wheelPos);
   void RedToWhite(byte wheelPos);
 

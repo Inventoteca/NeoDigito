@@ -63,63 +63,89 @@ void NeoDigito::show()
 	strip->show();
 }
 
+// -------------------------------------------------------- setCursor(pos)
+void NeoDigito::setCursor(uint16_t pos)
+{
+	displayCursor = pos;
+}
+
 // -------------------------------------------------------- setPixelColor(R,G,B)
-void NeoDigito::setPixelColor(uint32_t R, uint16_t G, uint8_t B)
+void NeoDigito::setColor(uint32_t R, uint16_t G, uint8_t B)
 {
 	Color = R << 16 | G << 8 | B;
 }
 
 // -------------------------------------------------------- setPixelColor(c)
-void NeoDigito::setPixelColor(uint32_t c)
+void NeoDigito::setColor(uint32_t c)
 {
-    for(int i = 0; i < n; i++)
-	{
+    //for(int i = 0; i < n; i++)
+	//{
 		switch(c)
 		{
 			case 0:	//white
+			{
 				Color = 0xAAAAAA;
+			}
 				break;
 			
 			case 1:	//red
+			{
 				Color = 0xFF0000;
+			}
 				break;
 			
 			case 2:	//green
+			{
 				Color = 0x00FF00;
+			}
 				break;
 			
 			case 3:	//blue
+			{
 				Color = 0x0000FF;
+			}
 				break;
 			
 			case 4:	//orange
+			{
 				Color = 0xFFA500;
+			}
 				break;
 			
 			case 5: //yellow
+			{
 				Color = 0xFFFF00;
+			}
 				break;
 			
 			case 6://cian
+			{
 				Color = 0x00FFFF;
+			}
 				break;
 			
 			case 7://pink
+			{
 				Color = 0xFF1493;
+			}
 				break;
 			
 			case 8://purple
+			{
 				Color = 0xAA00FF;
+			}
 				break;
 			
 			default:
+			{
 				Color = c;
+			}
 				break;
 		}
 		
-		if((strip->getPixelColor(i) != 0) && (Color != 0))
-			strip->setPixelColor(i, Color);
-	}
+		//if((strip->getPixelColor(i) != 0) && (Color != 0))
+		//	strip->setPixelColor(i, Color);
+	//}
 }
 
 // -------------------------------------------------------- updatePixelColor(FX)
@@ -580,127 +606,88 @@ void NeoDigito::print(String word, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 	while(x < digitos)
 	{
 		write((word[x]), displayCursor,RED,GREEN,BLUE);
-		if(word[x+1] == '.' || word[x+1] == ',' || word[x+1] == ':' || word[x+1] == ';' || word[x+1] == 39){
-			displayCursor++;
-		}
+		//if(word[x+1] == '.' || word[x+1] == ',' || word[x+1] == ':' || word[x+1] == ';' || word[x+1] == 39){
+		//	displayCursor++;
+		//}
 		x++;
 	}
 }
 
-
-//---------------------------------------------------------------------------- print(String word, r,g,b)
-// word --> Word to write
-// pos ---> Represents the digit position in the display
-// r,g,b
-void NeoDigito::print(String word, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
-{	
-	displayCursor = pos;
-	int digitos;
-	digitos = word.length();
-	int x = 0;
-
-	while(x < digitos)
-	{
-		write((word[x]), displayCursor,RED,GREEN,BLUE);
-		if(word[x+1] == '.' || word[x+1] == ',' || word[x+1] == ':' || word[x+1] == ';' || word[x+1] == 39){
-			displayCursor++;
-		}
-		x++;
-	}
-}
 
 
 //---------------------------------------------------------------------------- print(String word, int pos)
 // word --> Word to write
-// pos ---> Represents the digit position in the display
-void NeoDigito::print(String word, int pos)
+// rgb ---> Represents the color
+void NeoDigito::print(String word, uint32_t rgb)
 {	
-	displayCursor = pos;
-	int digitos;
-	digitos = word.length();
-	int x = 0;
+	//displayCursor = pos;
 
-	while(x < digitos)
-	{
-		write((word[x]), displayCursor);
-		if(word[x+1] == '.' || word[x+1] == ',' || word[x+1] == ':' || word[x+1] == ';' || word[x+1] == 39){
-			displayCursor++;
-		}
-		x++;
-	}
+	setColor(rgb);
+	uint8_t R = Color >> 16;
+	uint8_t G = Color >> 8;
+	uint8_t B = Color;
+
+	print(word,R,G,B);
 }
 
 //---------------------------------------------------------------------------- print(String word)
 // word --> Word to write
 void NeoDigito::print(String word)
 {	
-	//print(word,0);
-	print(word,displayCursor);
-}
-
-//---------------------------------------------------------------------------- print(int num, int pos, byte red, byte green, byte blue)
-// num --> Value to write
-// r,g,b
-void NeoDigito::print(int num, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
-{
-	displayCursor = pos;
-	String textNum = "";
-	textNum = String(num);
-	
-	print(textNum,displayCursor,RED,GREEN,BLUE);
+	print(word,Color);
 }
 
 //---------------------------------------------------------------------------- print(int num, byte red, byte green, byte blue)
 // num --> Value to write
 // r,g,b
-void NeoDigito::print(int num, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+void NeoDigito::print(int16_t num, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
 	String textNum = "";
 	textNum = String(num);
 	
-	print(textNum,displayCursor,RED,GREEN,BLUE);
+	print(textNum,RED,GREEN,BLUE);
 }
 
 //---------------------------------------------------------------------------- print(int num, int pos)
 // pos --> Represents the digit position in the display
 // num --> Value to write
-void NeoDigito::print(int num, int pos)
+void NeoDigito::print(int16_t num, uint32_t rgb)
 {
-	displayCursor = pos;
+	//displayCursor = pos;
 	String textNum = "";
 	textNum = String(num);
 	
-	print(textNum,displayCursor);
+	print(textNum,rgb);
 }
 
 //---------------------------------------------------------------------------- print(int num)
 // num --> Value to write
-void NeoDigito::print(int num)
+void NeoDigito::print(int16_t num)
 {
 	//print(num,0);
-	print(num,displayCursor);
+	print(num,Color);
 }
 
 //---------------------------------------------------------------------------- print(float num, int pos)
 // pos --> Represents the digit position in the display
 // num --> Value to write
-void NeoDigito::print(float num, int pos)
+/*void NeoDigito::print(double num, uint32_t rgb)
 {
-	displayCursor = pos;
+	//setColor();
 	String textNum = "";
 	//textNum = String(num); //Contar la cantidad de decimales que tiene el 'float' para saber cuantos imprimira
 	textNum.concat(num);
 
-	print(textNum,displayCursor);
-}
+	print(textNum,rgb);
+}*/
 
 //---------------------------------------------------------------------------- print(float num)
 // num --> Value to write
-void NeoDigito::print(float num)
+/*void NeoDigito::print(double num)
 {
 	//print(num,0);
-	print(num,displayCursor);
-}
+	print(num,Color);
+}*/
 
 //---------------------------------------------------------------------------- wheel(byte wheelPos)
 // wheelPos --> Value from 0 to 255 that represents a color; the colours are a transition from red - green- blue back to red. 
