@@ -565,6 +565,51 @@ void NeoDigito::write(uint16_t digit, uint16_t pos)
     write(digit, pos, rgb);
 }
 
+
+//---------------------------------------------------------------------------- print(String word, r,g,b)
+// word --> Word to write
+// pos ---> Represents the digit position in the display
+// r,g,b
+void NeoDigito::print(String word, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+{	
+	//displayCursor = pos;
+	int digitos;
+	digitos = word.length();
+	int x = 0;
+
+	while(x < digitos)
+	{
+		write((word[x]), displayCursor,RED,GREEN,BLUE);
+		if(word[x+1] == '.' || word[x+1] == ',' || word[x+1] == ':' || word[x+1] == ';' || word[x+1] == 39){
+			displayCursor++;
+		}
+		x++;
+	}
+}
+
+
+//---------------------------------------------------------------------------- print(String word, r,g,b)
+// word --> Word to write
+// pos ---> Represents the digit position in the display
+// r,g,b
+void NeoDigito::print(String word, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+{	
+	displayCursor = pos;
+	int digitos;
+	digitos = word.length();
+	int x = 0;
+
+	while(x < digitos)
+	{
+		write((word[x]), displayCursor,RED,GREEN,BLUE);
+		if(word[x+1] == '.' || word[x+1] == ',' || word[x+1] == ':' || word[x+1] == ';' || word[x+1] == 39){
+			displayCursor++;
+		}
+		x++;
+	}
+}
+
+
 //---------------------------------------------------------------------------- print(String word, int pos)
 // word --> Word to write
 // pos ---> Represents the digit position in the display
@@ -591,6 +636,29 @@ void NeoDigito::print(String word)
 {	
 	//print(word,0);
 	print(word,displayCursor);
+}
+
+//---------------------------------------------------------------------------- print(int num, int pos, byte red, byte green, byte blue)
+// num --> Value to write
+// r,g,b
+void NeoDigito::print(int num, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+{
+	displayCursor = pos;
+	String textNum = "";
+	textNum = String(num);
+	
+	print(textNum,displayCursor,RED,GREEN,BLUE);
+}
+
+//---------------------------------------------------------------------------- print(int num, byte red, byte green, byte blue)
+// num --> Value to write
+// r,g,b
+void NeoDigito::print(int num, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+{
+	String textNum = "";
+	textNum = String(num);
+	
+	print(textNum,displayCursor,RED,GREEN,BLUE);
 }
 
 //---------------------------------------------------------------------------- print(int num, int pos)

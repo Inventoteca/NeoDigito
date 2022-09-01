@@ -60,10 +60,14 @@ public:
   void write(uint16_t digit, uint16_t pos);
   void print(String word, int pos);
   void print(String word);
+  void print(String word, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+  void print(String word, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void print(int num, int pos);
   void print(int num);
   void print(float num, int pos);
   void print(float num);
+  void print(int num, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+  void print(int num, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void wheel(byte wheelPos);
   void RedToWhite(byte wheelPos);
 
