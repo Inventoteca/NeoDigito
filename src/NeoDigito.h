@@ -43,8 +43,8 @@ public:
        setColor(uint32_t R, uint16_t G, uint8_t B),
        setColor(uint32_t c),
        setCursor(uint16_t pos),
-       updatePixelColor(uint32_t FX, byte offset),
-       updatePixelColor(uint32_t FX),
+       updateColor(uint32_t FX, uint32_t offset, uint32_t end),
+       updateColor(uint32_t FX),
        updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
        updateDelimiter(uint16_t delimeter, uint32_t c),
        updateDelimiter(uint16_t delimeter),
@@ -59,18 +59,14 @@ public:
   void write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void write(uint16_t digit, uint16_t pos, uint32_t rgb);
   void write(uint16_t digit, uint16_t pos);
-  //void print(String word, int pos);
   void print(String word);
   void print(String word, uint32_t rgb);
-  //void print(String word, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void print(String word, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
-  //void print(int num, int pos);
-  void print(int16_t num, uint32_t rgb);
-  void print(int16_t num);
+  void print(int32_t num, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+  void print(int32_t num, uint32_t rgb);
+  void print(int32_t num);
   //void print(double num, uint32_t rgb);
   //void print(double num);
-  void print(int16_t num, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
-  //void print(int num, int pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
   void wheel(byte wheelPos);
   void RedToWhite(byte wheelPos);
 
@@ -185,7 +181,7 @@ private:
     0b01000100,    // |       124
     0b01001100,    // }       125
     0b00011000,    // ~       126
-    0b00000000,    // [DEL]   127
+    0b01111000,    // [DEL]   127
     0b01111000 };   // � 		167
 /*
 	  0b01100111,    // Cedilla 128

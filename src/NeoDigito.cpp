@@ -59,8 +59,8 @@ void NeoDigito::begin()
 //--------------------------------------------------------- show
 void NeoDigito::show()
 {
-	displayCursor = 0;
 	strip->show();
+	displayCursor = 0;
 }
 
 // -------------------------------------------------------- setCursor(pos)
@@ -152,11 +152,13 @@ void NeoDigito::setColor(uint32_t c)
 // This fuction admits the name of color FX and some solid colors, also admits
 // a 32bit number to assign a particular color.
 // Add offset to make FX start in a different color or to move along the pixels (for Random fx is not neccesary)
-void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
+void NeoDigito::updateColor(uint32_t FX, uint32_t offset, uint32_t end)
 {
 	byte wheelPos;
+	//offset = offset * 16;
+	//end = end *16;
 
-	for(int i = 0; i < n; i++)
+	for(int32_t i = offset*16; i < (end+1)*16; i++)
 	{
 		switch(FX)
 		{			
@@ -216,14 +218,14 @@ void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
 
 			case 10:	//rainbow
 			{
-				wheelPos = map(i,0,n,0,255);
-				wheel(wheelPos+offset);
+				wheelPos = map(i,offset*16,end*16,0,255);
+				wheel(wheelPos);
 			}
 				break;
 			
 			case 11:	//random
 			{
-				if ((i+1) % (pixPerSeg * 7 + numDelims * pixPerDelim) == 0)
+				if ((i) % (pixPerSeg * 7 + numDelims * pixPerDelim) == 0)
 				{
 					wheelPos = random(0, 255);
 					wheel(wheelPos);
@@ -275,17 +277,24 @@ void NeoDigito::updatePixelColor(uint32_t FX, byte offset)
 				break;
 		}
 		
+		uint8_t R = Color >> 16;
+		uint8_t G = Color >> 8;
+		uint8_t B = Color;
 		if((strip->getPixelColor(i) != 0) && (Color != 0))
-			strip->setPixelColor(i, Color);
+		{
+			strip->setPixelColor(i,Color);
+			//strip->setPixelColor(i, (strip -> gamma8(R)),(strip -> gamma8(G)),(strip -> gamma8(B)));
+			//strip->setPixelColor(i, (strip -> gamma32(R)),(strip -> gamma32(G)),(strip -> gamma32(B)));
+		}
 	}
 }
 
 // -------------------------------------------------------- updatePixelColor(FX)
 // This fuction admits the name of color FX and some solid colors, also admits
 // a 32bit number to assign a particular color.
-void NeoDigito::updatePixelColor(uint32_t FX)
+void NeoDigito::updateColor(uint32_t FX)
 {
-	updatePixelColor(FX,0);
+	updateColor(FX,0,DisplayNumber);
 }
 
 //----------------------------------------------------------------------------------updateDelimiter
@@ -426,11 +435,12 @@ void NeoDigito::clear()
 //----------------------------------------------------------------------------------write(digit, pos, RED, GREEN, BLUE)
 void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
-	if(digit == '°')
-		digit = 128;
+	//if(digit == '°')
+	//	digit = 126;
 	
-	else if(digit < 32 || digit > 127)
-		return;
+	if(digit < 32 || digit > 127)
+		digit = 127;
+		//return;
 		
 	bitmask = characterMap[digit - 32]; // It loads the characters available.
 	
@@ -445,6 +455,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
   		clear();
 	}
 	
+
 	else if(digit <= 127)
 	{
 		int i = 6;
@@ -500,23 +511,24 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 	}
   	
     // ----- Letters with dots
-    if(digit == '*' || digit == '�' || digit == 'i' || digit == 'T' || digit == 'P') // Accent mark (behind)
+    
+	if(digit == '*' || digit == '¿' || digit == 'i') // Accent mark (behind)
 		updateTilde(pos);
 
-    if(digit == 'J' || digit == '~') // Accent mark (forward)
-		updateTilde(pos + 1);
+    //if(digit == 'J' || digit == '~') // Accent mark (forward)
+	//	updateTilde(pos + 1);
 
     if(digit == '!' || digit == '?')  // Dot (behind)
 		updatePoint(pos);
 
-    if(digit == 'Q' || digit == 'R' || digit == 'u')  // Dot (forward)
-		updatePoint(pos + 1);
+    //if(digit == 'Q' || digit == 'R' || digit == 'u')  // Dot (forward)
+	//	updatePoint(pos + 1);
 
-    if(digit == '&' || digit == 'k' || digit == 'K' || digit == '{' || digit == '(')	// Double dot (forward)
+    if(digit == '&')	// Double dot (forward)
 		updateDelimiter(pos + 1);
     
-    if(digit == ')' || digit == '}')	// Double dot (behind)
-		updateDelimiter(pos);
+    //if(digit == ')' || digit == '}')	// Double dot (behind)
+	//	updateDelimiter(pos);
 
     if(digit == '$' || digit == '%') 	// Accent mark (behind), Dot (forwarD)
     {
@@ -524,17 +536,17 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 		updateTilde(pos);
     }
     
-    if(digit == 'V' || digit == 'Y')	// Double accent mark
-    {
-		updateTilde(pos);
-		updateTilde(pos + 1);
-	}
+    //if(digit == 'V' || digit == 'Y')	// Double accent mark
+    //{
+	//	updateTilde(pos);
+	//	updateTilde(pos + 1);
+	//}
 	
-	if(digit == 'X')	// Double accent mark, double dot
-	{
-		updateDelimiter(pos);
-		updateDelimiter(pos + 1);
-	}
+	//if(digit == 'X')	// Double accent mark, double dot
+	//{
+	//	updateDelimiter(pos);
+	//	updateDelimiter(pos + 1);
+	//}
 	
 	/*
 	// ----- double-space letters and symbols
@@ -640,7 +652,7 @@ void NeoDigito::print(String word)
 //---------------------------------------------------------------------------- print(int num, byte red, byte green, byte blue)
 // num --> Value to write
 // r,g,b
-void NeoDigito::print(int16_t num, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+void NeoDigito::print(int32_t num, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 {
 	String textNum = "";
 	textNum = String(num);
@@ -651,7 +663,7 @@ void NeoDigito::print(int16_t num, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 //---------------------------------------------------------------------------- print(int num, int pos)
 // pos --> Represents the digit position in the display
 // num --> Value to write
-void NeoDigito::print(int16_t num, uint32_t rgb)
+void NeoDigito::print(int32_t num, uint32_t rgb)
 {
 	//displayCursor = pos;
 	String textNum = "";
@@ -662,7 +674,7 @@ void NeoDigito::print(int16_t num, uint32_t rgb)
 
 //---------------------------------------------------------------------------- print(int num)
 // num --> Value to write
-void NeoDigito::print(int16_t num)
+void NeoDigito::print(int32_t num)
 {
 	//print(num,0);
 	print(num,Color);
