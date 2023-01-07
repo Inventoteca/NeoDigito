@@ -23,7 +23,7 @@ NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN, NEO_GRB + NEO_KHZ800); //
 void setup()
 {
   display1.begin();             // This fuction calls Adafruit_NeoPixel.begin() to configure. 
-  display1.setPixelColor(cian); // Color specified by a 32bit hex, or 8bit numbers (red, green, blue), Also colors names, red, white, yellow, etc.    
+  display1.setColor(cian); // Color specified by a 32bit hex, or 8bit numbers (red, green, blue), Also colors names, red, white, yellow, etc.    
   display1.print("HELLO");      // It prints the value.
   display1.show();              // Lights up the pixels.
   

@@ -7,24 +7,24 @@
 #ifndef NeoDigito_H
 #define NeoDigito_H
 
-#define white 0
-#define red 1
-#define green 2
-#define blue 3
-#define orange 4
-#define yellow 5
-#define cian 6
-#define pink 7
-#define purple 8
+#define white       0
+#define RED         1
+#define green       2
+#define blue        3
+#define orange      4
+#define yellow      5
+#define cian        6
+#define pink        7
+#define purple      8
 
-#define Rainbow 10
-#define Random 11
-#define Xmas 12
-#define Halloween 13
-#define Thunder 14
-#define Drops 15
-#define Fire 16
-#define Sparkle 17
+#define Rainbow     10
+#define Random      11
+#define Xmas        12
+#define Halloween   13
+#define Thunder     14
+#define Drops       15
+#define Fire        16
+#define Sparkle     17
 
 #include <Adafruit_NeoPixel.h>
 #include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
@@ -52,8 +52,12 @@ public:
        updatePoint(uint16_t delimeter, uint32_t c),
        updatePoint(uint16_t delimeter),
        updateTilde(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
-	   updateTilde(uint16_t delimeter, uint32_t c),
-	   updateTilde(uint16_t delimeter);
+	     updateTilde(uint16_t delimeter, uint32_t c),
+	     updateTilde(uint16_t delimeter),
+       updateDigitType(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint16_t numDelimiters, uint16_t pixPerDelimiter),
+       updateDigitType(uint16_t digitsPerStrip, uint16_t pixelsPerSegment),
+       updatePixType(neoPixelType t),
+       setPin(int16_t p);
 
   void clear();
   void write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
@@ -313,7 +317,7 @@ private:
       "1101011",    //        254
 	  0b00000000};   //        255  
 */    	
-  const uint16_t pixPerSeg, digPerDisp, numDelims, pixPerDelim;
+  uint16_t pixPerSeg, digPerDisp, numDelims, pixPerDelim;
   byte bitmask;
 };
 

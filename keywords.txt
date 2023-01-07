@@ -10,14 +10,23 @@ NeoDigito	KEYWORD1
 # Methods and Functions
 #######################################
 
-updateDigit	KEYWORD2
-updateDelimiter	KEYWORD2
-show			KEYWORD2
-begin			KEYWORD2
-setPixelColor   KEYWORD2
-print	KEYWORD2
-write	KEYWORD2
+show			            KEYWORD2
+begin			            KEYWORD2
+print	                    KEYWORD2
+write	                    KEYWORD2
+setCursor                   KEYWORD2
+setColor                    KEYWORD2
+updateColor                 KEYWORD2
+updatePoint                 KEYWORD2
+updateTilde                 KEYWORD2
+updateDelimiter	            KEYWORD2
+setPin                      KEYWORD2
+updateDigitType             KEYWORD2
+updatePixType               KEYWORD2
+
 
 #######################################
 # Constants
 #######################################
+RED                         LITERAL1
+RANDOM                      LITERAL1

@@ -1,3 +1,5 @@
+<h1> NeoDigito </h1>
+
 NeoDigito are seven-segment displays, RGB Color and one pin control. 
 
 Support us on Kickstarter
@@ -25,10 +27,15 @@ Functions
 - print()
 - show()
 - clear()
-- setPixelColor()
+- setColor()
+- setCursor()
+- updateColor()
 - updateDelimiter()
 - updatePoint()
 - updateTilde()
+- updateDigitType()
+- updatePixType()
+- setPin()
 
 Examples
 
@@ -38,6 +45,7 @@ There are many examples implemented in this library. One of the examples is belo
 
 
 Work In Progress:
+- Colors FX's
 - Customize the order of segments
 - Control brigness
 - Alphanumeric
@@ -45,3 +53,6 @@ Work In Progress:
 
 
 ![alpha](https://user-images.githubusercontent.com/44323612/145863119-c40b0c46-0237-4394-b09f-d7fb6e496b3d.png)
+
+
+About Us

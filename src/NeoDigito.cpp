@@ -12,6 +12,8 @@ uint32_t n;
 uint16_t DisplayNumber;
 uint32_t Color = 0xffffff;   // white is default color
 uint16_t displayCursor = 0;
+neoPixelType 	default_type = NEO_GRB + NEO_KHZ800;
+int16_t pinx = -1;
 
 //<<constructor>>
 // |--- delimiter number and pixels per delimiter are different than 2 and 1 respectively 
@@ -20,6 +22,7 @@ NeoDigito::NeoDigito(uint16_t digitsPerDisplay, uint16_t pixelsPerSegment, uint1
 	numDelims(numDelimiters), pixPerDelim(pixPerDelimiter)
 {
 	DisplayNumber = digitsPerDisplay;
+	default_type = t;
 	
 	n =  (uint32_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( numDelimiters * pixPerDelimiter));
 	strip = new Adafruit_NeoPixel(n, p, t);
@@ -31,6 +34,7 @@ NeoDigito::NeoDigito(uint16_t digitsPerDisplay, uint16_t pixelsPerSegment, uint1
 	numDelims(numDelimiters), pixPerDelim(1)
 {
 	DisplayNumber = digitsPerDisplay;
+	default_type = t;
 	
 	n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( numDelimiters * 1));
 	strip = new Adafruit_NeoPixel(n, p, t);
@@ -42,6 +46,7 @@ NeoDigito::NeoDigito(uint16_t digitsPerDisplay, uint16_t pixelsPerSegment, uint8
 	numDelims(2), pixPerDelim(1)
 {
 	DisplayNumber = digitsPerDisplay;
+	default_type = t;
 	
 	n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( 2 * 1));
 	strip = new Adafruit_NeoPixel(n, p, t);
@@ -56,12 +61,64 @@ void NeoDigito::begin()
 	strip->begin();
 }
 
+
+
 //--------------------------------------------------------- show
 void NeoDigito::show()
 {
 	strip->show();
 	displayCursor = 0;
 }
+
+
+//-------------------------------------------------------- updatePixType
+void NeoDigito::updatePixType(neoPixelType t)
+{
+	n =  (uint32_t(digPerDisp * pixPerSeg * 7)) + digPerDisp * (uint8_t( numDelims * pixPerDelim));
+	strip = new Adafruit_NeoPixel(n, pinx, t);
+	default_type = t;
+}
+
+// ------------------------------------------------------- setPin
+void NeoDigito::setPin(int16_t p)
+{
+	strip -> setPin(p);
+	pinx = p;
+}
+
+// ------------------------------------------------------- updateDigits
+void NeoDigito::updateDigitType(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint16_t numDelimiters, uint16_t pixPerDelimiter)
+{
+	DisplayNumber = digitsPerStrip;
+	
+	digPerDisp =digitsPerStrip;
+	pixPerSeg = pixelsPerSegment;
+	numDelims = numDelimiters;
+	pixPerDelim = pixPerDelimiter;
+	//n =  (uint32_t(digitsPerStrip * pixelsPerSegment * 7)) + digitsPerStrip * (uint8_t( numDelimiters * pixPerDelimiter));
+	//Serial.println(n);
+	//strip = new Adafruit_NeoPixel(n, pinx, default_type);
+	//~NeoDigito();
+	//NeoDigito(digitsPerStrip, pixelsPerSegment, numDelimiters, pixPerDelimiter,pinx,default_type);
+}
+
+// ------------------------------------------------------- updateDigits (default 2 delimiters, 1 pix)
+void NeoDigito::updateDigitType(uint16_t digitsPerStrip, uint16_t pixelsPerSegment)
+{
+	DisplayNumber = digitsPerStrip;
+	
+	digPerDisp =digitsPerStrip;
+	pixPerSeg = pixelsPerSegment;
+	numDelims = 2;   //default
+	pixPerDelim = 1;	// default
+	//n =  (uint32_t(digitsPerStrip * pixelsPerSegment * 7)) + digitsPerStrip * (uint8_t( numDelimiters * pixPerDelimiter));
+	//Serial.println(n);
+	//strip = new Adafruit_NeoPixel(n, pinx, default_type);
+	//~NeoDigito();
+	//NeoDigito(digitsPerStrip, pixelsPerSegment, numDelimiters, pixPerDelimiter,pinx,default_type);
+}
+
+
 
 // -------------------------------------------------------- setCursor(pos)
 void NeoDigito::setCursor(uint16_t pos)
@@ -133,6 +190,12 @@ void NeoDigito::setColor(uint32_t c)
 			case 8://purple
 			{
 				Color = 0xAA00FF;
+			}
+				break;
+
+			case 11:	//random
+			{
+				Color = random(0, 0xFFFFFF);
 			}
 				break;
 			
