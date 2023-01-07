@@ -1,6 +1,6 @@
 <h1> NeoDigito </h1>
 
-NeoDigito are seven-segment displays, RGB Color and one pin control. 
+NeoDigito are seven-segment displays, RGB Color and one pin control. This is the Arduino library for controll it. 
 
 Support us on Kickstarter
 
@@ -11,7 +11,7 @@ Based on ws2812b controller aka Adafruit_NeoPixel.
 ![neodigito](https://user-images.githubusercontent.com/44323612/145859616-98edf0aa-3a90-4023-9382-8e4e9e858b3e.jpeg)
 
 
-<h1>Installing</h1>
+<h2>Installing</h2>
 After downloading both libraries Adafruit_NeoPixel and this, rename folder to 'NeoDigito' and 'Adafruit_NeoPixel', and  and install in Arduino Libraries folder. Restart Arduino IDE, then open File->Sketchbook->Library->NeoDigito->hello sketch.
 
 ![giphy-downsized-large](https://user-images.githubusercontent.com/44323612/145860314-622879d7-d031-40ad-876e-b6196665457d.gif)
