@@ -16,7 +16,7 @@ After downloading both libraries Adafruit_NeoPixel and this, rename folder to 'N
 
 ![giphy-downsized-large](https://user-images.githubusercontent.com/44323612/145860314-622879d7-d031-40ad-876e-b6196665457d.gif)
 
-Features
+<h3>Features</h3>
 - Arduino, easy to use, print('1234');
 - Free: GNU 3.0
 - One pin control
@@ -57,3 +57,4 @@ Work In Progress:
 
 
 About Us
+This project is a tribute to Iván Ríos de Paz, friend, maker and a great person. We miss you. 
