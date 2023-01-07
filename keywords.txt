@@ -28,5 +28,20 @@ updatePixType               KEYWORD2
 #######################################
 # Constants
 #######################################
+WHITE                       LITERAL1
 RED                         LITERAL1
+GREEN                       LITERAL1
+BLUE                        LITERAL1
+ORANGE                      LITERAL1
+YELLOW                      LITERAL1
+CIAN                        LITERAL1
+PINK                        LITERAL1
+PURPLE                      LITERAL1
+RAINBOW                     LITERAL1
 RANDOM                      LITERAL1
+XMAS                        LITERAL1
+HALLOWEEN                   LITERAL1
+THUNDER                     LITERAL1
+DROPS                       LITERAL1
+FIRE                        LITERAL1
+SPARKLE                     LITERAL1

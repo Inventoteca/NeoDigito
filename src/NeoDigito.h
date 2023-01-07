@@ -7,24 +7,24 @@
 #ifndef NeoDigito_H
 #define NeoDigito_H
 
-#define white       0
-#define RED         1
-#define green       2
-#define blue        3
-#define orange      4
-#define yellow      5
-#define cian        6
-#define pink        7
-#define purple      8
+#define WHITE       1
+#define RED         2
+#define GREEN       3
+#define BLUE        4
+#define ORANGE      5
+#define YELLOW      6
+#define CIAN        7
+#define PINK        8
+#define PURPLE      9
 
-#define Rainbow     10
-#define Random      11
-#define Xmas        12
-#define Halloween   13
-#define Thunder     14
-#define Drops       15
-#define Fire        16
-#define Sparkle     17
+#define RAINBOW     10
+#define RANDOM      11
+#define XMAS        12
+#define HALLOWEEN   13
+#define THUNDER     14
+#define DROPS       15
+#define FIRE        16
+#define SPARKLE     17
 
 #include <Adafruit_NeoPixel.h>
 #include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
@@ -36,6 +36,7 @@ public:
   NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint16_t numDelimiters, uint16_t pixPerDelimiter, uint8_t p, uint8_t t);
   NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint16_t numDelimiters, uint8_t p, uint8_t t);
   NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint8_t p, uint8_t t);
+  NeoDigito(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint8_t p);
   ~NeoDigito();
 
   void begin(),
@@ -45,13 +46,13 @@ public:
        setCursor(uint16_t pos),
        updateColor(uint32_t FX, uint32_t offset, uint32_t end),
        updateColor(uint32_t FX),
-       updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
+       updateDelimiter(uint16_t delimeter, uint8_t R, uint8_t G, uint8_t B),
        updateDelimiter(uint16_t delimeter, uint32_t c),
        updateDelimiter(uint16_t delimeter),
-       updatePoint(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
+       updatePoint(uint16_t delimeter, uint8_t R, uint8_t G, uint8_t B),
        updatePoint(uint16_t delimeter, uint32_t c),
        updatePoint(uint16_t delimeter),
-       updateTilde(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE),
+       updateTilde(uint16_t delimeter, uint8_t R, uint8_t G, uint8_t B),
 	     updateTilde(uint16_t delimeter, uint32_t c),
 	     updateTilde(uint16_t delimeter),
        updateDigitType(uint16_t digitsPerStrip, uint16_t pixelsPerSegment, uint16_t numDelimiters, uint16_t pixPerDelimiter),
@@ -60,13 +61,13 @@ public:
        setPin(int16_t p);
 
   void clear();
-  void write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+  void write(uint16_t digit, uint16_t pos, uint8_t R, uint8_t G, uint8_t B);
   void write(uint16_t digit, uint16_t pos, uint32_t rgb);
   void write(uint16_t digit, uint16_t pos);
   void print(String word);
   void print(String word, uint32_t rgb);
-  void print(String word, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
-  void print(int32_t num, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
+  void print(String word, uint8_t R, uint8_t G, uint8_t B);
+  void print(int32_t num, uint8_t R, uint8_t G, uint8_t B);
   void print(int32_t num, uint32_t rgb);
   void print(int32_t num);
   //void print(double num, uint32_t rgb);
@@ -76,19 +77,20 @@ public:
 
 private:
   Adafruit_NeoPixel *strip;
-  // 0,1,2,3,4,5,6,7,8,9,A,b,C,d,F,G,º,-,OFF,
+  // Segment Order
+  // '8.
   /*
-    '8.
 
     0    2
       1     3
          4
       5     7
          6    8
+
+
   */
-  // then array positions 11-17 are individual segments for funz.
+  // Pixel 0 and 8 change o function.
   byte characterMap[97] = 
-    // 1234567
   {
     0b00000000,    //          32  
     0b01000000,    // !        33
@@ -166,7 +168,7 @@ private:
     0b00000100,    // i       105
     0b00010011,    // j       106
     0b01001100,    // k       107
-    0b00010001,    // l       108
+    0b01000100,    // l       108
     0b00001101,    // m       109
     0b00001101,    // n       110
     0b00001111,    // o       111

@@ -38,6 +38,8 @@ Functions
 - updatePixType()
 - setPin()
 
+First arguments of colors 0-17 are reservet for colors and effects.
+
 Examples
 
 There are many examples implemented in this library. One of the examples is below. You can find other examples here

@@ -51,6 +51,17 @@ NeoDigito::NeoDigito(uint16_t digitsPerDisplay, uint16_t pixelsPerSegment, uint8
 	n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( 2 * 1));
 	strip = new Adafruit_NeoPixel(n, p, t);
 }
+
+// |--- delimiter number and pixels per delimiter are 2 and 1 respectively and type led by default
+NeoDigito::NeoDigito(uint16_t digitsPerDisplay, uint16_t pixelsPerSegment, uint8_t p)
+	: digPerDisp(digitsPerDisplay), pixPerSeg(pixelsPerSegment),
+	numDelims(2), pixPerDelim(1)
+{
+	DisplayNumber = digitsPerDisplay;
+		
+	n =  (uint8_t(digitsPerDisplay * pixelsPerSegment * 7)) + digitsPerDisplay * (uint8_t( 2 * 1));
+	strip = new Adafruit_NeoPixel(n, p, default_type);
+}
   
 //<<destructor>>
 NeoDigito::~NeoDigito() {}
@@ -126,76 +137,76 @@ void NeoDigito::setCursor(uint16_t pos)
 	displayCursor = pos;
 }
 
-// -------------------------------------------------------- setPixelColor(R,G,B)
+// setPixelColor(R,G,B)
 void NeoDigito::setColor(uint32_t R, uint16_t G, uint8_t B)
 {
 	Color = R << 16 | G << 8 | B;
 }
 
-// -------------------------------------------------------- setPixelColor(c)
+// setPixelColor(c)
 void NeoDigito::setColor(uint32_t c)
 {
     //for(int i = 0; i < n; i++)
 	//{
 		switch(c)
 		{
-			case 0:	//white
+			case WHITE:	//white
 			{
 				Color = 0xAAAAAA;
 			}
 				break;
 			
-			case 1:	//red
+			case RED:	//red
 			{
 				Color = 0xFF0000;
 			}
 				break;
 			
-			case 2:	//green
+			case GREEN:	//green
 			{
 				Color = 0x00FF00;
 			}
 				break;
 			
-			case 3:	//blue
+			case BLUE:	//blue
 			{
 				Color = 0x0000FF;
 			}
 				break;
 			
-			case 4:	//orange
+			case ORANGE: //orange
 			{
 				Color = 0xFFA500;
 			}
 				break;
 			
-			case 5: //yellow
+			case YELLOW: //yellow
 			{
 				Color = 0xFFFF00;
 			}
 				break;
 			
-			case 6://cian
+			case CIAN://cian
 			{
 				Color = 0x00FFFF;
 			}
 				break;
 			
-			case 7://pink
+			case PINK://pink
 			{
 				Color = 0xFF1493;
 			}
 				break;
 			
-			case 8://purple
+			case PURPLE://purple
 			{
 				Color = 0xAA00FF;
 			}
 				break;
 
-			case 11:	//random
+			case RANDOM:	//random
 			{
-				Color = random(0, 0xFFFFFF);
+				Color = random(18, 0xFFFFFF);
 			}
 				break;
 			
@@ -211,7 +222,7 @@ void NeoDigito::setColor(uint32_t c)
 	//}
 }
 
-// -------------------------------------------------------- updatePixelColor(FX)
+// updatePixelColor(FX)
 // This fuction admits the name of color FX and some solid colors, also admits
 // a 32bit number to assign a particular color.
 // Add offset to make FX start in a different color or to move along the pixels (for Random fx is not neccesary)
@@ -225,68 +236,68 @@ void NeoDigito::updateColor(uint32_t FX, uint32_t offset, uint32_t end)
 	{
 		switch(FX)
 		{			
-			case 0: //white
+			case WHITE: //white
 			{
 				Color = 0xAAAAAA;
 			}
 				break;
 				
-			case 1:	//red
+			case RED:	//red
 			{
 				Color = 0xFF0000;
 			}
 				break;
 			
-			case 2:	//green
+			case GREEN:	//green
 			{
 				Color = 0x00FF00;
 			}
 				break;
 			
-			case 3:	//blue
+			case BLUE:	//blue
 			{
 				Color = 0x0000FF;
 			}
 				break;
 			
-			case 4:	//orange
+			case ORANGE:	//orange
 			{
 				Color = 0xFFA500;
 			}
 				break;
 			
-			case 5: //yellow
+			case YELLOW: //yellow
 			{
 				Color = 0xFFFF00;
 			}
 				break;
 			
-			case 6: //cian
+			case CIAN: //cian
 			{
 				Color = 0x00FFFF;
 			}
 				break;
 			
-			case 7: //pink
+			case PINK: //pink
 			{
 				Color = 0xFF1493;
 			}
 				break;
 			
-			case 8: //purple
+			case PURPLE: //purple
 			{
 				Color = 0xAA00FF;
 			}
 				break;
 
-			case 10:	//rainbow
+			case RAINBOW:	//rainbow
 			{
 				wheelPos = map(i,offset*16,end*16,0,255);
 				wheel(wheelPos);
 			}
 				break;
 			
-			case 11:	//random
+			case RANDOM:	//random
 			{
 				if ((i) % (pixPerSeg * 7 + numDelims * pixPerDelim) == 0)
 				{
@@ -296,13 +307,13 @@ void NeoDigito::updateColor(uint32_t FX, uint32_t offset, uint32_t end)
 			}
 				break;
 			
-			case 12:	//xmas
+			case XMAS:	//xmas
 			{
 				RedToWhite(wheelPos+offset);	
 			}		
 				break;
 			
-			case 13:	//halloween
+			case HALLOWEEN:	//halloween
 			{
 				uint8_t pix_offset = i + map(offset,0,255,0,n);
 				if(pix_offset > n)
@@ -343,7 +354,8 @@ void NeoDigito::updateColor(uint32_t FX, uint32_t offset, uint32_t end)
 		uint8_t R = Color >> 16;
 		uint8_t G = Color >> 8;
 		uint8_t B = Color;
-		if((strip->getPixelColor(i) != 0) && (Color != 0))
+		//if((strip->getPixelColor(i) != 0) && (Color != 0))
+		if(strip->getPixelColor(i) != 0)
 		{
 			strip->setPixelColor(i,Color);
 			//strip->setPixelColor(i, (strip -> gamma8(R)),(strip -> gamma8(G)),(strip -> gamma8(B)));
@@ -351,17 +363,18 @@ void NeoDigito::updateColor(uint32_t FX, uint32_t offset, uint32_t end)
 		}
 	}
 }
+// -------------------------------------------------------- 
 
-// -------------------------------------------------------- updatePixelColor(FX)
+// updateColor(FX)
 // This fuction admits the name of color FX and some solid colors, also admits
 // a 32bit number to assign a particular color.
 void NeoDigito::updateColor(uint32_t FX)
 {
-	updateColor(FX,0,DisplayNumber);
+	updateColor(FX,0,DisplayNumber + 1);
 }
 
 //----------------------------------------------------------------------------------updateDelimiter
-void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t R, uint8_t G, uint8_t B)
 {
 	if(numDelims > 0 && pixPerDelim > 0)
 	{
@@ -369,7 +382,7 @@ void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t RED, uint8_t GREEN, 
 		
 		for (int pix = digitsOffset ; (pix > digitsOffset - (pixPerDelim * numDelims)) || (pix == 0); pix--) 
 		{
-			strip->setPixelColor(pix, strip->Color(RED, GREEN, BLUE));
+			strip->setPixelColor(pix, strip->Color(R, G, B));
 		}
 	}
 	else
@@ -410,13 +423,13 @@ void NeoDigito::updateDelimiter(uint16_t delimeter)
 }
 
 //----------------------------------------------------------------------------------updatePoint
-void NeoDigito::updatePoint(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+void NeoDigito::updatePoint(uint16_t delimeter, uint8_t R, uint8_t G, uint8_t B)
 {
 	if(numDelims > 0 && pixPerDelim > 0)
 	{
 		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7) - 1;
 		
-		strip->setPixelColor(digitsOffset, strip->Color(RED, GREEN, BLUE));
+		strip->setPixelColor(digitsOffset, strip->Color(R, G, B));
 	}
 	else
 		return;
@@ -450,13 +463,13 @@ void NeoDigito::updatePoint(uint16_t delimeter)
 }
 
 //----------------------------------------------------------------------------------updateTilde
-void NeoDigito::updateTilde(uint16_t delimeter, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+void NeoDigito::updateTilde(uint16_t delimeter, uint8_t R, uint8_t G, uint8_t B)
 {
 	if(numDelims > 0 && pixPerDelim > 0)
 	{
 		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7);
 		
-		strip->setPixelColor(digitsOffset, strip->Color(RED, GREEN, BLUE));
+		strip->setPixelColor(digitsOffset, strip->Color(R, G, B));
 	}
 	else
 		return;
@@ -496,7 +509,7 @@ void NeoDigito::clear()
 }
 
 //----------------------------------------------------------------------------------write(digit, pos, RED, GREEN, BLUE)
-void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t R, uint8_t G, uint8_t B)
 {
 	//if(digit == '°')
 	//	digit = 126;
@@ -533,7 +546,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 			for(int pix = 0; pix < pixPerSeg; pix++)
 			{
 				if (res == 0x01) // Lighting up this segment
-					strip->setPixelColor(((x * pixPerSeg) + pix + delimeter),strip->Color(RED, GREEN, BLUE));
+					strip->setPixelColor(((x * pixPerSeg) + pix + delimeter),strip->Color(R, G, B));
 				
 				if (res == 0x00) // Turning off this segment.
 					strip->setPixelColor((x * pixPerSeg + pix + delimeter), 0);
@@ -578,7 +591,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t RED, uint8_t GREEN, 
 	if(digit == '*' || digit == '¿' || digit == 'i') // Accent mark (behind)
 		updateTilde(pos);
 
-    //if(digit == 'J' || digit == '~') // Accent mark (forward)
+    //if(/*digit == 'J' || digit == '~'  ||  */digit == 'i') // Accent mark (forward)
 	//	updateTilde(pos + 1);
 
     if(digit == '!' || digit == '?')  // Dot (behind)
@@ -671,7 +684,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos)
 // word --> Word to write
 // pos ---> Represents the digit position in the display
 // r,g,b
-void NeoDigito::print(String word, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+void NeoDigito::print(String word, uint8_t R, uint8_t G, uint8_t B)
 {	
 	//displayCursor = pos;
 	int digitos;
@@ -680,7 +693,7 @@ void NeoDigito::print(String word, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
 
 	while(x < digitos)
 	{
-		write((word[x]), displayCursor,RED,GREEN,BLUE);
+		write((word[x]), displayCursor,R,G,B);
 		//if(word[x+1] == '.' || word[x+1] == ',' || word[x+1] == ':' || word[x+1] == ';' || word[x+1] == 39){
 		//	displayCursor++;
 		//}
@@ -715,12 +728,12 @@ void NeoDigito::print(String word)
 //---------------------------------------------------------------------------- print(int num, byte red, byte green, byte blue)
 // num --> Value to write
 // r,g,b
-void NeoDigito::print(int32_t num, uint8_t RED, uint8_t GREEN, uint8_t BLUE)
+void NeoDigito::print(int32_t num, uint8_t R, uint8_t G, uint8_t B)
 {
 	String textNum = "";
 	textNum = String(num);
 	
-	print(textNum,RED,GREEN,BLUE);
+	print(textNum,R,G,B);
 }
 
 //---------------------------------------------------------------------------- print(int num, int pos)
