@@ -35,7 +35,7 @@ void setup()
 
     delay(1000);
     display1.clear();
-    display1.print("V:",YELLOW);
+    display1.print("V:",Yellow);
 }
 
 void loop()
@@ -44,7 +44,7 @@ void loop()
     input_voltage = (analog_value * 3.3) / 4095.0;  // ESP 32 ADC: 0-4095 and V = 3.3V
     //input_voltage = (analog_value * 3.3) / 4095.0;  // Arduino ADC: 0-1023 and V = 5.0V
     display1.setCursor(1);
-    display1.print(String(input_voltage, 2),BLUE);  // It prints the value.
+    display1.print(String(input_voltage, 2),Blue);  // It prints the value.
     display1.show();
     delay(100);
 }

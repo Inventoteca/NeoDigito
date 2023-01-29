@@ -150,61 +150,61 @@ void NeoDigito::setColor(uint32_t c)
 	//{
 		switch(c)
 		{
-			case WHITE:	//white
+			case White:	//white
 			{
 				Color = 0xAAAAAA;
 			}
 				break;
 			
-			case RED:	//red
+			case Red:	//red
 			{
 				Color = 0xFF0000;
 			}
 				break;
 			
-			case GREEN:	//green
+			case Green:	//green
 			{
 				Color = 0x00FF00;
 			}
 				break;
 			
-			case BLUE:	//blue
+			case Blue:	//blue
 			{
 				Color = 0x0000FF;
 			}
 				break;
 			
-			case ORANGE: //orange
+			case Orange: //orange
 			{
 				Color = 0xFFA500;
 			}
 				break;
 			
-			case YELLOW: //yellow
+			case Yellow: //yellow
 			{
 				Color = 0xFFFF00;
 			}
 				break;
 			
-			case CIAN://cian
+			case Cian://cian
 			{
 				Color = 0x00FFFF;
 			}
 				break;
 			
-			case PINK://pink
+			case Pink://pink
 			{
 				Color = 0xFF1493;
 			}
 				break;
 			
-			case PURPLE://purple
+			case Purple://purple
 			{
 				Color = 0xAA00FF;
 			}
 				break;
 
-			case RANDOM:	//random
+			case Random:	//random
 			{
 				Color = random(18, 0xFFFFFF);
 			}
@@ -236,68 +236,68 @@ void NeoDigito::updateColor(uint32_t FX, uint32_t offset, uint32_t end)
 	{
 		switch(FX)
 		{			
-			case WHITE: //white
+			case White: //white
 			{
 				Color = 0xAAAAAA;
 			}
 				break;
 				
-			case RED:	//red
+			case Red:	//red
 			{
 				Color = 0xFF0000;
 			}
 				break;
 			
-			case GREEN:	//green
+			case Green:	//green
 			{
 				Color = 0x00FF00;
 			}
 				break;
 			
-			case BLUE:	//blue
+			case Blue:	//blue
 			{
 				Color = 0x0000FF;
 			}
 				break;
 			
-			case ORANGE:	//orange
+			case Orange:	//orange
 			{
 				Color = 0xFFA500;
 			}
 				break;
 			
-			case YELLOW: //yellow
+			case Yellow: //yellow
 			{
 				Color = 0xFFFF00;
 			}
 				break;
 			
-			case CIAN: //cian
+			case Cian: //cian
 			{
 				Color = 0x00FFFF;
 			}
 				break;
 			
-			case PINK: //pink
+			case Pink: //pink
 			{
 				Color = 0xFF1493;
 			}
 				break;
 			
-			case PURPLE: //purple
+			case Purple: //purple
 			{
 				Color = 0xAA00FF;
 			}
 				break;
 
-			case RAINBOW:	//rainbow
+			case Rainbow:	//rainbow
 			{
 				wheelPos = map(i,offset*16,end*16,0,255);
 				wheel(wheelPos);
 			}
 				break;
 			
-			case RANDOM:	//random
+			case Random:	//random
 			{
 				if ((i) % (pixPerSeg * 7 + numDelims * pixPerDelim) == 0)
 				{
@@ -307,13 +307,13 @@ void NeoDigito::updateColor(uint32_t FX, uint32_t offset, uint32_t end)
 			}
 				break;
 			
-			case XMAS:	//xmas
+			case Xmas:	//xmas
 			{
 				RedToWhite(wheelPos+offset);	
 			}		
 				break;
 			
-			case HALLOWEEN:	//halloween
+			case Halloween:	//halloween
 			{
 				uint8_t pix_offset = i + map(offset,0,255,0,n);
 				if(pix_offset > n)

@@ -30,7 +30,7 @@ void setup()
   Serial.begin(115200);
   display1.begin();             // Begin NeoDigito Display
   display1.print("ADC0");       // It prints the value.
-  display1.updateColor(RAINBOW);
+  display1.updateColor(Rainbow);
   display1.show();              // Lights up the pixels.
   delay(1000);
 }

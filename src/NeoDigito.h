@@ -7,24 +7,24 @@
 #ifndef NeoDigito_H
 #define NeoDigito_H
 
-#define WHITE       1
-#define RED         2
-#define GREEN       3
-#define BLUE        4
-#define ORANGE      5
-#define YELLOW      6
-#define CIAN        7
-#define PINK        8
-#define PURPLE      9
+#define White       1
+#define Red         2
+#define Green       3
+#define Blue        4
+#define Orange      5
+#define Yellow      6
+#define Cian        7
+#define Pink        8
+#define Purple      9
 
-#define RAINBOW     10
-#define RANDOM      11
-#define XMAS        12
-#define HALLOWEEN   13
-#define THUNDER     14
-#define DROPS       15
-#define FIRE        16
-#define SPARKLE     17
+#define Rainbow     10
+#define Random      11
+#define Xmas        12
+#define Halloween   13
+#define Thunder     14
+#define Drops       15
+#define Fire        16
+#define Sparkle     17
 
 #include <Adafruit_NeoPixel.h>
 #include <../Adafruit_NeoPixel/Adafruit_NeoPixel.h>
