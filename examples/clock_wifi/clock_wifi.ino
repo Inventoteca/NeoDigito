@@ -13,11 +13,15 @@
 */
 
 #include <NeoDigito.h>
-#include <WiFi.h>           // FOR ESP32, Comment for ESP8266
-//#include <ESP8266WiFi.h>  // Uncomment for ESP8266
+#if defined(ESP8266)
+#include <ESP8266WiFi.h>  // For ESP8266
+#else
+#include <WiFi.h>           // For ESP32
+#endif
+
 #include "time.h"
 
-#define PIN         2   // Pin where the display will be attached
+#define PIN         2   // Pin where the display will be attached, ESP-01 Only GPIO 3(RX)
 #define DIGITS      4   // Number of NeoDigitos connected
 #define PIXPERSEG   3   // NeoPixels per segment, BIG version
 
@@ -34,23 +38,23 @@ const long  gmtOffset_sec = -6 * 60 * 60;         // Adjust for time zone for (U
 const int   daylightOffset_sec = 0;               // Set it to 3600 if your country observes Daylight saving time; otherwise, set it to 0.
 
 
-// Uncomment for ESP8266
-/*
+#if defined(ESP8266)
 bool getLocalTime(struct tm * info, uint32_t ms = 5000)
 {
-    uint32_t start = millis();
-    time_t now;
-    while((millis()-start) <= ms) {
-        time(&now);
-        localtime_r(&now, info);
-        if(info->tm_year > (2016 - 1900)){
-            return true;
-        }
-        delay(10);
+  uint32_t start = millis();
+  time_t now;
+  while ((millis() - start) <= ms) {
+    time(&now);
+    localtime_r(&now, info);
+    if (info->tm_year > (2016 - 1900)) {
+      return true;
     }
-    return false;
+    delay(10);
+  }
+  return false;
 }
-*/
+#endif
+
 void printLocalTime()
 {
   struct tm timeinfo;
@@ -61,25 +65,27 @@ void printLocalTime()
     return;
   }
   // For conver time infor into string for ESP8266
-  // char timeStringBuff[50];                          //BUffer for string conversion
-  // strftime(timeStringBuff, sizeof(timeStringBuff), "%A, %B %d %Y %H:%M:%S", &timeinfo);
-  // Serial.println(timeStringBuff);
-  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");   // Comment for ESP8266
-
+#if defined(ESP8266)
+  char timeStringBuff[50];                          //BUffer for string conversion
+  strftime(timeStringBuff, sizeof(timeStringBuff), "%A, %B %d %Y %H:%M:%S", &timeinfo);
+  Serial.println(timeStringBuff); //ESP-01 Only Work on RX 
+#else
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");   
+#endif
   // Print Hour
   if (timeinfo.tm_hour < 10)                    // Less than 10 so place space or zero
     display1.print(" ");                        // You can print("0",CIAN)
   display1.print(timeinfo.tm_hour, Cian);
-  
+
   // Print :
   if (timeinfo.tm_sec % 2 == 0)                 // Number of seconds is pair for blink delimiter
-    display1.print(":", white);
+    display1.print(":", White);
 
   // Print Minutes
   if (timeinfo.tm_min < 10)
-    display1.print("0",pink);
+    display1.print("0", Pink);
   display1.print(timeinfo.tm_min, Pink);
-  
+
   display1.show();
 }
 
