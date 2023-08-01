@@ -33,7 +33,8 @@ String condition, temperature, humidity;
 
 // Other functions and setup() function remain the same, except WiFi.disconnect() and WiFi.mode() should be removed.
 
-bool getLocalTime(struct tm * info, uint32_t ms = 5000)
+// For old version of ESP8266 Board Version less < 3.1.2
+/*bool getLocalTime(struct tm * info, uint32_t ms = 5000)
 {
   uint32_t start = millis();
   time_t now;
@@ -46,7 +47,7 @@ bool getLocalTime(struct tm * info, uint32_t ms = 5000)
     delay(10);
   }
   return false;
-}
+}*/
 
 void printLocalTime()
 {

@@ -37,8 +37,8 @@ const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = -6 * 60 * 60;         // Adjust for time zone for (UTC -6): -6 * 60 * 60
 const int   daylightOffset_sec = 0;               // Set it to 3600 if your country observes Daylight saving time; otherwise, set it to 0.
 
-
-#if defined(ESP8266)
+// For old version of ESP8266 Board Version less < 3.1.2
+/*#if defined(ESP8266)
 bool getLocalTime(struct tm * info, uint32_t ms = 5000)
 {
   uint32_t start = millis();
@@ -53,7 +53,7 @@ bool getLocalTime(struct tm * info, uint32_t ms = 5000)
   }
   return false;
 }
-#endif
+#endif*/
 
 void printLocalTime()
 {
