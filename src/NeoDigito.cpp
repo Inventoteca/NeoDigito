@@ -511,12 +511,16 @@ void NeoDigito::clear()
 //----------------------------------------------------------------------------------write(digit, pos, RED, GREEN, BLUE)
 void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t R, uint8_t G, uint8_t B)
 {
-	//if(digit == '°')
-	//	digit = 126;
 	
-	if(digit < 32 || digit > 127)
-		digit = 127;
-		//return;
+	
+	//if(digit > 127)
+	//{
+	//	if(pos >= 1)
+	//	pos = pos - 1;
+	//}
+	
+	//if(digit < 32 || digit > 127)
+	//	digit = 127;
 		
 	bitmask = characterMap[digit - 32]; // It loads the characters available.
 	
@@ -532,7 +536,7 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t R, uint8_t G, uint8_
 	}
 	
 
-	else if(digit <= 127)
+	//else if(digit <= 127)
 	{
 		int i = 6;
 		// Expand bitbask to number of pixels per segment in the proper position.
@@ -582,13 +586,19 @@ void NeoDigito::write(uint16_t digit, uint16_t pos, uint8_t R, uint8_t G, uint8_
 	    {
 			updateDelimiter(pos,0,0,0);
 			updateDelimiter(pos + 1,0,0,0);
-			displayCursor++;
+			if(digit < 127)
+				displayCursor++;
+			else
+				displayCursor--;
 	    }
 	}
   	
     // ----- Letters with dots
     
-	if(digit == '*' || digit == '¿' || digit == 'i') // Accent mark (behind)
+	if(digit == '*' || digit == 'i') // Accent mark (behind)
+		updateTilde(pos);
+
+	if(digit == 191) // Accent mark (behind) "¿"
 		updateTilde(pos);
 
     //if(/*digit == 'J' || digit == '~'  ||  */digit == 'i') // Accent mark (forward)
