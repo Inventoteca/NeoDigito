@@ -12,13 +12,13 @@ NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN);
 
 const char* ssid = "ssid-network";
 const char* password = "password";
+String city = "city";
 
+String url = "https://wttr.in/" + city + "?format=%C+%f+%h+%T+%l&lang=es";
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = -6 * 60 * 60;         // Adjust for time zone for (UTC -6): -6 * 60 * 60
 const int   daylightOffset_sec = 0;               // Set it to 3600 if your country observes Daylight saving time; otherwise, set it to 0.
 
-String city = "your-city";
-String url = "https://wttr.in/" + city + "?format=%C+%f+%h+%T+%l&lang=es";
 
 unsigned long previousMillisTime = 0;
 unsigned long previousMillisWeather = 0;
@@ -31,53 +31,45 @@ int weatherStage = 0;
 bool displayingWeather = false;
 String condition, temperature, humidity;
 
-// Other functions and setup() function remain the same, except WiFi.disconnect() and WiFi.mode() should be removed.
 
-// For old version of ESP8266 Board Version less < 3.1.2
-/*bool getLocalTime(struct tm * info, uint32_t ms = 5000)
-{
-  uint32_t start = millis();
-  time_t now;
-  while ((millis() - start) <= ms) {
-    time(&now);
-    localtime_r(&now, info);
-    if (info->tm_year > (2016 - 1900)) {
-      return true;
-    }
-    delay(10);
-  }
-  return false;
-}*/
-
+// ------------------------------- printLocalTime
 void printLocalTime()
 {
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo)) {
     Serial.println("Failed to obtain time");
     display1.print("FAIL", Red);
-    display1.show();
     return;
   }
   // For conver time infor into string for ESP8266
   char timeStringBuff[50];                          //BUffer for string conversion
   strftime(timeStringBuff, sizeof(timeStringBuff), "%A, %B %d %Y %H:%M:%S", &timeinfo);
   Serial.println(timeStringBuff); //ESP-01 Only Work on RX
+  display1.setCursor(0);
+
+  // Variable para almacenar la hora como cadena
+  String timeString = "";
 
   // Print Hour
-  if (timeinfo.tm_hour < 10)                    // Less than 10 so place space or zero
-    display1.print(" ");                        // You can print("0",CIAN)
-  display1.print(timeinfo.tm_hour, Cian);
-
-  // Print :
-  if (timeinfo.tm_sec % 2 == 0)                 // Number of seconds is pair for blink delimiter
-    display1.print(":", White);
+  if (timeinfo.tm_hour < 10) {
+    timeString += " "; // Puedes usar '0' en lugar de un espacio si prefieres
+  }
+  timeString += String(timeinfo.tm_hour);
+  display1.print(timeString, Cian); 
 
   // Print Minutes
-  if (timeinfo.tm_min < 10)
-    display1.print("0", Pink);
-  display1.print(timeinfo.tm_min, Pink);
+  timeString = "";
+  if (timeinfo.tm_min < 10) {
+    timeString += "0";
+  }
+  timeString += String(timeinfo.tm_min);
+  display1.print(timeString, Pink); 
 
-  display1.show();
+  // Print :
+  if (timeinfo.tm_sec % 2 == 0) { // Número de segundos es par
+    display1.updateDelimiter(2, White);
+  }
+
 }
 
 void setup()
@@ -87,9 +79,10 @@ void setup()
   Serial.println("WiFi");
 
   display1.begin();             // This fuction calls Adafruit_NeoPixel.begin() to configure.
-  display1.clear();             // It erase the value.
+  display1.setBrightness(64);
+  //display1.clear();             // It erase the value.
   display1.print("wifi", Red);      // It prints the value.
-  display1.show();              // Lights up the pixels.
+  //display1.show();              // Lights up the pixels.
 
   WiFi.begin(ssid, password);
 
@@ -119,7 +112,6 @@ void loop() {
   if (currentMillis - previousMillisTime >= intervalTime && !displayingWeather) {
     previousMillisTime = currentMillis;
     printLocalTime();
-    display1.clear();
   }
 
   if (currentMillis - previousMillisWeather >= intervalWeather && !displayingWeather) {
@@ -150,10 +142,10 @@ void loop() {
         String time = payload.substring(percentSign + 2, minusSign - 1);  // Time is between the percentage sign and the minus sign
         String timezone = payload.substring(minusSign, lastSpace);  // Timezone is between the minus sign and the last space
         String location = payload.substring(lastSpace + 1);  // Location is everything after the last space
-        condition = "   "+ location + " " +  payload.substring(0, plusSign - 1);
+        condition = "   " + location + " " +  payload.substring(0, plusSign - 1);
         temperature = payload.substring(plusSign + 1, percentSign - 3);
         humidity = payload.substring(percentSign - 2, percentSign + 1);
-        
+
         startDisplayTime = currentMillis;
       }
 
@@ -168,12 +160,8 @@ void loop() {
       weatherStage++;
       if (weatherStage == 1) {
         display1.print(temperature, Purple);
-        display1.setCursor(3);
-        display1.print("C");
-        display1.show();
       } else if (weatherStage == 2) {
         display1.print(humidity, Cian);
-        display1.show();
       }
     } else if (weatherStage > 2 && currentMillis - startDisplayTime >= displayDurationConditions) {
       startDisplayTime = currentMillis;
@@ -183,7 +171,6 @@ void loop() {
       if (startChar < condition.length()) {
         String conditionSnippet = condition.substring(startChar, startChar + 4);
         display1.print(conditionSnippet, Yellow);
-        display1.show();
       } else {
         displayingWeather = false;
       }

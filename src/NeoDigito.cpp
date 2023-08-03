@@ -405,7 +405,8 @@ void NeoDigito::updateDelimiter(uint16_t delimeter, uint8_t R, uint8_t G, uint8_
 //----------------------------------------------------------------------------------updateDelimiter
 void NeoDigito::updateDelimiter(uint16_t delimeter, uint32_t c)
 {
-	Color = c;
+	setColor(c);
+	//Color = c;
 	if (numDelims > 0 && pixPerDelim > 0)
 	{
 		int digitsOffset = (delimeter * pixPerDelim * numDelims) + (delimeter * pixPerSeg * 7);
@@ -413,7 +414,7 @@ void NeoDigito::updateDelimiter(uint16_t delimeter, uint32_t c)
 		for (int pix = digitsOffset; (pix > digitsOffset - (pixPerDelim * numDelims)) || (pix == 0); pix--)
 		{
 			strip->setPixelColor(pix, Color);
-			//strip->show();
+			strip->show();
 		}
 	}
 	else
