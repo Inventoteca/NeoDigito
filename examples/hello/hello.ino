@@ -1,6 +1,6 @@
 /* NeoDigito example code: Hello
 
-  Print "Hola" on display, color select
+  Print "Hola" on display, color select and blink
 
   Created by Inventoteca 
 
@@ -23,12 +23,14 @@ NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN);
 void setup()
 {
   display1.begin();             // This fuction calls Adafruit_NeoPixel.begin() to configure. 
-  display1.setColor(Random);    // Color specified by name RED, WHITE, YELLOW, etc or 32bit, or 8bit numbers (R, G, B).    
+  display1.setColor(Random);    // Color specified by name Red, White, Yellow, etc or 32bit, or 8bit numbers (R, G, B).    
   display1.print("Hola");       // It prints the value.
-  display1.show();              // Lights up the pixels.
 }
 
 void loop()
 {
-  
+  display1.setBrightness(255);  // 255 Max
+  delay(1000);
+  display1.setBrightness(1);    // 1 min
+  delay(1000);
 }

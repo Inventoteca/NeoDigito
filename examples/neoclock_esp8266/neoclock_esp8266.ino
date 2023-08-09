@@ -1,3 +1,9 @@
+/*
+    This example uses NeoDigitos, 7 segments displays based on Adafruit NeoPixel
+    Use a ESP32 or ESP8266 and connect to internet to get Time and Weather
+*/
+
+
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <WiFiClientSecure.h>
@@ -6,16 +12,16 @@
 
 #define PIN         2   // Pin where the display will be attached, ESP-01 Only GPIO 3(RX)
 #define DIGITS      4   // Number of NeoDigitos connected
-#define PIXPERSEG   2   // NeoPixels per segment, BIG version
+#define PIXPERSEG   2   // NeoPixels per segment,3 for BIG version, 2 for MEDIO
 
-NeoDigito display1 = NeoDigito(DIGITS, PIXPERSEG, PIN);
+NeoDigito neodisplay = NeoDigito(DIGITS, PIXPERSEG, PIN);
 
-const char* ssid = "ssid-network";
-const char* password = "password";
-String city = "city";
+const char* ssid = "Inventoteca_2G";    // Your WiFi Network
+const char* password = "science_7425";    // Password
+String city = "Puebla";                 // Place name of your city for wheater
 
-String url = "https://wttr.in/" + city + "?format=%C+%f+%h+%T+%l&lang=es";
-const char* ntpServer = "pool.ntp.org";
+String url = "https://wttr.in/" + city + "?format=%C+%f+%h+%T+%l&lang=es";  // wheater service, change language
+const char* ntpServer = "pool.ntp.org";           // NTC server for time
 const long  gmtOffset_sec = -6 * 60 * 60;         // Adjust for time zone for (UTC -6): -6 * 60 * 60
 const int   daylightOffset_sec = 0;               // Set it to 3600 if your country observes Daylight saving time; otherwise, set it to 0.
 
@@ -24,13 +30,30 @@ unsigned long previousMillisTime = 0;
 unsigned long previousMillisWeather = 0;
 unsigned long startDisplayTime = 0;
 const long intervalTime = 500;
-const long intervalWeather = 30000;
+const long intervalWeather = 90000;
 const long displayDuration = 2000;
 const long displayDurationConditions = 500;
 int weatherStage = 0;
 bool displayingWeather = false;
 String condition, temperature, humidity;
 
+// Variables globales para almacenar la última hora y minutos conocidos
+int lastKnownHour = -1;
+int lastKnownMinute = -1;
+bool lastKnownDelimiter = false; // Para almacenar el estado del delimitador
+String dayAndDate;
+
+
+// Función para convertir el número del día de la semana al nombre en español
+String dayInSpanish(int dayOfWeek) {
+  const char* days[] = {"Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
+  return days[dayOfWeek];
+}
+
+String monthInSpanish(int month) {
+  const char* months[] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+  return months[month];
+}
 
 // ------------------------------- printLocalTime
 void printLocalTime()
@@ -38,51 +61,63 @@ void printLocalTime()
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo)) {
     Serial.println("Failed to obtain time");
-    display1.print("FAIL", Red);
+    neodisplay.print("FAIL", Red);
     return;
   }
-  // For conver time infor into string for ESP8266
-  char timeStringBuff[50];                          //BUffer for string conversion
-  strftime(timeStringBuff, sizeof(timeStringBuff), "%A, %B %d %Y %H:%M:%S", &timeinfo);
-  Serial.println(timeStringBuff); //ESP-01 Only Work on RX
-  display1.setCursor(0);
+  // Verificar si los segundos son pares
+  bool isSecondEven = (timeinfo.tm_sec % 2 == 0);
 
-  // Variable para almacenar la hora como cadena
-  String timeString = "";
-
-  // Print Hour
-  if (timeinfo.tm_hour < 10) {
-    timeString += " "; // Puedes usar '0' en lugar de un espacio si prefieres
+  // Actualizar delimitador solo si ha cambiado
+  if (isSecondEven != lastKnownDelimiter) {
+    lastKnownDelimiter = isSecondEven;
+    if (isSecondEven) {
+      neodisplay.updateDelimiter(2, White);
+    }
+    else
+      neodisplay.updateDelimiter(2, 0);
   }
-  timeString += String(timeinfo.tm_hour);
-  display1.print(timeString, Cian); 
-
-  // Print Minutes
-  timeString = "";
-  if (timeinfo.tm_min < 10) {
-    timeString += "0";
+  // Actualizar hora solo si ha cambiado
+  if (timeinfo.tm_hour != lastKnownHour) {
+    lastKnownHour = timeinfo.tm_hour;
+    neodisplay.setCursor(0);
+    String timeString = "";
+    if (lastKnownHour < 10) {
+      timeString += " ";
+    }
+    timeString += String(lastKnownHour);
+    neodisplay.print(timeString, Cian);
   }
-  timeString += String(timeinfo.tm_min);
-  display1.print(timeString, Pink); 
 
-  // Print :
-  if (timeinfo.tm_sec % 2 == 0) { // Número de segundos es par
-    display1.updateDelimiter(2, White);
+  // Actualizar minutos solo si han cambiado
+  if (timeinfo.tm_min != lastKnownMinute) {
+    lastKnownMinute = timeinfo.tm_min;
+    String timeString = "";
+    if (lastKnownMinute < 10) {
+      timeString += "0";
+    }
+    timeString += String(lastKnownMinute);
+    neodisplay.setCursor(2);
+    neodisplay.print(timeString, Pink);
   }
+
+  // Crear una cadena para el día y la fecha
+  String day = dayInSpanish(timeinfo.tm_wday);
+  String month = monthInSpanish(timeinfo.tm_mon);
+  dayAndDate = "   " + day + " " + String(timeinfo.tm_mday) + " " + month + " "  + String(timeinfo.tm_year + 1900);
 
 }
 
+
+// ----------------------------------- setup
 void setup()
 {
   Serial.begin(115200);
   Serial.println("NeoClock");
   Serial.println("WiFi");
 
-  display1.begin();             // This fuction calls Adafruit_NeoPixel.begin() to configure.
-  display1.setBrightness(64);
-  //display1.clear();             // It erase the value.
-  display1.print("wifi", Red);      // It prints the value.
-  //display1.show();              // Lights up the pixels.
+  neodisplay.begin();               // This fuction calls Adafruit_NeoPixel.begin() to configure.
+  neodisplay.setBrightness(64);     // 25% of brightness, min 1 and max 255
+  neodisplay.print("wifi", Red);    // It prints the value, on Red color.
 
   WiFi.begin(ssid, password);
 
@@ -92,20 +127,17 @@ void setup()
   }
   Serial.println();
   Serial.println("Connected");
-  display1.updateColor(Green);    // Color specified by name RED, WHITE, YELLOW, etc or 32bit, or 8bit numbers (R, G, B)
-  display1.show();
+  neodisplay.updateColor(Green);    // Color specified by name Red, White, YELLOW, etc or 32bit, or 8bit numbers (R, G, B)
   delay(500);
 
   //init and get the time
-  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);  // Once config is not WiFi connection needed
   printLocalTime();
 
-  //disconnect WiFi as it's no longer needed
-  //WiFi.disconnect(true);
-  //WiFi.mode(WIFI_OFF);
 }
 
 
+// ----------------------------------- loop
 void loop() {
   unsigned long currentMillis = millis();
 
@@ -156,23 +188,34 @@ void loop() {
   if (displayingWeather) {
     if (weatherStage <= 2 && currentMillis - startDisplayTime >= displayDuration) {
       startDisplayTime = currentMillis;
-      display1.clear();
+      neodisplay.clear();
       weatherStage++;
       if (weatherStage == 1) {
-        display1.print(temperature, Purple);
+        neodisplay.print(temperature, Purple);
       } else if (weatherStage == 2) {
-        display1.print(humidity, Cian);
+        neodisplay.print(humidity, Cian);
       }
     } else if (weatherStage > 2 && currentMillis - startDisplayTime >= displayDurationConditions) {
       startDisplayTime = currentMillis;
-      display1.clear();
+      neodisplay.clear();
       weatherStage++;
       int startChar = weatherStage - 3;
       if (startChar < condition.length()) {
         String conditionSnippet = condition.substring(startChar, startChar + 4);
-        display1.print(conditionSnippet, Yellow);
-      } else {
+        neodisplay.print(conditionSnippet, Yellow);
+      }
+      // Luego mostrar el día y la fecha
+      else if (startChar - condition.length() < dayAndDate.length()) {
+        int dateChar = startChar - condition.length();
+        String dateSnippet = dayAndDate.substring(dateChar, dateChar + 4);
+        neodisplay.print(dateSnippet);
+        neodisplay.updateColor(Rainbow);
+      }
+      else {
         displayingWeather = false;
+        lastKnownHour = -1;
+        lastKnownMinute = -1;
+        lastKnownDelimiter = false;
       }
     }
   }
